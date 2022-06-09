@@ -1,0 +1,303 @@
+{
+    "error": false,
+    "statusCode": 200,
+    "payload": {
+        "count": 223,
+        "rows": [
+            {
+                "ID": 722,
+                "userID": 867,
+                "introPaperID": 2312,
+                "Name": "NATICUSdroid (Android Permissions) Dataset",
+                "Abstract": "Contains permissions extracted from more than 29000 benign & malware Android apps released between 2010-2019.",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Tabular",
+                "DOI": null,
+                "DateDonated": "2022-04-25",
+                "isTabular": true,
+                "URLFolder": "/ml/datasets/722",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": "/ml/datasets/722/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 321,
+                "AttributeTypes": null,
+                "numInstances": 29333,
+                "slug": "naticusdroid+android+permissions+dataset",
+                "tabular": {
+                    "numAttributes": 87
+                },
+                "user": {
+                    "user": "akshay.mathur@rockets.utoledo.edu",
+                    "firstName": "Akshay",
+                    "lastName": "Mathur"
+                }
+            },
+            {
+                "ID": 719,
+                "userID": 860,
+                "introPaperID": 2309,
+                "Name": "Bengali Hate Speech Detection Dataset",
+                "Abstract": "The dataset can be used for hate speech detection in Bengali social media texts. The dataset is categorized into political, personal, geopolitical, religious, and gender abusive hates that are either directed or generalized towards a specific person, entity, or group. The data and lexicons contain content that is racist, sexist, homophobic, and offensive in many different ways. The dataset is collected and subsequently annotated only for research-related purposes. Besides, authors don't take any liability if some statements contain very offensive and hateful statements that are either directed towards a specific person or entity or generalized towards a group. Therefore, please use it at your risk.",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Text",
+                "DOI": null,
+                "DateDonated": "2022-04-24",
+                "isTabular": false,
+                "URLFolder": "/ml/datasets/719",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": "/ml/datasets/719/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 144,
+                "AttributeTypes": null,
+                "numInstances": 4500,
+                "slug": "bengali+hate+speech+detection+dataset",
+                "tabular": null,
+                "user": {
+                    "user": "rezaul.karim.fit@gmail.com",
+                    "firstName": "Md. Rezaul",
+                    "lastName": "Karim"
+                }
+            },
+            {
+                "ID": 715,
+                "userID": 578,
+                "introPaperID": 2305,
+                "Name": "LT-FS-ID: Intrusion detection in WSNs",
+                "Abstract": "There exist five columns in this dataset. The first four columns are features (i.e., area, sensing range, transmission range, number of sensor nodes), and the last column is the predictor or target variable (i.e., Number of barriers). This dataset is synthetically created through Monte-Carlo simulations.",
+                "Area": "Computer Science",
+                "Task": "Regression",
+                "Types": "Tabular",
+                "DOI": "https://doi.org/10.3390/s22031070",
+                "DateDonated": "2022-03-09",
+                "isTabular": true,
+                "URLFolder": "/ml/datasets/715",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": "/ml/datasets/715/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 367,
+                "AttributeTypes": null,
+                "numInstances": 182,
+                "slug": "lt+fs+id+intrusion+detection+in+wsns",
+                "tabular": {
+                    "numAttributes": 5
+                },
+                "user": {
+                    "user": "abhilash.iiserb@gmail.com",
+                    "firstName": "Abhilash",
+                    "lastName": "Singh"
+                }
+            },
+            {
+                "ID": 713,
+                "userID": 620,
+                "introPaperID": 2303,
+                "Name": "Auction Verification",
+                "Abstract": "We modeled a simultaneous multi-round auction with BPMN models, transformed the latter to Petri nets, and used a model checker to verify whether certain outcomes of the auction are possible or not.",
+                "Area": "Computer Science",
+                "Task": "Classification, Regression",
+                "Types": "Tabular",
+                "DOI": null,
+                "DateDonated": "2022-03-01",
+                "isTabular": true,
+                "URLFolder": "/ml/datasets/713",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": null,
+                "Status": "APPROVED",
+                "NumHits": 901,
+                "AttributeTypes": null,
+                "numInstances": 2043,
+                "slug": "auction+verification",
+                "tabular": {
+                    "numAttributes": 9
+                },
+                "user": {
+                    "user": "jakob.bach@kit.edu",
+                    "firstName": "Jakob",
+                    "lastName": "Bach"
+                }
+            },
+            {
+                "ID": 693,
+                "userID": 140,
+                "introPaperID": 2288,
+                "Name": "ImageNet",
+                "Abstract": "A well-known large-scale image classification dataset with between 1000 and 20000 class labels and multiple million images.",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Image",
+                "DOI": null,
+                "DateDonated": "2021-11-27",
+                "isTabular": false,
+                "URLFolder": "/ml/datasets/693",
+                "URLReadme": null,
+                "URLLink": "https://image-net.org/about.php",
+                "Graphics": "/ml/datasets/693/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 2232,
+                "AttributeTypes": null,
+                "numInstances": 14000000,
+                "slug": "imagenet",
+                "tabular": null,
+                "user": {
+                    "user": "smyth@ics.uci.edu",
+                    "firstName": "Padhraic",
+                    "lastName": "Smyth"
+                }
+            },
+            {
+                "ID": 695,
+                "userID": 422,
+                "introPaperID": 2290,
+                "Name": "Sundanese Twitter Dataset",
+                "Abstract": "This dataset contains tweet of the second-largest local language in Indonesia and is used for emotion classification. ",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Tabular",
+                "DOI": null,
+                "DateDonated": "2021-11-27",
+                "isTabular": true,
+                "URLFolder": "/ml/datasets/695",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": "/ml/datasets/695/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 441,
+                "AttributeTypes": null,
+                "numInstances": 2510,
+                "slug": "sundanese+twitter+dataset",
+                "tabular": {
+                    "numAttributes": 2
+                },
+                "user": {
+                    "user": "oddy@unida.gontor.ac.id",
+                    "firstName": "Oddy Virgantara",
+                    "lastName": "Putra"
+                }
+            },
+            {
+                "ID": 691,
+                "userID": 140,
+                "introPaperID": 2286,
+                "Name": "CIFAR-10",
+                "Abstract": "A well-known image classification dataset, 10 classes, 32 x 32 pixel images.",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Image",
+                "DOI": null,
+                "DateDonated": "2021-11-25",
+                "isTabular": false,
+                "URLFolder": "/ml/datasets/691",
+                "URLReadme": null,
+                "URLLink": "https://www.cs.toronto.edu/~kriz/cifar.html",
+                "Graphics": "/ml/datasets/691/Graphics",
+                "Status": "APPROVED",
+                "NumHits": 811,
+                "AttributeTypes": null,
+                "numInstances": 60000,
+                "slug": "cifar+10",
+                "tabular": null,
+                "user": {
+                    "user": "smyth@ics.uci.edu",
+                    "firstName": "Padhraic",
+                    "lastName": "Smyth"
+                }
+            },
+            {
+                "ID": 613,
+                "userID": 112,
+                "introPaperID": 2217,
+                "Name": "Smartphone Dataset for anomaly detection in Crowds.",
+                "Abstract": "This dataset was collected from the Smartphone sensors and can be used to analyse behaviour of a crowd, for example, an anomaly.",
+                "Area": "Computer Science",
+                "Task": "Classification",
+                "Types": "Time-Series",
+                "DOI": null,
+                "DateDonated": "2021-07-05",
+                "isTabular": false,
+                "URLFolder": "/ml/datasets-donated/613",
+                "URLReadme": null,
+                "URLLink": null,
+                "Graphics": null,
+                "Status": "APPROVED",
+                "NumHits": 4278,
+                "AttributeTypes": null,
+                "numInstances": 14221,
+                "slug": "smartphone+dataset+for+anomaly+detection+in+crowds",
+                "tabular": null,
+                "user": {
+                    "user": "mirfan83@yahoo.com",
+                    "firstName": "Muhammad",
+                    "lastName": "Irfan"
+                }
+            },
+            {
+                "ID": 607,
+                "userID": 1,
+                "introPaperID": null,
+                "Name": "Synchronous Machine Data Set",
+                "Abstract": "Synchronous motors (SMs) are AC motors with constant speed.A SM dataset is obtained from a real experimental set. The task is to create the strong models to estimate the excitation current of SM.",
+                "Area": "Computer",
+                "Task": "Regression",
+                "Types": "Multivariate",
+                "DOI": null,
+                "DateDonated": "2021-04-21",
+                "isTabular": false,
+                "URLFolder": "../machine-learning-databases/00607/",
+                "URLReadme": "#",
+                "URLLink": null,
+                "Graphics": null,
+                "Status": "APPROVED",
+                "NumHits": 1415,
+                "AttributeTypes": null,
+                "numInstances": 557,
+                "slug": "synchronous+machine+data+set",
+                "tabular": {
+                    "numAttributes": 0
+                },
+                "user": {
+                    "user": "dwjiang@uci.edu",
+                    "firstName": "Daniel",
+                    "lastName": "Jiang"
+                }
+            },
+            {
+                "ID": 604,
+                "userID": 1,
+                "introPaperID": null,
+                "Name": "Gait Classification",
+                "Abstract": "Gait is considered a biometric criterion. Therefore, we tried to classify people with gait analysis with this gait data set.",
+                "Area": "Computer",
+                "Task": "Classification",
+                "Types": "Multivariate",
+                "DOI": null,
+                "DateDonated": "2020-10-14",
+                "isTabular": false,
+                "URLFolder": "../machine-learning-databases/00604/",
+                "URLReadme": "#",
+                "URLLink": null,
+                "Graphics": null,
+                "Status": "APPROVED",
+                "NumHits": 786,
+                "AttributeTypes": null,
+                "numInstances": 48,
+                "slug": "gait+classification",
+                "tabular": {
+                    "numAttributes": 0
+                },
+                "user": {
+                    "user": "dwjiang@uci.edu",
+                    "firstName": "Daniel",
+                    "lastName": "Jiang"
+                }
+            }
+        ]
+    },
+    "offset": 0,
+    "count": 10
+}
