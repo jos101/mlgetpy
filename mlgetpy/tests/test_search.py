@@ -1,12 +1,9 @@
 from mlgetpy import search
 import unittest
 
-
-search()
-
 class TestSearch(unittest.TestCase):
 
     def test_search(self):
         self.assertEqual(search(), 'searching...') 
-        self.assertEqual(search(), 'searching...') 
-        self.assertEqual(search(), 'searching...') 
+        #self.assertEqual(search(), 'searching...') 
+        #self.assertEqual(search(), 'searching...') 
