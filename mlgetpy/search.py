@@ -14,7 +14,7 @@ def search():
     #print(browser.get_current_page())
 
     r = requests.get(url, verify=False)
-    print ( r.json() )
+    #print ( r.json() )
 
 
     #browser.launch_browser()

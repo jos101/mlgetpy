@@ -1,7 +1,7 @@
 from mlgetpy.DataSetList import DataSetList
 import unittest 
 
-class TestJsonParser(unittest.TestCase):
+class TestDataSetList(unittest.TestCase):
 
     def test_findAll(self):
         dataSet = DataSetList() 
