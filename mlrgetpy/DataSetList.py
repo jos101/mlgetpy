@@ -8,7 +8,7 @@ class DataSetList:
     
     request = RequestHelper()
     
-    url = "https://archive-beta.ics.uci.edu/api/datasets-donated/find?offset=0&limit=2"
+    url = "https://archive-beta.ics.uci.edu/api/datasets-donated/find" #?offset=0&limit=2
     url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/53"
     
     def findAll(self) -> dict:
