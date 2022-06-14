@@ -1,5 +1,5 @@
-from mlgetpy.JsonParser import JsonParser
-from mlgetpy.DataFrameConverter import DataFrameConverter
+from mlrgetpy.JsonParser import JsonParser
+from mlrgetpy.DataFrameConverter import DataFrameConverter
 import unittest 
 
 

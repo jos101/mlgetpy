@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from mlgetpy.Repository import Repository
+from mlrgetpy.Repository import Repository
 
 
 @dataclass

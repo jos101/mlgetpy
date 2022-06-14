@@ -1,4 +1,4 @@
-from mlgetpy import search
+from mlrgetpy import search
 import unittest
 
 class TestSearch(unittest.TestCase):

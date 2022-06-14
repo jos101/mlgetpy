@@ -1,4 +1,4 @@
-from mlgetpy.DataSetList import DataSetList
+from mlrgetpy.DataSetList import DataSetList
 import unittest 
 
 class TestDataSetList(unittest.TestCase):

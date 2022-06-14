@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from mlgetpy.JsonParser import JsonParser 
-from mlgetpy.RequestHelper import RequestHelper
+from mlrgetpy.JsonParser import JsonParser 
+from mlrgetpy.RequestHelper import RequestHelper
 
 
 @dataclass

@@ -1,4 +1,4 @@
-from mlgetpy.JsonParser import JsonParser
+from mlrgetpy.JsonParser import JsonParser
 import unittest
 import os
 
