@@ -8,7 +8,7 @@ import pandas as pd
 @dataclass
 class Repository:
     
-    def find(self) -> pd.DataFrame:
+    def load(self) -> pd.DataFrame:
         ds : DataSetList = DataSetList()
         df : DataFrameConverter = DataFrameConverter()
 

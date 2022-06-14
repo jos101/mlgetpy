@@ -4,10 +4,10 @@ import pandas as pd
 
 class TestRepository(unittest.TestCase):
 
-    def test_find(self):
+    def test_load(self):
         repo = Repository() 
 
-        data: pd.DataFrame = repo.find()
+        data: pd.DataFrame = repo.load()
 
         print(data)
 
