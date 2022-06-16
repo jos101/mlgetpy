@@ -1,5 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
+from sympy import Not
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 from mlrgetpy.DataSetList import DataSetList
 import pandas as pd
@@ -8,15 +9,29 @@ import pandas as pd
 @dataclass
 class Repository:
     
-    def load(self) -> pd.DataFrame:
-        ds : DataSetList = DataSetList()
-        df : DataFrameConverter = DataFrameConverter()
+    __data : pd.DataFrame = field(init=False, repr=False)
+    __data_set_list : DataSetList = field(init=False, repr=False)
+    __dfc : DataFrameConverter = field(init=False, repr=False)
 
-        d  : dict        = ds.findAll()
-        data : pd.DataFrame = df.convertFromList(d["payload"]["rows"])
-        return data
+    def __post_init__(self) -> None:
+        self.__data_set_list = DataSetList()
+        self.__dfc = DataFrameConverter()
+
+    def load(self) -> None:
+        d  : dict        = self.__data_set_list.findAll()
+        data : pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
+        self.__data = data
     
-    def download():
+    def getData(self) -> pd.DataFrame:
+        return self.__data
+
+    def addRepoByID(self, ID) -> None:
+        NotImplemented
+
+    def removeByIndex(self, indexes: list) -> None:
+        self.__data = self.__data.drop(indexes)
+
+    def download() -> None :
         NotImplemented
     
     def remove():
