@@ -11,7 +11,8 @@ class TestDataSetList(unittest.TestCase):
         self.assertEqual(data["payload"]["rows"][0]["Name"], ": Simulated Data set of Iraqi tourism places")
         self.assertEqual(data["payload"]["rows"][1]["Name"], "2.4 GHZ Indoor Channel Measurements")
 
-    def test_findByName(self):
-        dataSet = DataSetList()
+    def test_findByID(self):
+        NotImplemented
+        #dataSet = DataSetList()
 
-        data: dict = dataSet.findByName("Iris")
+        #data: dict = dataSet.findByName("Iris")

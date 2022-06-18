@@ -17,6 +17,6 @@ class TestDataFrameCoverter(unittest.TestCase):
 
         df = dfc.convertFromList(data["payload"]["rows"])
 
-        self.assertEqual(df["Name"][0], "NATICUSdroid (Android Permissions) Dataset")
-        self.assertEqual(df["Name"][1], "Bengali Hate Speech Detection Dataset")
+        self.assertEqual(df["Name"][722], "NATICUSdroid (Android Permissions) Dataset")
+        self.assertEqual(df["Name"][719], "Bengali Hate Speech Detection Dataset")
 

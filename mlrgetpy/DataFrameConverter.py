@@ -7,13 +7,6 @@ class DataFrameConverter:
     def convertFromList(self, rows: list) -> pd.DataFrame:
         dict = {} 
 
-        Graphics  = []
-        Status  = []
-        NumHits  = []
-        AttributeTypes  = []
-        numInstances  = []
-        slug  = []
-        
         dict["ID"] = []
         dict["userID"] = []
         dict["introPaperID"] = []
@@ -71,5 +64,6 @@ class DataFrameConverter:
             dict["user"].append( i["user"] )    
 
         df = pd.DataFrame.from_dict(dict)
+        df = df.set_index('ID')
 
         return df

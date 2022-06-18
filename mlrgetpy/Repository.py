@@ -23,9 +23,9 @@ class Repository:
         self.__data = data
     
     def getData(self) -> pd.DataFrame:
-        return self.__data
+        return self.__data.copy()
 
-    def addRepoByID(self, ID) -> None:
+    def addByID(self, ID:int) -> None:
         NotImplemented
 
     def removeByIndex(self, indexes: list) -> None:
