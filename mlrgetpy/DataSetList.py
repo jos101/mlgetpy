@@ -23,9 +23,3 @@ class DataSetList:
         response = self.request.get(self.url + f'?limit={count}')
 
         return JsonParser().encode( response.text )
-    
-    def findByID(self, ID:int) -> dict:
-        
-        NotImplemented
-        
-    

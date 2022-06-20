@@ -16,6 +16,8 @@ class Repository:
     def __post_init__(self) -> None:
         self.__data_set_list = DataSetList()
         self.__dfc = DataFrameConverter()
+        self.__data = pd.DataFrame()
+
 
     def load(self) -> None:
         d  : dict        = self.__data_set_list.findAll()
@@ -25,8 +27,17 @@ class Repository:
     def getData(self) -> pd.DataFrame:
         return self.__data.copy()
 
-    def addByID(self, ID:int) -> None:
-        NotImplemented
+    def addByIDs(self, IDs:list) -> None:
+        d : dict = self.__data_set_list.findAll()
+        data: pd.DataFrame = self.__dfc.convertFromList( d["payload"]["rows"])
+        data = data.filter(items=IDs, axis="index")
+
+        for id in IDs:
+            if id in self.__data.index:
+                self.__data.drop(IDs, axis="index", inplace=True)
+            
+        self.__data = pd.concat([self.__data, data])
+
 
     def removeByIndex(self, indexes: list) -> None:
         self.__data = self.__data.drop(indexes)
