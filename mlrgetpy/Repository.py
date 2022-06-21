@@ -25,7 +25,18 @@ class Repository:
         self.__data = data
     
     def getData(self) -> pd.DataFrame:
-        return self.__data.copy()
+
+        cols_to_remove:list = [ "userID", "introPaperID",
+            "Types", "DOI", "isTabular", "URLFolder",
+            "URLReadme", "URLLink", "Graphics", "Status",
+             "slug", "tabular", "user"
+        ]
+
+        data:pd.DataFrame = pd.DataFrame()
+        data = self.__data.drop(cols_to_remove, axis=1)
+
+
+        return data
 
     def addByIDs(self, IDs:list) -> None:
         d : dict = self.__data_set_list.findAll()

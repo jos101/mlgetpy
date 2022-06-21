@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from mlrgetpy.JsonParser import JsonParser 
 import pandas as pd
 
 @dataclass
@@ -32,6 +33,7 @@ class DataFrameConverter:
         dict["slug"] = []
 
         dict["tabular"] = []
+        dict["numAttributes"] = []
         dict["user"] = []
 
         for i in rows:
@@ -62,6 +64,11 @@ class DataFrameConverter:
 
             dict["tabular"].append( i["tabular"] )    
             dict["user"].append( i["user"] )    
+
+            if i["tabular"] != None and "numAttributes" in i["tabular"].keys():
+                dict["numAttributes"].append( i["tabular"]["numAttributes"] )
+            else:
+                dict["numAttributes"].append(i["tabular"])
 
         df = pd.DataFrame.from_dict(dict)
         df = df.set_index('ID')
