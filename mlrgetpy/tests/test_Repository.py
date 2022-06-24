@@ -30,3 +30,8 @@ class TestRepository(unittest.TestCase):
         repo.addByIDs([556])
         self.assertEqual( repo.getData().shape[0], count, msg="addByIds after load must not alter the row count" )
 
+    def test_showData(self):
+        repo = Repository()
+
+        repo.load()
+        #repo.showData()

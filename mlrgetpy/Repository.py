@@ -18,6 +18,19 @@ class Repository:
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 
+    def __filter(self) -> pd.DataFrame:
+
+        cols_to_remove:list = [ "userID", "introPaperID",
+            "DOI", "isTabular", "URLFolder",
+            "URLReadme", "URLLink", "Graphics", "Status",
+             "slug", "tabular", "user"
+        ]
+
+        data:pd.DataFrame = pd.DataFrame()
+        data = self.__data.drop(cols_to_remove, axis=1)
+
+        return data
+
 
     def load(self) -> None:
         d  : dict        = self.__data_set_list.findAll()
@@ -26,17 +39,32 @@ class Repository:
     
     def getData(self) -> pd.DataFrame:
 
-        cols_to_remove:list = [ "userID", "introPaperID",
-            "Types", "DOI", "isTabular", "URLFolder",
-            "URLReadme", "URLLink", "Graphics", "Status",
-             "slug", "tabular", "user"
-        ]
-
-        data:pd.DataFrame = pd.DataFrame()
-        data = self.__data.drop(cols_to_remove, axis=1)
-
-
+        data:pd.DataFrame = self.__filter()
         return data
+    
+    def showData(self) -> None:
+
+        if self.__data is None: 
+            print("Load data first")
+            return 
+
+        data:pd.DataFrame = self.__filter()
+        
+        for index, row in data.iterrows(): 
+            print(f"Name : {row['Name']}")
+            print(f"DataSet Characteristic : {row['Types']}")
+            print(f"Subject Area : {row['Area']}")
+            print(f"Associated Task : {row['Task']}")
+            print(f"Date Donated : {row['DateDonated']}")
+            print(f"Instances : {row['numInstances']}")
+            print(f"Attributes : {row['numAttributes']}")
+            print(f"Views : {row['NumHits']}")
+            print(f"Abstract: {row['Abstract']}")
+            print("-----------------------------")
+        
+    def extractCitation(self) -> str :
+        NotImplemented   
+
 
     def addByIDs(self, IDs:list) -> None:
         d : dict = self.__data_set_list.findAll()
