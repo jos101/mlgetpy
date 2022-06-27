@@ -12,6 +12,8 @@ class DataSetList:
 
     url = "https://archive-beta.ics.uci.edu/api/datasets-donated/find" #?offset=0&limit=2
     url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/"
+
+    creator = "https://archive-beta.ics.uci.edu/api/creators/pk/722"
     
     def getCount(self) -> int:
         response = self.request.get(self.url)
