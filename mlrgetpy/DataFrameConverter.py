@@ -35,6 +35,10 @@ class DataFrameConverter:
         dict["tabular"] = []
         dict["numAttributes"] = []
         dict["user"] = []
+        dict["user_user"] = []
+        dict["user_firstName"] = []
+        dict["user_lastName"] = []
+
 
         for i in rows:
             dict["ID"].append( i["ID"] )
@@ -65,10 +69,25 @@ class DataFrameConverter:
             dict["tabular"].append( i["tabular"] )    
             dict["user"].append( i["user"] )    
 
+            dict["user_user"].append(None)
+            dict["user_firstName"].append(None)
+            dict["user_lastName"].append(None)
+
+            if i["user"] != None :
+
+                if "user" in i["user"].keys():
+                    dict["user_user"][-1] = i["user"]["user"]
+                
+                if "firstName" in i["user"].keys():
+                    dict["user_firstName"][-1] = i["user"]["firstName"]
+
+                if "lastName" in i ["user"].keys():
+                    dict["user_lastName"][-1] = i["user"]["lastName"]
+
             if i["tabular"] != None and "numAttributes" in i["tabular"].keys():
                 dict["numAttributes"].append( i["tabular"]["numAttributes"] )
             else:
-                dict["numAttributes"].append(i["tabular"])
+                dict["numAttributes"].append(0)
 
         df = pd.DataFrame.from_dict(dict)
         df = df.set_index('ID')
