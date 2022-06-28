@@ -27,22 +27,47 @@ class Citation:
 
 
 
-    def getBibtext(self, firstName, lastName, title, year, repo_ID) -> str:
+    def __addAuthors(self, cit:str, authors) -> str:
+        cit += '''
+  author       = {''' + authors +'''},'''
+
+        return cit
+
+
+    def __addDOI(self, cit:str, DOI:str) -> str:
+        DOI_ID:str = DOI.replace("https://doi.org/", "")
+        cit += ''',
+  note         = {{DOI}: \\url{''' + DOI_ID + '''}}'''
+
+        return cit
+
+
+    def getBibtext(self, creators:list, title:str, year:int, repo_ID:int, DOI:str = None) -> str:
 
         newTitle = self.__convertTitle(title, repo_ID)
+        authors:str = self.__getAuthorsString(creators)
 
-        cit =  '''@misc{''' + newTitle + ''',
-        author       = {''' + lastName + ''', ''' + firstName +'''},
-        title        = {{''' + title + '''}},
-        year         = {''' + str(year) + '''},
-        howpublished = {''' + self.__howpublished + '''}
-        }'''
+        cit =  '''@misc{''' + newTitle + ''','''
 
+        if len(creators) > 0:
+            cit = self.__addAuthors(cit, authors)
+        
+        cit += '''
+  title        = {{''' + title + '''}},
+  year         = {''' + str(year) + '''},
+  howpublished = {''' + self.__howpublished + '''}'''
+  
+        if DOI != None:
+            cit = self.__addDOI(cit, DOI)
+
+        cit += '''
+}'''
+    
         return cit 
 
 
     def __convertTitle(self, title:str, repo_ID:int) -> str:
-        new_title = "misc_" + title.replace(" ", "_") + "_" + str(repo_ID)
+        new_title = ( "misc_" + title.replace(" ", "_") + "_" + str(repo_ID) ).lower()
         
         return new_title
 
