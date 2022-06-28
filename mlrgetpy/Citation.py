@@ -28,8 +28,8 @@ class Citation:
 
 
     def __addAuthors(self, cit:str, authors) -> str:
-        cit += '''
-  author       = {''' + authors +'''},'''
+        cit += ''',
+  author       = {''' + authors +'''}'''
 
         return cit
 
@@ -41,28 +41,50 @@ class Citation:
 
         return cit
 
+    def __addYear(self, cit:str, year) -> str:
+        cit += ''',
+  year         = {''' + str(year) + '''}'''      
+        
+        return cit
+
+    def __addTitle(self, cit:str, title) -> str:
+        
+        cit += ''',
+  title        = {{''' + title + '''}}'''
+
+        return cit
+
+    def __addHowPublished(self, cit:str) -> str:
+        
+        cit += ''',
+  howpublished = {''' + self.__howpublished + '''}'''
+
+        return cit
+  
 
     def getBibtext(self, creators:list, title:str, year:int, repo_ID:int, DOI:str = None) -> str:
 
         newTitle = self.__convertTitle(title, repo_ID)
         authors:str = self.__getAuthorsString(creators)
 
-        cit =  '''@misc{''' + newTitle + ''','''
+        cit =  '''@misc{''' + newTitle + ''''''
 
         if len(creators) > 0:
             cit = self.__addAuthors(cit, authors)
         
-        cit += '''
-  title        = {{''' + title + '''}},
-  year         = {''' + str(year) + '''},
-  howpublished = {''' + self.__howpublished + '''}'''
-  
+        cit = self.__addTitle(cit, title)
+
+        if year != None:
+            cit =  self.__addYear(cit, year)
+
+        cit = self.__addHowPublished(cit)
+
         if DOI != None:
             cit = self.__addDOI(cit, DOI)
 
         cit += '''
 }'''
-    
+
         return cit 
 
 

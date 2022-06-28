@@ -131,3 +131,21 @@ class TestCitation(unittest.TestCase):
 }'''
 
         self.assertEqual(cit_str, expected_result, "Repository with no authors")
+
+
+    def test_getBibtext_NoYear_NoAuthors(self):
+
+        cit = Citation()
+
+        creators = []
+        year = None
+        ID = 151
+
+        cit_str = cit.getBibtext(creators, "Connectionist Bench (Sonar, Mines vs. Rocks)", year, ID)
+
+        expected_result = '''@misc{misc_connectionist_bench_(sonar,_mines_vs._rocks)_151,
+  title        = {{Connectionist Bench (Sonar, Mines vs. Rocks)}},
+  howpublished = {UCI Machine Learning Repository}
+}'''
+
+        self.assertEqual(cit_str, expected_result, "Repository with no year nor Authors")
