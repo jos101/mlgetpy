@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 
 from sympy import Not
+from mlrgetpy.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 from mlrgetpy.DataSetList import DataSetList
 import pandas as pd
@@ -62,9 +63,21 @@ class Repository:
             print(f"Abstract: {row['Abstract']}")
             print("-----------------------------")
         
-    def extractCitation(self) -> str :
-        NotImplemented   
+    def extractCitation(self, ids:list, type:str = "bibtext") -> str :
+        
+        citations:str = ""
+        cit = Citation()
 
+        if type == "bibtext":
+            data = self.__data.filter(items=ids, axis="index")
+            
+            for repo_id, row in data.iterrows():
+                cit.getBibtext([], row['title'], 2022, repo_id)
+                
+
+
+        
+        return citations
 
     def addByIDs(self, IDs:list) -> None:
         d : dict = self.__data_set_list.findAll()

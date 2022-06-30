@@ -35,3 +35,10 @@ class TestRepository(unittest.TestCase):
 
         repo.load()
         #repo.showData()
+
+    def test_extractCitation(self):
+        repo = Repository()
+        repo.load()
+
+        repo.extractCitation([722])
+
