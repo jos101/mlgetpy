@@ -72,7 +72,7 @@ class Repository:
             data = self.__data.filter(items=ids, axis="index")
             
             for repo_id, row in data.iterrows():
-                cit.getBibtext([], row['title'], 2022, repo_id)
+                cit.getBibtext([], row['Name'], 2022, repo_id)
                 
 
 
