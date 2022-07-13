@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from mlrgetpy.JsonParser import JsonParser 
 from mlrgetpy.RequestHelper import RequestHelper
+from mlrgetpy.CacheDataSetList import CacheDataSetList
 import pickle
 import datetime
 from datetime import date
@@ -24,24 +25,22 @@ class DataSetList:
 
     def findAll(self) -> dict:
 
-        list_response = []
+        cache:CacheDataSetList = CacheDataSetList()
+
         response = None
         current_date = date.today()
         cached_date = None
-        try :
-            with open('response.pkl', 'rb') as inp:
-                list_response = pickle.load(inp)
-                response = list_response[0]
-        except:
-            list_response = []
 
-        if response == None or list_response != [] and (current_date - list_response[1]).days >= 1 :
+        [cached_response, cached_date] = cache.getCache()
+
+        if cached_date == None or (current_date - cached_date).days >= 1 :
 
             count = self.getCount() 
             response = self.request.get(self.url + f'?limit={count}')
-        
+        else:
+            response = cached_response
 
-        self.save_object([response, date.today()], "response.pkl")
+        cache.save_object([response, current_date], "response.pkl")
 
         return JsonParser().encode( response.content )
     
