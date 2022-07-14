@@ -1,21 +1,24 @@
 from dataclasses import dataclass, field
 
 from sympy import Not
+from mlrgetpy.CacheDataSetList import CacheDataSetList
 from mlrgetpy.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
-from mlrgetpy.DataSetList import DataSetList
 import pandas as pd
+from mlrgetpy.DataSetList import DataSetList
+
+from mlrgetpy.DataSetListAbstract import DataSetListAbstract
 
 
 @dataclass
 class Repository:
     
     __data : pd.DataFrame = field(init=False, repr=False)
-    __data_set_list : DataSetList = field(init=False, repr=False)
+    __data_set_list : DataSetListAbstract = field(init=False, repr=False)
     __dfc : DataFrameConverter = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self.__data_set_list = DataSetList()
+        self.__data_set_list = CacheDataSetList()
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 
