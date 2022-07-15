@@ -1,14 +1,11 @@
 from dataclasses import dataclass, field
 
-from sympy import Not
-from mlrgetpy.CacheDataSetList import CacheDataSetList
 from mlrgetpy.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
-from mlrgetpy.DataSetList import DataSetList
 
-from mlrgetpy.DataSetListAbstract import DataSetListAbstract
-from mlrgetpy.DataSetListFactory import DataSetListFactory
+from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
+from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
 
 
 @dataclass

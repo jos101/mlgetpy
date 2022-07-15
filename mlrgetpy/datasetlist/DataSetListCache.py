@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 import pickle
 from datetime import date
 
-from mlrgetpy.DataSetListAbstract import DataSetListAbstract
+from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.JsonParser import JsonParser
 
 @dataclass

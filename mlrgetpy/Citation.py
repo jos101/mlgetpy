@@ -3,7 +3,7 @@ from lib2to3.pytree import convert
 
 from sympy import Not
 from mlrgetpy.DataFrameConverter import DataFrameConverter
-from mlrgetpy.DataSetList import DataSetList
+from mlrgetpy.datasetlist.DataSetList import DataSetList
 import pandas as pd
 
 
