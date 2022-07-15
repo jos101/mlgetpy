@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from mlrgetpy.DataSetList import DataSetList 
-from mlrgetpy.CacheDataSetList import CacheDataSetList
-from mlrgetpy.DataSetListAbstract import DataSetListAbstract
+from mlrgetpy.datasetlist.DataSetList import DataSetList 
+from mlrgetpy.datasetlist.CacheDataSetList import CacheDataSetList
+from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 
 @dataclass
 class DataSetListFactory():
