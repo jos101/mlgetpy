@@ -7,6 +7,8 @@ import pandas as pd
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
 
+from datetime  import datetime
+
 
 @dataclass
 class Repository:
@@ -66,19 +68,18 @@ class Repository:
         
     def extractCitation(self, ids:list, type:str = "bibtext") -> str :
         
-        citations:str = ""
+        citations_str:str = ""
         cit = Citation()
-
         if type == "bibtext":
             data = self.__data.filter(items=ids, axis="index")
-            
+
             for repo_id, row in data.iterrows():
-                cit.getBibtext([], row['Name'], 2022, repo_id)
+                year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
                 
+                creators = self.__data_set_list.getCreators(repo_id)
+                citations_str = cit.getBibtext(creators, row['Name'], year, repo_id)
 
-
-        
-        return citations
+        return citations_str
 
     def addByIDs(self, IDs:list) -> None:
         d : dict = self.__data_set_list.findAll()
