@@ -68,18 +68,36 @@ class Repository:
         
     def extractCitation(self, ids:list, type:str = "bibtext") -> str :
         
-        citations_str:str = ""
+        citations_list:list = []
         cit = Citation()
         if type == "bibtext":
             data = self.__data.filter(items=ids, axis="index")
 
             for repo_id, row in data.iterrows():
-                year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
                 
-                creators = self.__data_set_list.getCreators(repo_id)
-                citations_str = cit.getBibtext(creators, row['Name'], year, repo_id)
+                if (row["DateDonated"] != None):
+                    year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
+                
+                    creators = self.__data_set_list.getCreators(repo_id)
+                    citations_list.append(cit.getBibtext(creators, row['Name'], year, repo_id) )
+                
 
-        return citations_str
+        return citations_list
+
+    def saveCitations(self) -> None:
+        
+        ids = self.__data.index.tolist()
+        citations_list = self.extractCitation(ids)
+
+        f = open("citations.bib", "w", encoding="utf-8")
+        
+        for i in citations_list:
+            f.write(i + ",\n")
+        f.close()
+
+        return citations_list
+
+
 
     def addByIDs(self, IDs:list) -> None:
         d : dict = self.__data_set_list.findAll()
