@@ -42,3 +42,11 @@ class TestRepository(unittest.TestCase):
 
         repo.extractCitation([722])
 
+    def test_saveCitations(self):
+        repo = Repository()
+        repo.load()
+        citations = repo.saveCitations(4)
+
+        self.assertEqual( len(citations), 4)
+
+
