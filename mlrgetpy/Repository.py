@@ -84,10 +84,10 @@ class Repository:
 
         return citations_list
 
-    def saveCitations(self) -> None:
+    def saveCitations(self, limit:int = None) -> list:
         
         ids = self.__data.index.tolist()
-        citations_list = self.extractCitation(ids)
+        citations_list = self.extractCitation(ids[:limit])
 
         f = open("citations.bib", "w", encoding="utf-8")
         
