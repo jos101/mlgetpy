@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from mlrgetpy.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
+from mlrgetpy.BibFileHandler import BibFileHandler
 
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
@@ -87,15 +88,12 @@ class Repository:
     def saveCitations(self, limit:int = None) -> list:
         
         ids = self.__data.index.tolist()
-        citations_list = self.extractCitation(ids[:limit])
+        citations = self.extractCitation(ids[:limit])
 
-        f = open("citations.bib", "w", encoding="utf-8")
+        f = BibFileHandler()
+        f.save(citations)
         
-        for i in citations_list:
-            f.write(i + ",\n")
-        f.close()
-
-        return citations_list
+        return citations
 
 
 
