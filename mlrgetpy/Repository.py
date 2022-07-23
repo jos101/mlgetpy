@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from mlrgetpy.Bibtext import Bibtext
 
 from mlrgetpy.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
@@ -7,9 +8,6 @@ from mlrgetpy.BibFileHandler import BibFileHandler
 
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
-
-from datetime  import datetime
-
 
 @dataclass
 class Repository:
@@ -70,18 +68,10 @@ class Repository:
     def extractCitation(self, ids:list, type:str = "bibtext") -> str :
         
         citations_list:list = []
-        cit = Citation()
+        bib = Bibtext()
         if type == "bibtext":
             data = self.__data.filter(items=ids, axis="index")
-
-            for repo_id, row in data.iterrows():
-                
-                if (row["DateDonated"] != None):
-                    year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
-                
-                    creators = self.__data_set_list.getCreators(repo_id)
-                    citations_list.append(cit.getBibtext(creators, row['Name'], year, repo_id) )
-                
+            citations_list = bib.get(self.__data_set_list, data)
 
         return citations_list
 
