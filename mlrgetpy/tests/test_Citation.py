@@ -1,4 +1,4 @@
-from mlrgetpy.Citation import Citation
+from mlrgetpy.citation.Citation import Citation
 import unittest
 
 class TestCitation(unittest.TestCase):

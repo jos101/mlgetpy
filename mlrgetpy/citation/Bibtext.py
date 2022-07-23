@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from mlrgetpy.Citation import Citation
+from mlrgetpy.citation.Citation import Citation
 import pandas as pd
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from datetime  import datetime

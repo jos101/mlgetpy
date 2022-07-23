@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
-from mlrgetpy.Bibtext import Bibtext
+from mlrgetpy.citation.Bibtext import Bibtext
 
-from mlrgetpy.Citation import Citation
+from mlrgetpy.citation.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
 from mlrgetpy.BibFileHandler import BibFileHandler
+from mlrgetpy.citation.CitationFactory import CitationFactory
 
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
@@ -68,10 +69,10 @@ class Repository:
     def extractCitation(self, ids:list, type:str = "bibtext") -> str :
         
         citations_list:list = []
-        bib = Bibtext()
-        if type == "bibtext":
-            data = self.__data.filter(items=ids, axis="index")
-            citations_list = bib.get(self.__data_set_list, data)
+        bib = CitationFactory.create(type)
+        
+        data = self.__data.filter(items=ids, axis="index")
+        citations_list = bib.get(self.__data_set_list, data)
 
         return citations_list
 
