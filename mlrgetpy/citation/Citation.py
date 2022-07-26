@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from lib2to3.pytree import convert
 
-from sympy import Not
+from sympy import Not, false
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 from mlrgetpy.datasetlist.DataSetList import DataSetList
 import pandas as pd
@@ -14,18 +14,83 @@ class Citation:
     def __post_init__(self) -> None:
         self.__howpublished = "UCI Machine Learning Repository"
 
-    def get(self, creators:list, title:str, year:int, DOI:str = None) -> str:
+    def getPlaintext(self, creators:list, title:str, year:int, DOI:str = None) -> str:
 
-        authors = self.__getAuthorsString(creators)      
+        authors:str = self.__getAuthorsString(creators)      
         cit_str = ""
-        cit_str =  f'{authors}. ({year}). {title}. {self.__howpublished}.'
+
+        if len(creators) > 0:
+            cit_str = self.__addAuthorsPlaintext(cit_str, authors)
+            cit_str = self.__addYearPlaintext(cit_str, year)
+            cit_str = self.__addTitlePlaintext(cit_str, title)
+            cit_str = self.__addHowpublishedPlaintext(cit_str)
+            cit_str = self.__add_DOI_plaintext(cit_str, DOI, add_space=False)
+        else:
+            cit_str = self.__addTitlePlaintext(cit_str, title)
+            cit_str = self.__addYearPlaintext(cit_str, year)
+            cit_str = self.__addHowpublishedPlaintext(cit_str, add_space=False)
+
+        cit_str = self.__remove_last_space(cit_str)
+
+        return cit_str
+    
+    def __remove_last_space(self, cit_str:str) -> str:
+
+        return cit_str.rstrip()
+
+
+    def __get_space(self, add_space:bool) -> str:
+        space:str = ""
+        if add_space == True:
+            space = " "
+        
+        return space
+
+
+    def __add_DOI_plaintext(self, cit_str:str, DOI: str, add_space = True):
+        
+        space:str =  self.__get_space(add_space)
 
         if DOI != None:
-            cit_str += f' {DOI}.'
-
+            cit_str += f'{DOI}.{space}'
+        
         return cit_str
 
 
+    def __addYearPlaintext(self, cit_str: str, year:int, add_space = True ) -> str:
+
+        space:str =  self.__get_space(add_space)
+
+        if year != None:
+            cit_str += f"({year}).{space}"
+        
+        return cit_str
+    
+    def __addAuthorsPlaintext(self, cit_str: str, authors:str, add_space = True) -> str:
+
+        space:str =  self.__get_space(add_space)
+
+
+        if len(authors) > 0 :
+            cit_str += f"{authors}.{space}"
+        
+        return cit_str
+    
+    def __addTitlePlaintext(self, cit_str:str, title:str, add_space = True) -> str:
+
+        space:str =  self.__get_space(add_space)
+
+        cit_str += f"{title}.{space}"
+
+        return cit_str
+    
+    def __addHowpublishedPlaintext(self, cit_str:str, add_space = True) -> str:
+
+        space:str =  self.__get_space(add_space)
+
+        cit_str += f"{self.__howpublished}.{space}"
+
+        return cit_str
 
     def __addAuthors(self, cit:str, authors) -> str:
         cit += ''',
@@ -86,7 +151,6 @@ class Citation:
 }'''
 
         return cit 
-
 
     def __convertTitle(self, title:str, repo_ID:int) -> str:
         new_title = ( "misc_" + title.replace(" ", "_") + "_" + str(repo_ID) ).lower()

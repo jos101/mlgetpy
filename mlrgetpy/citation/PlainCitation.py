@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from datetime import datetime
+from ..citation.Citation import Citation
 
-from mlrgetpy.citation.FormatAbstract import FormatAbstract
+from ..citation.FormatAbstract import FormatAbstract
 from ..datasetlist.DataSetListAbstract import DataSetListAbstract
 import pandas as pd
 
@@ -8,5 +10,22 @@ import pandas as pd
 class PlainCitation(FormatAbstract):
 
     def get(self, data_set_list: DataSetListAbstract, data: pd.DataFrame) -> list:
+        citations = []
+        cit = Citation()
+        year = None
+        DOI:str = None
+        
+        for repo_id, row in data.iterrows(): 
 
-        NotImplemented
+            if (row["DateDonated"] != None):
+                year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
+
+            if (row["DOI"] != None):
+                DOI = row["DOI"]
+            
+            creators = data_set_list.getCreators(repo_id)
+
+
+            citations.append(cit.getPlaintext(creators, row['Name'], year, DOI) )
+        
+        return citations

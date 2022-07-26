@@ -4,12 +4,13 @@ from mlrgetpy.citation.Bibtext import Bibtext
 from mlrgetpy.citation.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
-from mlrgetpy.BibFileHandler import BibFileHandler
+from mlrgetpy.filehandler.BibFileHandler import BibFileHandler
 from mlrgetpy.citation.CitationFactory import CitationFactory
 from mlrgetpy.citation.FormatAbstract import FormatAbstract
 
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
+from mlrgetpy.filehandler.FileHandlerFactory import FileHandlerFactory
 
 @dataclass
 class Repository:
@@ -77,12 +78,12 @@ class Repository:
 
         return citations_list
 
-    def saveCitations(self, limit:int = None) -> list:
+    def saveCitations(self, limit:int = None, type:str = "bibtext") -> list:
         
         ids:list = self.__data.index.tolist()
-        citations:list = self.extractCitation(ids[:limit])
+        citations:list = self.extractCitation(ids[:limit], type)
 
-        f = BibFileHandler()
+        f = FileHandlerFactory.create(type)
         f.save(citations)
         
         return citations

@@ -47,6 +47,10 @@ class TestRepository(unittest.TestCase):
         repo.load()
         citations = repo.saveCitations(4)
 
-        self.assertEqual( len(citations), 4)
+        self.assertEqual( len(citations), 4, "saving bibtext")
+
+
+        citations = repo.saveCitations(4, "plaintext")
+        self.assertEqual( len(citations), 4, "saving plaintext")
 
 
