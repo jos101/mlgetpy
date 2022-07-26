@@ -78,8 +78,8 @@ class Repository:
 
     def saveCitations(self, limit:int = None) -> list:
         
-        ids = self.__data.index.tolist()
-        citations = self.extractCitation(ids[:limit])
+        ids:list = self.__data.index.tolist()
+        citations:list = self.extractCitation(ids[:limit])
 
         f = BibFileHandler()
         f.save(citations)
