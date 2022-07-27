@@ -20,7 +20,7 @@ class Repository:
     __dfc : DataFrameConverter = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self.__data_set_list = DataSetListFactory.create("CACHE")
+        self.__data_set_list = DataSetListFactory.create("cache")
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 

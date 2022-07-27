@@ -7,13 +7,13 @@ from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 class DataSetListFactory():
     
     @staticmethod
-    def create(type:str = 'CACHE'):
+    def create(type:str = 'cache'):
 
         object:DataSetListAbstract = None
 
-        if type == "CACHE":
+        if type == "cache":
             object = CacheDataSetList()
-        elif type == "SERVER":
+        elif type == "server":
             object = DataSetList()
         else:
             raise Exception("DataSetList: Type not Valid")
