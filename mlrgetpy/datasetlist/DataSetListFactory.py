@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from mlrgetpy.datasetlist.DataSetList import DataSetList 
-from mlrgetpy.datasetlist.DataSetListCache import CacheDataSetList
+from mlrgetpy.datasetlist.DataSetListCache import DataSetListCache
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 
 @dataclass
@@ -12,7 +12,7 @@ class DataSetListFactory():
         object:DataSetListAbstract = None
 
         if type == "cache":
-            object = CacheDataSetList()
+            object = DataSetListCache()
         elif type == "server":
             object = DataSetList()
         else:

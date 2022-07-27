@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from dataclasses import dataclass, field
 from urllib import response
 from mlrgetpy.JsonParser import JsonParser 
@@ -9,8 +10,6 @@ class DataSetListAbstract:
     
     request = RequestHelper()
     
-    __count:int = field(init=False)
-
     url = "https://archive-beta.ics.uci.edu/api/datasets-donated/find" #?offset=0&limit=2
     url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/"
 
