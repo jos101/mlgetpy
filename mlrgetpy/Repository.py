@@ -78,7 +78,7 @@ class Repository:
 
         return citations_list
 
-    def saveCitations(self, limit:int = None, type:str = "bibtext") -> list:
+    def saveCitations(self, type:str = "bibtext", limit:int = None) -> list:
         
         ids:list = self.__data.index.tolist()
         citations:list = self.extractCitation(ids[:limit], type)

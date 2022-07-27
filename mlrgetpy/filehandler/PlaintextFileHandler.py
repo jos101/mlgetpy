@@ -12,5 +12,5 @@ class PlaintextFileHandler:
 
         f = open(self.__file, "w", encoding="utf-8")
         for i in citations:
-            f.write(i + "\n\n")
+            f.write(i + "\n")
         f.close()

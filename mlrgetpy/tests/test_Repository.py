@@ -45,12 +45,12 @@ class TestRepository(unittest.TestCase):
     def test_saveCitations(self):
         repo = Repository()
         repo.load()
-        citations = repo.saveCitations(4)
+        citations = repo.saveCitations("bibtext", 4)
 
         self.assertEqual( len(citations), 4, "saving bibtext")
 
 
-        citations = repo.saveCitations(4, "plaintext")
+        citations = repo.saveCitations("plaintext", 4)
         self.assertEqual( len(citations), 4, "saving plaintext")
 
 
