@@ -6,7 +6,7 @@ from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.JsonParser import JsonParser
 
 @dataclass
-class CacheDataSetList(DataSetListAbstract):
+class DataSetListCache(DataSetListAbstract):
 
     def save_object(self, obj, filename):
         with open(filename, 'wb') as outp: 
@@ -32,7 +32,7 @@ class CacheDataSetList(DataSetListAbstract):
 
         if cached_date == None or (current_date - cached_date).days >= 1 :
 
-            count = self.getCount() 
+            count = super.getCount() 
             response = self.request.get(self.url + f'?limit={count}')
         else:
             response = cached_response

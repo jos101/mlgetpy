@@ -21,7 +21,7 @@ class Repository:
     __dfc: DataFrameConverter = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self.__data_set_list = DataSetListFactory.create("CACHE")
+        self.__data_set_list = DataSetListFactory.create("cache")
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 
@@ -103,7 +103,7 @@ class Repository:
 
         return citations_list
 
-    def saveCitations(self, limit: int = None, type: str = "bibtext") -> list:
+    def saveCitations(self, type: str = "bibtext", limit: int = None) -> list:
 
         ids: list = self.__data.index.tolist()
         citations: list = self.extractCitation(ids[:limit], type)
