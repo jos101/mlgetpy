@@ -1,4 +1,6 @@
+from asyncio.windows_events import NULL
 from dataclasses import dataclass, field
+from typing import List
 from mlrgetpy.citation.Bibtext import Bibtext
 
 from mlrgetpy.citation.Citation import Citation
@@ -45,6 +47,11 @@ class Repository:
     def load(self, name: str = None, num_instances_less_than: int = None,
              num_instances_greater_than: int = None,
              contains_name: str = None,
+             characteristics: List[str] = None,
+             area: str = None,
+             task: str = None,
+             num_attributes_less_than: int = None,
+             num_attributes_greater_than: int = None,
              query: str = None) -> None:
 
         d: dict = self.__data_set_list.findAll()
@@ -59,11 +66,31 @@ class Repository:
             data = data.query(f"Name == '{name}'")
         if contains_name != None:
             data = data.query(
-                f'Name.str.contains("{contains_name}")', engine='python')
+                f'Name.str.contains("{contains_name}", na=False)', engine='python'
+            )
         if num_instances_less_than != None:
-            data = data.query(f"numInstances < {num_instances_less_than}")
+            data = data.query(f"numInstances <= {num_instances_less_than}")
         if num_instances_greater_than != None:
-            data = data.query(f"numInstances > {num_instances_greater_than}")
+            data = data.query(f"numInstances >= {num_instances_greater_than}")
+
+        if characteristics != None:
+            for type in characteristics:
+                print(f"tpe : {type}")
+                data = data.query(
+                    f"Types.str.contains('{type}', na=False)", engine="python"
+                )
+
+        if area != None:
+            data = data.query(
+                f'Area.str.contains("{area}", na=False)', engine='python'
+            )
+        if task != None:
+            data = data.query(f"Task == '{task}'")
+        if num_attributes_less_than != None:
+            data = data.query(f"numAttributes < {num_attributes_less_than}")
+        if num_attributes_greater_than != None:
+            data = data.query(
+                f"numAttributes > {num_attributes_greater_than}")
 
         self.__data = data
 
@@ -73,6 +100,7 @@ class Repository:
         return data
 
     def showData(self) -> None:
+        # TODO: add limit argument
         # TODO: show data with the rich module
 
         if self.__data is None:
@@ -122,6 +150,7 @@ class Repository:
         data = data.filter(items=IDs, axis="index")
 
         # to avoid duplicates ids, removes it from __data
+        # TODO: refactor
         for id in IDs:
             if id in self.__data.index:
                 self.__data.drop(IDs, axis="index", inplace=True)
