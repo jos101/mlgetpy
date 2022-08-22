@@ -25,6 +25,10 @@ class Repository:
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 
+    '''
+    removes columns no needed in showdata
+    '''
+
     def __filter(self) -> pd.DataFrame:
 
         cols_to_remove: list = ["userID", "introPaperID",
@@ -38,9 +42,29 @@ class Repository:
 
         return data
 
-    def load(self) -> None:
+    def load(self, name: str = None, num_instances_less_than: int = None,
+             num_instances_greater_than: int = None,
+             contains_name: str = None,
+             query: str = None) -> None:
+
         d: dict = self.__data_set_list.findAll()
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
+
+        # TODO: add more filters
+        # TODO: create a class for the filters
+
+        if query != None:
+            data = data.query(query)
+        if name != None:
+            data = data.query(f"Name == '{name}'")
+        if contains_name != None:
+            data = data.query(
+                f'Name.str.contains("{contains_name}")', engine='python')
+        if num_instances_less_than != None:
+            data = data.query(f"numInstances < {num_instances_less_than}")
+        if num_instances_greater_than != None:
+            data = data.query(f"numInstances > {num_instances_greater_than}")
+
         self.__data = data
 
     def getData(self) -> pd.DataFrame:
@@ -90,21 +114,30 @@ class Repository:
         return citations
 
     def addByIDs(self, IDs: list) -> None:
+        # retrieves all data set list
         d: dict = self.__data_set_list.findAll()
+        # converts dict to dataframe
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
+        # filters the dataFrame
         data = data.filter(items=IDs, axis="index")
 
+        # to avoid duplicates ids, removes it from __data
         for id in IDs:
             if id in self.__data.index:
                 self.__data.drop(IDs, axis="index", inplace=True)
 
+        # adds the new data to __data
         self.__data = pd.concat([self.__data, data])
 
     def removeByIndex(self, indexes: list) -> None:
         self.__data = self.__data.drop(indexes)
 
-    def download() -> None:
+    # TODO: add data set using the filter class
+    def add_data_set(self):
         NotImplemented
 
-    def remove():
+    def download(self) -> None:
+        NotImplemented
+
+    def remove(self):
         NotImplemented
