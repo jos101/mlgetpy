@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from dataclasses import dataclass, field
 from typing import List
 from mlrgetpy.citation.Bibtext import Bibtext
@@ -6,6 +5,7 @@ from mlrgetpy.citation.Bibtext import Bibtext
 from mlrgetpy.citation.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
+from mlrgetpy.enums.Characteristic import Characteristic
 from mlrgetpy.filehandler.BibFileHandler import BibFileHandler
 from mlrgetpy.citation.CitationFactory import CitationFactory
 from mlrgetpy.citation.FormatAbstract import FormatAbstract
@@ -47,7 +47,7 @@ class Repository:
     def load(self, name: str = None, num_instances_less_than: int = None,
              num_instances_greater_than: int = None,
              contains_name: str = None,
-             characteristics: List[str] = None,
+             characteristics: List[Characteristic] = None,
              area: str = None,
              task: str = None,
              num_attributes_less_than: int = None,
@@ -73,17 +73,24 @@ class Repository:
         if num_instances_greater_than != None:
             data = data.query(f"numInstances >= {num_instances_greater_than}")
 
+        # TODO: Refactor
         if characteristics != None:
+            temp_data: pd.DataFrame = pd.DataFrame()
+            copy: pd.DataFrame = pd.DataFrame()
             for type in characteristics:
-                print(f"tpe : {type}")
-                data = data.query(
-                    f"Types.str.contains('{type}', na=False)", engine="python"
+                copy = temp_data.copy()
+                temp_data = data.query(
+                    f"Types.str.contains('{type.value}', na=False)", engine="python"
                 )
+                temp_data = pd.concat([temp_data, copy])
+            data = temp_data
 
+        # TODO: create enum to AREA
         if area != None:
             data = data.query(
                 f'Area.str.contains("{area}", na=False)', engine='python'
             )
+        # TODO:create enum to TASK
         if task != None:
             data = data.query(f"Task == '{task}'")
         if num_attributes_less_than != None:
