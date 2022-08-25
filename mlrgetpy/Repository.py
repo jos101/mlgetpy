@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
+from mlrgetpy.Filter import Filter
 from mlrgetpy.citation.Bibtext import Bibtext
 
 from mlrgetpy.citation.Citation import Citation
@@ -44,61 +45,14 @@ class Repository:
 
         return data
 
-    def load(self, name: str = None, num_instances_less_than: int = None,
-             num_instances_greater_than: int = None,
-             contains_name: str = None,
-             characteristics: List[Characteristic] = None,
-             area: str = None,
-             task: str = None,
-             num_attributes_less_than: int = None,
-             num_attributes_greater_than: int = None,
-             query: str = None) -> None:
+    def load(self, filter: Filter = None) -> None:
 
         d: dict = self.__data_set_list.findAll()
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
 
         # TODO: add more filters
         # TODO: create a class for the filters
-
-        if query != None:
-            data = data.query(query)
-        if name != None:
-            data = data.query(f"Name == '{name}'")
-        if contains_name != None:
-            data = data.query(
-                f'Name.str.contains("{contains_name}", na=False)', engine='python'
-            )
-        if num_instances_less_than != None:
-            data = data.query(f"numInstances <= {num_instances_less_than}")
-        if num_instances_greater_than != None:
-            data = data.query(f"numInstances >= {num_instances_greater_than}")
-
-        # TODO: Refactor
-        if characteristics != None:
-            temp_data: pd.DataFrame = pd.DataFrame()
-            copy: pd.DataFrame = pd.DataFrame()
-            for type in characteristics:
-                copy = temp_data.copy()
-                temp_data = data.query(
-                    f"Types.str.contains('{type.value}', na=False)", engine="python"
-                )
-                temp_data = pd.concat([temp_data, copy])
-            data = temp_data
-
-        # TODO: create enum to AREA
-        if area != None:
-            data = data.query(
-                f'Area.str.contains("{area}", na=False)', engine='python'
-            )
-        # TODO:create enum to TASK
-        if task != None:
-            data = data.query(f"Task == '{task}'")
-        if num_attributes_less_than != None:
-            data = data.query(f"numAttributes < {num_attributes_less_than}")
-        if num_attributes_greater_than != None:
-            data = data.query(
-                f"numAttributes > {num_attributes_greater_than}")
-
+        data = filter.filter(data)
         self.__data = data
 
     def getData(self) -> pd.DataFrame:

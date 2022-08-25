@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Characteristic(Enum):
+class Area(Enum):
     BUSINESS: str = "Business"
     FINANCIAL: str = "Financial"
     COMPUTER_SCIENCE: str = "Computer Science"
