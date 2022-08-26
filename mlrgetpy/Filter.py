@@ -34,7 +34,7 @@ class Filter:
             f'Area.str.contains("{area.value}", na=False)', engine='python'
         )
 
-    def __get_remaining(self, data: pd.DataFrame, temp_data: pd.DataFrame):
+    def __get_remaining_data(self, data: pd.DataFrame, temp_data: pd.DataFrame):
         return data.drop(temp_data.index.values.tolist())
 
     def filter(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -60,10 +60,8 @@ class Filter:
             # iterate every characteristic
             for type in self.characteristics:
 
-                temp_data = pd.concat(
-                    [temp_data, self.__find_rows_containing_type(
-                        self.__get_remaining(data, temp_data), type)]
-                )
+                temp_data = pd.concat([temp_data, self.__find_rows_containing_type(
+                    self.__get_remaining_data(data, temp_data), type)])
 
             data = temp_data.sort_index()
 
