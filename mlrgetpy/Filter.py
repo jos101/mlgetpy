@@ -1,7 +1,4 @@
-from ast import Import
-from asyncio import tasks
 from dataclasses import dataclass, field
-from tempfile import TemporaryDirectory
 from typing import List
 import pandas as pd
 
@@ -23,6 +20,33 @@ class Filter:
     num_attributes_less_than: int = None
     num_attributes_greater_than: int = None
     query: str = None
+
+    def __post_init__(self) -> None:
+        if self.area != None and type(self.area) is not list:
+            raise ValueError("Filter class: area must be a list")
+
+        # TODO: test filter with wrong Area
+        # exception if any element in the list is not an Area Class
+        if type(self.area) is list:
+            i = 0
+            for item in self.area:
+                if type(item) is not Area:
+                    raise ValueError(
+                        f"Filter class: element {i} must be an Area Class")
+                i += 1
+
+        if self.characteristics != None and type(self.characteristics) is not list:
+            raise ValueError("Filter class: area must be a list")
+
+        # TODO: test filter with wrong Characteristic
+        # exception if any element in the list is not an Area Class
+        if type(self.characteristics) is list:
+            i = 0
+            for item in self.characteristics:
+                if type(item) is not Characteristic:
+                    raise ValueError(
+                        f"Filter class: element {i} must be an Characteristic Class")
+                i += 1
 
     def __find_rows_containing_type(self, remain: pd.DataFrame, type: Characteristic):
         return remain.query(
