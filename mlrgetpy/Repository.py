@@ -45,7 +45,7 @@ class Repository:
 
         return data
 
-    def load(self, filter: Filter = None) -> None:
+    def load(self, filter: Filter = Filter()) -> None:
 
         d: dict = self.__data_set_list.findAll()
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])

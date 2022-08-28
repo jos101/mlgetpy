@@ -18,7 +18,7 @@ class Filter:
     num_instances_greater_than: int = None
     contains_name: str = None
     characteristics: List[Characteristic] = None
-    area: Area = None
+    area: List[Area] = None
     task: Task = None
     num_attributes_less_than: int = None
     num_attributes_greater_than: int = None
@@ -30,9 +30,10 @@ class Filter:
         )
 
     def __find_rows_containing_Area(self, remain: pd.DataFrame, area: Area):
-        return remain.query(
-            f'Area.str.contains("{area.value}", na=False)', engine='python'
-        )
+        # TODO: Business should search for Financial and Business
+        # TODO: Computer science should search for Computer and Compute Science
+        # TODO: LIFE_SCIENCE should search for Life and Life Science
+        return remain[remain.Area == area.value]
 
     def __get_remaining_data(self, data: pd.DataFrame, temp_data: pd.DataFrame):
         return data.drop(temp_data.index.values.tolist())
@@ -66,12 +67,17 @@ class Filter:
             data = temp_data.sort_index()
 
         # TODO: test area filter
-        # TODO: create filter for other in AREA
-        # TODO: change to List[Area]
         if self.area != None:
-            data = self.__find_rows_containing_Area(data, self.area)
 
-        # TODO:create enum to TASK
+            temp_data: pd.DataFrame = pd.DataFrame()
+
+            for item_area in self.area:
+                temp_data = pd.concat([temp_data, self.__find_rows_containing_Area(
+                    self.__get_remaining_data(data, temp_data), item_area)])
+
+            data = temp_data.sort_index()
+
+        # TODO: other task
         if self.task != None:
             data = data.query(f"Task == '{self.task.value}'")
 
