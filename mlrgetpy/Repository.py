@@ -51,7 +51,6 @@ class Repository:
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
 
         # TODO: add more filters
-        # TODO: create a class for the filters
         data = filter.filter(data)
         self.__data = data
 
