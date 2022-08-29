@@ -3,5 +3,12 @@ from typing import List
 
 
 class AttributeType(Enum):
-    NUMERICAL: List[str] = ["Integer", "Real"]
-    CATEGORICAL: List[str] = ["Categorical"]
+    INTEGER: str = "Integer"
+    REAL: str = "Real"
+    CATEGORICAL: str = "Categorical"
+
+
+class FilterAttributeType(Enum):
+    NUMERICAL: List[AttributeType] = [
+        AttributeType.INTEGER, AttributeType.REAL]
+    CATEGORICAL: List[AttributeType] = [AttributeType.CATEGORICAL]
