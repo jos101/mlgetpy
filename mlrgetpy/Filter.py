@@ -60,15 +60,15 @@ class Filter:
             f"Types.str.contains('{type.value}', na=False)", engine="python"
         )
 
-    def __find_rows_containing_attr_type(self, remain: pd.DataFrame, attrType: AttributeType):
-        return remain.AttributeTypes.str.contains(attrType.value, na=False)
+    def __get_filter_attr_type(self, data: pd.DataFrame, attrType: AttributeType):
+        return data.AttributeTypes.str.contains(attrType.value, na=False)
 
     def __find_element_with_OR(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
         # false filter
         filter: pd.DataFrame = (data.Name != data.Name)
 
         for at in listAttr:
-            filter = filter | self.__find_rows_containing_attr_type(data, at)
+            filter = filter | self.__get_filter_attr_type(data, at)
 
         return data[filter]
 
