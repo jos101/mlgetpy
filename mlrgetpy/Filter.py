@@ -61,28 +61,24 @@ class Filter:
         )
 
     def __find_rows_containing_attr_type(self, remain: pd.DataFrame, attrType: AttributeType):
-        return remain.query(
-            f"AttributeTypes.str.contains('{attrType.value}', na=False)", engine="python"
-        )
+        return remain.AttributeTypes.str.contains(attrType.value, na=False)
 
-    def __find_with_elements(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
-        temp_data: pd.DataFrame = pd.DataFrame()
-        # List of Attributes
-        print(listAttr)
+    def __find_element_with_OR(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
+        # false filter
+        filter: pd.DataFrame = (data.Name != data.Name)
+
         for at in listAttr:
-            remain_data = self.__get_remaining_data(data, temp_data)
-            temp_data = pd.concat(
-                [temp_data, self.__find_rows_containing_attr_type(remain_data, at)])
+            filter = filter | self.__find_rows_containing_attr_type(data, at)
 
-        return temp_data
+        return data[filter]
 
     # attribute type is related with characteristics (Type)
     def __search_attr_type(self, data: pd.DataFrame, filterAttrType: FilterAttributeType):
         temp_data: pd.DataFrame = pd.DataFrame()
 
         # these FilterAttrTypes have a List[AttributeType]
-        if filterAttrType == FilterAttributeType.CATEGORICAL or filterAttrType == FilterAttributeType.NUMERICAL:
-            temp_data = self.__find_with_elements(data, filterAttrType.value)
+        if filterAttrType != FilterAttributeType.MIXED:
+            temp_data = self.__find_element_with_OR(data, filterAttrType.value)
 
         # MIXED has List[List[AttributeType]]
         # the result must have a least one element of categorical and numerical
@@ -91,7 +87,7 @@ class Filter:
             temp_data: pd.DataFrame = data
             # List of list of Attributes
             for attrType in filterAttrType.value:
-                temp_data = self.__find_with_elements(temp_data, attrType)
+                temp_data = self.__find_element_with_OR(temp_data, attrType)
 
         return temp_data.sort_index()
 
