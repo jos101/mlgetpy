@@ -12,3 +12,4 @@ class FilterAttributeType(Enum):
     NUMERICAL: List[AttributeType] = [
         AttributeType.INTEGER, AttributeType.REAL]
     CATEGORICAL: List[AttributeType] = [AttributeType.CATEGORICAL]
+    MIXED: List[List[AttributeType]] = [CATEGORICAL, NUMERICAL]

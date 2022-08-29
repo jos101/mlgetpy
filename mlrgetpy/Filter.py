@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
+from inspect import Attribute
 from typing import List
 import pandas as pd
 
 from mlrgetpy.enums.Area import Area
+from mlrgetpy.enums.AttributeType import AttributeType, FilterAttributeType
 from mlrgetpy.enums.Characteristic import Characteristic
 from mlrgetpy.enums.Task import Task
 
@@ -15,6 +17,7 @@ class Filter:
     num_instances_greater_than: int = None
     contains_name: str = None
     characteristics: List[Characteristic] = None
+    attribute_type: FilterAttributeType = None
     area: List[Area] = None
     task: Task = None
     num_attributes_less_than: int = None
@@ -48,10 +51,49 @@ class Filter:
                         f"Filter class: element {i} must be an Characteristic Class")
                 i += 1
 
+    '''
+    Type is equal to Characteristic
+    '''
+
     def __find_rows_containing_type(self, remain: pd.DataFrame, type: Characteristic):
         return remain.query(
             f"Types.str.contains('{type.value}', na=False)", engine="python"
         )
+
+    def __find_rows_containing_attr_type(self, remain: pd.DataFrame, attrType: AttributeType):
+        return remain.query(
+            f"AttributeTypes.str.contains('{attrType.value}', na=False)", engine="python"
+        )
+
+    def __find_with_elements(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
+        temp_data: pd.DataFrame = pd.DataFrame()
+        # List of Attributes
+        print(listAttr)
+        for at in listAttr:
+            remain_data = self.__get_remaining_data(data, temp_data)
+            temp_data = pd.concat(
+                [temp_data, self.__find_rows_containing_attr_type(remain_data, at)])
+
+        return temp_data
+
+    # attribute type is related with characteristics (Type)
+    def __search_attr_type(self, data: pd.DataFrame, filterAttrType: FilterAttributeType):
+        temp_data: pd.DataFrame = pd.DataFrame()
+
+        # these FilterAttrTypes have a List[AttributeType]
+        if filterAttrType == FilterAttributeType.CATEGORICAL or filterAttrType == FilterAttributeType.NUMERICAL:
+            temp_data = self.__find_with_elements(data, filterAttrType.value)
+
+        # MIXED has List[List[AttributeType]]
+        # the result must have a least one element of categorical and numerical
+        # TODO: test filter
+        if filterAttrType == FilterAttributeType.MIXED:
+            temp_data: pd.DataFrame = data
+            # List of list of Attributes
+            for attrType in filterAttrType.value:
+                temp_data = self.__find_with_elements(temp_data, attrType)
+
+        return temp_data.sort_index()
 
     def __find_rows_containing_Area(self, remain: pd.DataFrame, area: Area):
         # TODO: Business should search for Financial and Business
@@ -90,6 +132,12 @@ class Filter:
 
             data = temp_data.sort_index()
 
+        # TODO: Attribute type
+        # TODO: create enum attribute type
+        if self.attribute_type != None:
+            data = self.__search_attr_type(
+                data, self.attribute_type)
+
         # TODO: test area filter
         if self.area != None:
 
@@ -104,9 +152,6 @@ class Filter:
         # TODO: other task
         if self.task != None:
             data = data.query(f"Task == '{self.task.value}'")
-
-        # TODO: Attribute type
-        # TODO: create enum attribute type
 
         if self.num_attributes_less_than != None:
             data = data.query(

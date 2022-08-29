@@ -1,13 +1,8 @@
 from dataclasses import dataclass, field
-from typing import List
 from mlrgetpy.Filter import Filter
-from mlrgetpy.citation.Bibtext import Bibtext
 
-from mlrgetpy.citation.Citation import Citation
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
-from mlrgetpy.enums.Characteristic import Characteristic
-from mlrgetpy.filehandler.BibFileHandler import BibFileHandler
 from mlrgetpy.citation.CitationFactory import CitationFactory
 from mlrgetpy.citation.FormatAbstract import FormatAbstract
 
