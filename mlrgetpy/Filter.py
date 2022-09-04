@@ -64,8 +64,9 @@ class Filter:
         return data.AttributeTypes.str.contains(attrType.value, na=False)
 
     def __find_element_with_OR(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
-        # false filter
-        filter: pd.DataFrame = (data.Name != data.Name)
+        # false series filter
+        # TODO: test atribute type
+        filter: pd.Series = pd.Series(data=False, index=data.index.tolist())
 
         for at in listAttr:
             filter = filter | self.__get_filter_attr_type(data, at)
@@ -94,10 +95,9 @@ class Filter:
     def __find_rows_containing_Area(self, remain: pd.DataFrame, area: Area):
         filter: pd.DataFrame = pd.DataFrame()
         if type(area.value) == list:
-            # false dataframe
-            filter: pd.DataFrame = (remain.Area != remain.Area)
-            # because None != None -> True in pandas dataframe
-            filter[:] = False
+            # false series
+            filter: pd.Series = pd.Series(
+                data=False, index=remain.index.tolist())
 
             for area_val in area.value:
                 filter = filter | (remain.Area == area_val)
