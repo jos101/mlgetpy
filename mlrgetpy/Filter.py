@@ -56,6 +56,7 @@ class Filter:
     '''
 
     def __find_rows_containing_type(self, remain: pd.DataFrame, type: Characteristic):
+        # TODO: search for multivariate, tabular, Time-series when type is Characteristic.TABULAR
         return remain.query(
             f"Types.str.contains('{type.value}', na=False)", engine="python"
         )
