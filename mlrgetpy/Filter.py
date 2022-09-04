@@ -92,10 +92,19 @@ class Filter:
         return temp_data.sort_index()
 
     def __find_rows_containing_Area(self, remain: pd.DataFrame, area: Area):
-        # TODO: Business should search for Financial and Business
-        # TODO: Computer science should search for Computer and Compute Science
-        # TODO: LIFE_SCIENCE should search for Life and Life Science
-        return remain[remain.Area == area.value]
+        filter: pd.DataFrame = pd.DataFrame()
+        if type(area.value) == list:
+            # false dataframe
+            filter: pd.DataFrame = (remain.Area != remain.Area)
+            # because None != None -> True in pandas dataframe
+            filter[:] = False
+
+            for area_val in area.value:
+                filter = filter | (remain.Area == area_val)
+        else:
+            filter = remain.Area == area.value
+
+        return remain[filter]
 
     def __get_remaining_data(self, data: pd.DataFrame, temp_data: pd.DataFrame):
         return data.drop(temp_data.index.values.tolist())
