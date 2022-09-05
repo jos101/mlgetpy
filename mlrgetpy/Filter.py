@@ -29,7 +29,6 @@ class Filter:
         if self.area != None and type(self.area) is not list:
             raise ValueError("Filter class: area must be a list")
 
-        # TODO: test filter with wrong Area
         # exception if any element in the list is not an Area Class
         if type(self.area) is list:
             i = 0

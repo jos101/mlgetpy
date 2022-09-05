@@ -11,6 +11,29 @@ from mlrgetpy.enums.Characteristic import Characteristic
 
 class TestFilter(unittest.TestCase):
 
+    def test_int(self):
+
+        with self.assertRaises(ValueError, msg="Must be an Area Class"):
+            filter = Filter(area="Science")
+
+        with self.assertRaises(ValueError, msg="Must be a List"):
+            filter = Filter(area=Area.COMPUTER_SCIENCE)
+
+        with self.assertRaises(ValueError, msg="Must be an List of Area Class"):
+            filter = Filter(area=["Science"])
+
+        with self.assertRaises(ValueError, msg="Must be an List of Area Class"):
+            filter = Filter(area=[Area.BUSINESS, "Game", Area.LAW])
+
+        filter = Filter(area=[Area.BUSINESS])
+        self.assertEqual(Filter, type(filter), msg="One element")
+
+        filter = Filter(area=[Area.BUSINESS, Area.ENGINEERING])
+        self.assertEqual(Filter, type(filter), msg="Two element")
+
+        filter = Filter(area=[Area.BUSINESS, Area.ENGINEERING, Area.LAW])
+        self.assertEqual(Filter, type(filter))
+
     def test_area(self):
 
         # TODO: Business should search for Financial and Business
