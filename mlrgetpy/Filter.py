@@ -42,7 +42,7 @@ class Filter:
             raise ValueError("Filter class: area must be a list")
 
         # TODO: test filter with wrong Characteristic
-        # exception if any element in the list is not an Area Class
+        # exception if any element in the list is not an Characteristic Class
         if type(self.characteristics) is list:
             i = 0
             for item in self.characteristics:

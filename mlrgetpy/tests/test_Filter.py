@@ -11,7 +11,7 @@ from mlrgetpy.enums.Characteristic import Characteristic
 
 class TestFilter(unittest.TestCase):
 
-    def test_int(self):
+    def test_are_int(self):
 
         with self.assertRaises(ValueError, msg="Must be an Area Class"):
             filter = Filter(area="Science")
