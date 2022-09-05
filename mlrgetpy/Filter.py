@@ -25,7 +25,7 @@ class Filter:
     num_attributes_greater_than: int = None
     query: str = None
 
-    def __post_init__(self) -> None:
+    def __check_area(self):
         if self.area != None and type(self.area) is not list:
             raise ValueError("Filter class: area must be a list")
 
@@ -38,10 +38,11 @@ class Filter:
                         f"Filter class: element {i} must be an Area Class")
                 i += 1
 
-        if self.characteristics != None and type(self.characteristics) is not list:
-            raise ValueError("Filter class: area must be a list")
+    def __check_characteristics(self):
 
-        # TODO: test filter with wrong Characteristic
+        if self.characteristics != None and type(self.characteristics) is not list:
+            raise ValueError("Filter class: characteristic must be a list")
+
         # exception if any element in the list is not an Characteristic Class
         if type(self.characteristics) is list:
             i = 0
@@ -50,6 +51,11 @@ class Filter:
                     raise ValueError(
                         f"Filter class: element {i} must be an Characteristic Class")
                 i += 1
+
+    def __post_init__(self) -> None:
+
+        self.__check_area()
+        self.__check_characteristics()
 
     '''
     Type is equal to Characteristic

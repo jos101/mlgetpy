@@ -11,7 +11,7 @@ from mlrgetpy.enums.Characteristic import Characteristic
 
 class TestFilter(unittest.TestCase):
 
-    def test_are_int(self):
+    def test_area_int(self):
 
         with self.assertRaises(ValueError, msg="Must be an Area Class"):
             filter = Filter(area="Science")
@@ -32,6 +32,32 @@ class TestFilter(unittest.TestCase):
         self.assertEqual(Filter, type(filter), msg="Two element")
 
         filter = Filter(area=[Area.BUSINESS, Area.ENGINEERING, Area.LAW])
+        self.assertEqual(Filter, type(filter))
+
+    def test_characteristic_int(self):
+
+        with self.assertRaises(ValueError, msg="Must be an Characteristic Class"):
+            filter = Filter(characteristics="Tabular")
+
+        with self.assertRaises(ValueError, msg="Must be a List"):
+            filter = Filter(characteristics=Characteristic.TABULAR)
+
+        with self.assertRaises(ValueError, msg="Must be an List of Characteristic Class"):
+            filter = Filter(characteristics=["Tabular"])
+
+        with self.assertRaises(ValueError, msg="Must be an List of Characteristic Class"):
+            filter = Filter(characteristics=[
+                            Characteristic.TABULAR, "Image", Characteristic.SEQUENTIAL])
+
+        filter = Filter(characteristics=[Characteristic.TABULAR])
+        self.assertEqual(Filter, type(filter), msg="One element")
+
+        filter = Filter(characteristics=[
+                        Characteristic.TABULAR, Characteristic.SEQUENTIAL])
+        self.assertEqual(Filter, type(filter), msg="Two element")
+
+        filter = Filter(characteristics=[
+                        Characteristic.TABULAR, Characteristic.SEQUENTIAL, Characteristic.TIME_SERIES])
         self.assertEqual(Filter, type(filter))
 
     def test_area(self):
