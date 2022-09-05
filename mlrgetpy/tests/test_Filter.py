@@ -62,7 +62,7 @@ class TestFilter(unittest.TestCase):
 
     def test_area(self):
 
-        # TODO: Business should search for Financial and Business
+        # Business should search for Financial and Business
         rep = Repository()
         filter = Filter(area=[Area.BUSINESS])
         rep.load(filter)
