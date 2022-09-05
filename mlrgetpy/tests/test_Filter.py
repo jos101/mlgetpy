@@ -24,9 +24,45 @@ class TestFilter(unittest.TestCase):
         result = (data.Area == "Business") | (data.Area == "Financial")
         tm.assert_series_equal(result, expected)
 
-        # TODO: test Computer science should search for Computer and Compute Science
-        # TODO: test LIFE_SCIENCE should search for Life and Life Science
-        # TODO: test other. false in none value
+        # test Computer science should search for Computer and Compute Science
+        rep = Repository()
+        filter = Filter(area=[Area.COMPUTER_SCIENCE])
+        rep.load(filter)
+
+        data: pd.DataFrame = rep.getData()
+        result: pd.Series = (data.Area == 'Computer') | (
+            data.Area == 'Computer Science')
+
+        expected: pd.Series = pd.Series(
+            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
+
+        tm.assert_series_equal(result, expected)
+
+        # test LIFE_SCIENCES should search for Life and Life Sciences
+        rep = Repository()
+        filter = Filter(area=[Area.LIFE_SCIENCES])
+        rep.load(filter)
+
+        data: pd.DataFrame = rep.getData()
+        result: pd.Series = data.Area.isin(['Life', 'Life Sciences'])
+
+        expected: pd.Series = pd.Series(
+            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
+
+        tm.assert_series_equal(result, expected)
+
+        # test other. false in none value
+        rep = Repository()
+        filter = Filter(area=[Area.OTHER])
+        rep.load(filter)
+
+        data: pd.DataFrame = rep.getData()
+        result: pd.Series = (data.Area == 'Other')
+
+        expected: pd.Series = pd.Series(
+            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
+
+        tm.assert_series_equal(result, expected)
 
     def test_characteristic(self):
         rep = Repository()
