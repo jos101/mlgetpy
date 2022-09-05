@@ -2,13 +2,13 @@ from enum import Enum
 
 
 class Characteristic(Enum):
-    IMAGE: str = "Image"
-    TABULAR: str = "Tabular"
-    SEQUENTIAL: str = "Sequential"
-    TEXT: str = "Text"
-    TIME_SERIES: str = "Time-Series"
-    DOMAIN_THEORY: str = "Domain-Theory"
-    MULTIVARIATE: str = "Multivariate"
-    UNIVARIATE: str = "Univariate"
-    DATA_GENERATOR: str = "Data-Generator"
-    ENGLISH_WORDS: str = "English words"
+    TABULAR: str = ["Tabular", "Multivariate", "Univariate"]
+    SEQUENTIAL: str = ["Sequential"]
+    TIME_SERIES: str = ["Time-Series"]
+    TEXT: str = ["Text"]
+    IMAGE: str = ["Image"]
+
+    OTHER: str = ["Other"]
+    DOMAIN_THEORY: str = ["Domain-Theory"]
+    DATA_GENERATOR: str = ["Data-Generator"]
+    ENGLISH_WORDS: str = ["English words"]

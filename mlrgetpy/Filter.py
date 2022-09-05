@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from inspect import Attribute
+from os import rename
 from typing import List
 import pandas as pd
 
@@ -53,13 +54,24 @@ class Filter:
 
     '''
     Type is equal to Characteristic
+    search for multivariate, tabular, Time-series when type is Characteristic.TABULAR
+    all items in the row.Types must be a item in Characteristic or row.Types is None
     '''
 
     def __find_rows_containing_type(self, remain: pd.DataFrame, type: Characteristic):
-        # TODO: search for multivariate, tabular, Time-series when type is Characteristic.TABULAR
-        return remain.query(
-            f"Types.str.contains('{type.value}', na=False)", engine="python"
-        )
+        filter: pd.Series = pd.Series(
+            data=False, index=remain.index.tolist()).rename_axis('ID')
+
+        # TODO: change to omit None values
+        for index, row in remain.iterrows():
+            if row.Types == None:
+                filter[filter.index == index] = True
+                continue
+
+            filter[filter.index == index] = all(
+                item in type.value for item in row.Types.split(','))
+
+        return remain[filter]
 
     def __get_filter_attr_type(self, data: pd.DataFrame, attrType: AttributeType):
         return data.AttributeTypes.str.contains(attrType.value, na=False)
