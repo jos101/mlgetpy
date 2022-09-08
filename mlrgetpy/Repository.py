@@ -53,8 +53,7 @@ class Repository:
         data: pd.DataFrame = self.__filter()
         return data
 
-    def showData(self) -> None:
-        # TODO: add limit argument
+    def showData(self, limit: int = None) -> None:
         # TODO: show data with the rich module
 
         if self.__data is None:
@@ -63,7 +62,13 @@ class Repository:
 
         data: pd.DataFrame = self.__filter()
 
+        count: int = 0
         for index, row in data.iterrows():
+            count += 1
+            if limit != None and count > limit:
+                break
+
+            print(f"ID: {index}")
             print(f"Name : {row['Name']}")
             print(f"DataSet Characteristic : {row['Types']}")
             print(f"Subject Area : {row['Area']}")
