@@ -126,10 +126,6 @@ class TestFilter(unittest.TestCase):
             data=False, index=data.index.tolist()).rename_axis('ID')
 
         for index, row in data.iterrows():
-            # TODO: change to omit None values. go to and change in  Filter__find_rows_containing_type
-            if row.Types == None:
-                result[result.index == index] = True
-                continue
 
             valid_items = Characteristic.TABULAR.value
             result[result.index == index] = all(

@@ -67,10 +67,9 @@ class Filter:
         filter: pd.Series = pd.Series(
             data=False, index=remain.index.tolist()).rename_axis('ID')
 
-        # TODO: change to omit None values
         for index, row in remain.iterrows():
             if row.Types == None:
-                filter[filter.index == index] = True
+                filter[filter.index == index] = False
                 continue
 
             filter[filter.index == index] = all(
