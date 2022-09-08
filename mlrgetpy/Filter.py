@@ -82,7 +82,6 @@ class Filter:
 
     def __find_element_with_OR(self, data, listAttr: List[attribute_type]) -> pd.DataFrame:
         # false series filter
-        # TODO: test atribute type
         filter: pd.Series = pd.Series(data=False, index=data.index.tolist())
 
         for at in listAttr:
@@ -158,7 +157,6 @@ class Filter:
             data = self.__search_attr_type(
                 data, self.attribute_type)
 
-        # TODO: test area filter
         if self.area != None:
 
             temp_data: pd.DataFrame = pd.DataFrame()

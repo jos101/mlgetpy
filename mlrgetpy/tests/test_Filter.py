@@ -6,6 +6,7 @@ from mlrgetpy.Repository import Repository
 import pandas as pd
 import unittest
 from pandas import testing as tm
+from mlrgetpy.enums.AttributeType import FilterAttributeType
 
 from mlrgetpy.enums.Characteristic import Characteristic
 from mlrgetpy.enums.Task import Task
@@ -186,3 +187,24 @@ class TestFilter(unittest.TestCase):
 
         #print(f"\ndata: {data.shape}")
         #print(f"res: {expected.shape}")
+
+    def test_attribute_type(self):
+        rep = Repository()
+
+        filter = Filter(attribute_type=FilterAttributeType.NUMERICAL)
+        rep.load(filter)
+        data = rep.getData()
+        self.assertEqual(data.shape[0], 380)
+        #print(f"\nNumerical : {data.shape}")
+
+        filter = Filter(attribute_type=FilterAttributeType.CATEGORICAL)
+        rep.load(filter)
+        data = rep.getData()
+        self.assertEqual(data.shape[0], 93)
+        #print(f"categorical : {data.shape}")
+
+        filter = Filter(attribute_type=FilterAttributeType.MIXED)
+        rep.load(filter)
+        data = rep.getData()
+        self.assertEqual(data.shape[0], 55)
+        #print(f"Mixed : {data.shape}")
