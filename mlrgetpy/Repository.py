@@ -131,3 +131,10 @@ class Repository:
 
     def remove(self):
         NotImplemented
+
+    '''
+    create add by ID script to share with colleagues
+    '''
+
+    def share(self):
+        NotImplemented
