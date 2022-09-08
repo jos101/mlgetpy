@@ -45,7 +45,6 @@ class Repository:
         d: dict = self.__data_set_list.findAll()
         data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
 
-        # TODO: add more filters
         data = filter.filter(data)
         self.__data = data
 

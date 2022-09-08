@@ -154,8 +154,6 @@ class Filter:
 
             data = temp_data.sort_index()
 
-        # TODO: Attribute type
-        # TODO: create enum attribute type
         if self.attribute_type != None:
             data = self.__search_attr_type(
                 data, self.attribute_type)
@@ -173,7 +171,15 @@ class Filter:
 
         # TODO: other task
         if self.task != None:
-            data = data.query(f"Task == '{self.task.value}'")
+
+            if self.task != Task.OTHER:
+                data = data.query(
+                    f'Task.str.contains("{self.task.value}", na=False)', engine='python')
+
+            # TODO: refactor
+            if self.task == Task.OTHER:
+
+                data = self.__filter_task_other(data)
 
         if self.num_attributes_less_than != None:
             data = data.query(
@@ -183,3 +189,24 @@ class Filter:
                 f"numAttributes > {self.num_attributes_greater_than}")
 
         return data
+
+    '''
+        find those row which not nontains Classification, Regression or Clustering.
+        None tasks are include
+
+    '''
+
+    def __filter_task_other(self, data: pd.DataFrame):
+        filter = pd.Series(
+            data=False, index=data.index.tolist()).rename_axis('ID')
+
+        for t in Task:
+            if t == Task.OTHER:
+                continue
+
+            filter = filter | data.Task.str.contains(t.value, na=False)
+
+        # negate the boolean series
+        filter = ~filter
+
+        return data[filter]

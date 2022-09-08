@@ -1,4 +1,5 @@
 from logging import exception
+from unittest import result
 from mlrgetpy.enums.Area import Area
 from mlrgetpy.Filter import Filter
 from mlrgetpy.Repository import Repository
@@ -7,6 +8,7 @@ import unittest
 from pandas import testing as tm
 
 from mlrgetpy.enums.Characteristic import Characteristic
+from mlrgetpy.enums.Task import Task
 
 
 class TestFilter(unittest.TestCase):
@@ -114,6 +116,7 @@ class TestFilter(unittest.TestCase):
         tm.assert_series_equal(result, expected)
 
     def test_characteristic(self):
+
         rep = Repository()
         filter = Filter(characteristics=[Characteristic.TABULAR])
         rep.load(filter)
@@ -136,3 +139,50 @@ class TestFilter(unittest.TestCase):
                 raise Exception(error)
 
         tm.assert_series_equal(result, expected)
+
+    def test_task(self):
+
+        rep = Repository()
+        filter = Filter(task=Task.CLASSIFICATION)
+        rep.load(filter)
+        data: pd.DataFrame = rep.getData()
+
+        serie = data.Task.str.contains(Task.CLASSIFICATION.value)
+        expected = data[serie]
+
+        #print(f"\ndata: {data.shape}")
+        #print(f"res: {expected.shape}")
+
+        self.assertEqual(data.index.tolist(), expected.index.tolist())
+
+        rep = Repository()
+        filter = Filter(task=Task.REGRESSION)
+        rep.load(filter)
+        data: pd.DataFrame = rep.getData()
+
+        serie = data.Task.str.contains(Task.REGRESSION.value)
+        expected = data[serie]
+
+        #print(f"\ndata: {data.shape}")
+        #print(f"res: {expected.shape}")
+        self.assertEqual(data.index.tolist(), expected.index.tolist())
+
+        rep = Repository()
+        filter = Filter(task=Task.CLUSTERING)
+        rep.load(filter)
+        data: pd.DataFrame = rep.getData()
+
+        serie = data.Task.str.contains(Task.CLUSTERING.value)
+        expected = data[serie]
+
+        #print(f"\ndata: {data.shape}")
+        #print(f"res: {expected.shape}")
+        self.assertEqual(data.index.tolist(), expected.index.tolist())
+
+        rep = Repository()
+        filter = Filter(task=Task.OTHER)
+        rep.load(filter)
+        data: pd.DataFrame = rep.getData()
+
+        #print(f"\ndata: {data.shape}")
+        #print(f"res: {expected.shape}")
