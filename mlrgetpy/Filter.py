@@ -99,7 +99,6 @@ class Filter:
 
         # MIXED has List[List[AttributeType]]
         # the result must have a least one element of categorical and numerical
-        # TODO: test filter
         if filterAttrType == FilterAttributeType.MIXED:
             temp_data: pd.DataFrame = data
             # List of list of Attributes
