@@ -109,13 +109,15 @@ class Repository:
         data = data.filter(items=IDs, axis="index")
 
         # to avoid duplicates ids, removes it from __data
-        # TODO: refactor
-        for id in IDs:
-            if id in self.__data.index:
-                self.__data.drop(IDs, axis="index", inplace=True)
-
+        self.__data = self.__drop_ids(IDs, self.__data)
         # adds the new data to __data
         self.__data = pd.concat([self.__data, data])
+
+    def __drop_ids(self, IDs: list, data: pd.DataFrame):
+        for id in IDs:
+            if id in data.index:
+                data.drop(IDs, axis="index", inplace=True)
+        return data
 
     def removeByIndex(self, indexes: list) -> None:
         self.__data = self.__data.drop(indexes)
