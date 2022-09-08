@@ -169,16 +169,13 @@ class Filter:
 
             data = temp_data.sort_index()
 
-        # TODO: other task
         if self.task != None:
 
             if self.task != Task.OTHER:
                 data = data.query(
                     f'Task.str.contains("{self.task.value}", na=False)', engine='python')
 
-            # TODO: refactor
             if self.task == Task.OTHER:
-
                 data = self.__filter_task_other(data)
 
         if self.num_attributes_less_than != None:
