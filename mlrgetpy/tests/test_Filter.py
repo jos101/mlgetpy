@@ -14,7 +14,7 @@ from mlrgetpy.enums.Task import Task
 
 class TestFilter(unittest.TestCase):
 
-    def test_area_int(self):
+    def test_area_init(self):
 
         with self.assertRaises(ValueError, msg="Must be an Area Class"):
             filter = Filter(area="Science")
@@ -37,7 +37,7 @@ class TestFilter(unittest.TestCase):
         filter = Filter(area=[Area.BUSINESS, Area.ENGINEERING, Area.LAW])
         self.assertEqual(Filter, type(filter))
 
-    def test_characteristic_int(self):
+    def test_characteristic_init(self):
 
         with self.assertRaises(ValueError, msg="Must be an Characteristic Class"):
             filter = Filter(characteristics="Tabular")
@@ -78,6 +78,8 @@ class TestFilter(unittest.TestCase):
 
         # test Computer science should search for Computer and Compute Science
         rep = Repository()
+        # in the online repository mistakenly just search for
+        # "Computer" and not for "Computer Science"
         filter = Filter(area=[Area.COMPUTER_SCIENCE])
         rep.load(filter)
 

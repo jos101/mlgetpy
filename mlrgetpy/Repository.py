@@ -116,15 +116,21 @@ class Repository:
     def __drop_ids(self, IDs: list, data: pd.DataFrame):
         for id in IDs:
             if id in data.index:
-                data.drop(IDs, axis="index", inplace=True)
+                data.drop(id, axis="index", inplace=True)
         return data
 
     def removeByIndex(self, indexes: list) -> None:
         self.__data = self.__data.drop(indexes)
 
-    # TODO: add data set using the filter class
-    def add_data_set(self):
-        NotImplemented
+    ''' add data set using the filter class '''
+
+    def add_data_set(self, filter: Filter):
+        d: dict = self.__data_set_list.findAll()
+        data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
+        data = filter.filter(data)
+
+        self.__data = self.__drop_ids(data.index.tolist(), self.__data)
+        self.__data = pd.concat([self.__data, data])
 
     def download(self) -> None:
         NotImplemented
@@ -135,6 +141,7 @@ class Repository:
     '''
     create add by ID script to share with colleagues
     '''
+    # TODO: create add by ID script to share with colleagues
 
     def share(self):
         NotImplemented

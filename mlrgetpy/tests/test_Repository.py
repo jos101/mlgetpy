@@ -1,6 +1,10 @@
+from mlrgetpy.Filter import Filter
 from mlrgetpy.Repository import Repository
 import unittest
 import pandas as pd
+from mlrgetpy.enums.Area import Area
+
+from mlrgetpy.enums.AttributeType import FilterAttributeType
 
 
 class TestRepository(unittest.TestCase):
@@ -61,3 +65,14 @@ class TestRepository(unittest.TestCase):
         rep = Repository()
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         # rep.showData(limit=2)
+
+    def test_add_data_set(self):
+        rep = Repository()
+        rep.add_data_set(Filter(area=[Area.BUSINESS]))
+        rep.add_data_set(Filter(area=[Area.COMPUTER_SCIENCE]))
+
+        data = rep.getData().sort_index()
+        # print(f"\n{data.shape[0]}")
+        pd.set_option('display.max_rows', None)
+        #print(data[["Area", "Name"]])
+        self.assertEqual(data.shape[0], 272)
