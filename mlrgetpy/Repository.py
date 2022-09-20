@@ -135,6 +135,7 @@ class Repository:
     def download(self) -> None:
         NotImplemented
 
+    # TODO: Remove
     def remove(self):
         NotImplemented
 
@@ -143,5 +144,9 @@ class Repository:
     '''
     # TODO: create add by ID script to share with colleagues
 
-    def share(self):
-        NotImplemented
+    def share(self) -> str:
+
+        script: str = "rep = New Repository()\n"
+        script += f"rep.addByIDs({self.__data.index.tolist()})"
+
+        return script

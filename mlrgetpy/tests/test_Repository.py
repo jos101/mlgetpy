@@ -76,3 +76,13 @@ class TestRepository(unittest.TestCase):
         pd.set_option('display.max_rows', None)
         #print(data[["Area", "Name"]])
         self.assertEqual(data.shape[0], 272)
+
+    def test_share(self):
+        rep = Repository()
+        rep.addByIDs(IDs=[480, 296, 540, 307, 314])
+
+        expected: str = "rep = New Repository()\n"
+        expected += "rep.addByIDs([480, 296, 540, 307, 314])"
+
+        self.assertEqual(
+            rep.share(), expected)
