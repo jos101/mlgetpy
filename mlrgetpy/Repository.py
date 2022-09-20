@@ -10,6 +10,9 @@ from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
 from mlrgetpy.filehandler.FileHandlerFactory import FileHandlerFactory
 
+from rich.console import Console
+from rich.table import Table
+
 
 @dataclass
 class Repository:
@@ -53,8 +56,20 @@ class Repository:
         data: pd.DataFrame = self.__filter()
         return data
 
-    def showData(self, limit: int = None) -> None:
+    def showData(self, limit: int = None, type="table") -> None:
         # TODO: show data with the rich module
+        table: Table = Table(title="Data Set")
+
+        table.add_column("ID", justify="right", style="cyan", no_wrap=True)
+        table.add_column("Name", style="magenta")
+        #table.add_column("Data set Characteristic", style="magenta")
+        #table.add_column("Subject Area", style="magenta")
+        #table.add_column("Associated Task", style="magenta")
+        #table.add_column("Date Donated", style="magenta")
+        #table.add_column("Instances", style="magenta")
+        #table.add_column("Attributes", style="magenta")
+        #table.add_column("Views", style="magenta")
+        table.add_column("Abstract", style="magenta", no_wrap=True)
 
         if self.__data is None:
             print("Load data first")
@@ -62,23 +77,34 @@ class Repository:
 
         data: pd.DataFrame = self.__filter()
 
-        count: int = 0
-        for index, row in data.iterrows():
-            count += 1
-            if limit != None and count > limit:
-                break
+        if type == "table":
+            count: int = 0
+            for index, row in data.iterrows():
+                count += 1
+                if limit != None and count > limit:
+                    break
+                # table.add_row(str(index), row['Name'], row['Types'], row['Area'],
+                #              row['Task'], row['DateDonated'], str(
+                #                  row['numInstances']),
+                #              str(row['numAttributes']), str(row['NumHits']), row['Abstract'])
+                table.add_row(str(index), row['Name'], row['Abstract'][0:50])
+            console: Console = Console()
+            console.print(table)
 
-            print(f"ID: {index}")
-            print(f"Name : {row['Name']}")
-            print(f"DataSet Characteristic : {row['Types']}")
-            print(f"Subject Area : {row['Area']}")
-            print(f"Associated Task : {row['Task']}")
-            print(f"Date Donated : {row['DateDonated']}")
-            print(f"Instances : {row['numInstances']}")
-            print(f"Attributes : {row['numAttributes']}")
-            print(f"Views : {row['NumHits']}")
-            print(f"Abstract: {row['Abstract']}")
-            print("-----------------------------")
+        if type == "line":
+            count: int = 0
+            for index, row in data.iterrows():
+                print(f"ID: {index}")
+                print(f"Name : {row['Name']}")
+                print(f"DataSet Characteristic : {row['Types']}")
+                print(f"Subject Area : {row['Area']}")
+                print(f"Associated Task : {row['Task']}")
+                print(f"Date Donated : {row['DateDonated']}")
+                print(f"Instances : {row['numInstances']}")
+                print(f"Attributes : {row['numAttributes']}")
+                print(f"Views : {row['NumHits']}")
+                print(f"Abstract: {row['Abstract']}")
+                print("-----------------------------")
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 

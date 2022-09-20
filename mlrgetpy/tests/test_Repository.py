@@ -64,7 +64,8 @@ class TestRepository(unittest.TestCase):
     def test_show_data(self):
         rep = Repository()
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
-        # rep.showData(limit=2)
+        print()
+        rep.showData(limit=10, type="line")
 
     def test_add_data_set(self):
         rep = Repository()
