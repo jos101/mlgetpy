@@ -141,6 +141,10 @@ class Repository:
                 print(
                     Panel(content, title=f"[cyan]ID: [magenta]{index}", expand=False, style="magenta"))
 
+                answer = input("Next? yes(enter)/No(q):")
+                if (answer == 'q'):
+                    break
+
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 
         citations_list: list = []

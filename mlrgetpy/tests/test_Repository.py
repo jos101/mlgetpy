@@ -66,7 +66,7 @@ class TestRepository(unittest.TestCase):
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         # print()
 
-        #rep.showData(limit=10, type="box")
+        rep.showData(limit=10, type="box")
 
         #rep.showData(limit=10, type="table", column="Characteristic")
         #rep.showData(limit=10, type="table", column="Area")
@@ -77,6 +77,7 @@ class TestRepository(unittest.TestCase):
         #rep.showData(limit=10, type="table", column="Views")
         #rep.showData(limit=10, type="table", column="Abstract")
 #
+
     def test_add_data_set(self):
         rep = Repository()
         rep.add_data_set(Filter(area=[Area.BUSINESS]))
