@@ -9,6 +9,13 @@ from mlrgetpy.enums.AttributeType import FilterAttributeType
 
 class TestRepository(unittest.TestCase):
 
+    # TODO: download
+    def test_download(self):
+        rep = Repository()
+        rep.addByIDs(IDs=[480, 296, 540, 307, 314])
+
+        rep.download()
+
     def test_load(self):
         repo = Repository()
 
@@ -66,7 +73,7 @@ class TestRepository(unittest.TestCase):
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         # print()
 
-        rep.showData(limit=10, type="box")
+        #rep.showData(limit=10, type="box")
 
         #rep.showData(limit=10, type="table", column="Characteristic")
         #rep.showData(limit=10, type="table", column="Area")

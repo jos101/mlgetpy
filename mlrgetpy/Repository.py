@@ -3,6 +3,7 @@ from mlrgetpy.Filter import Filter
 
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
+from mlrgetpy.RepoDownloader import RepodDownloader
 from mlrgetpy.citation.CitationFactory import CitationFactory
 from mlrgetpy.citation.FormatAbstract import FormatAbstract
 
@@ -197,8 +198,11 @@ class Repository:
         self.__data = self.__drop_ids(data.index.tolist(), self.__data)
         self.__data = pd.concat([self.__data, data])
 
+    # TODO
     def download(self) -> None:
-        NotImplemented
+        # repodoenloader.py
+        repDownloader = RepodDownloader()
+        repDownloader.download(self.__data)
 
     '''
     create add by ID script to share with colleagues
