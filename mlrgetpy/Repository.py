@@ -56,20 +56,28 @@ class Repository:
         data: pd.DataFrame = self.__filter()
         return data
 
-    def showData(self, limit: int = None, type="table") -> None:
+    def showData(self, limit: int = None, type="table", column="Abstract") -> None:
         # TODO: show data with the rich module
-        table: Table = Table(title="Data Set")
+        table: Table = Table(title="Data Set", style="green4")
 
         table.add_column("ID", justify="right", style="cyan", no_wrap=True)
         table.add_column("Name", style="magenta")
-        #table.add_column("Data set Characteristic", style="magenta")
-        #table.add_column("Subject Area", style="magenta")
-        #table.add_column("Associated Task", style="magenta")
-        #table.add_column("Date Donated", style="magenta")
-        #table.add_column("Instances", style="magenta")
-        #table.add_column("Attributes", style="magenta")
-        #table.add_column("Views", style="magenta")
-        table.add_column("Abstract", style="magenta", no_wrap=True)
+        if column == "Characteristic":
+            table.add_column("Data set Characteristic", style="magenta")
+        if column == "Area":
+            table.add_column("Subject Area", style="magenta")
+        if column == "Task":
+            table.add_column("Associated Task", style="magenta")
+        if column == "DateDonated":
+            table.add_column("Date Donated", style="magenta")
+        if column == "numInstances":
+            table.add_column("Instances", style="magenta")
+        if column == "numAttributes":
+            table.add_column("Attributes", style="magenta")
+        if column == "Views":
+            table.add_column("Views", style="magenta")
+        if column == "Abstract":
+            table.add_column("Abstract", style="magenta", no_wrap=True)
 
         if self.__data is None:
             print("Load data first")
@@ -83,28 +91,48 @@ class Repository:
                 count += 1
                 if limit != None and count > limit:
                     break
-                # table.add_row(str(index), row['Name'], row['Types'], row['Area'],
-                #              row['Task'], row['DateDonated'], str(
-                #                  row['numInstances']),
-                #              str(row['numAttributes']), str(row['NumHits']), row['Abstract'])
-                table.add_row(str(index), row['Name'], row['Abstract'][0:50])
+
+                if column == "Characteristic":
+                    table.add_row(str(index), row['Name'], row['Types'])
+                if column == "Area":
+                    table.add_row(str(index), row['Name'], row['Area'])
+                if column == "Task":
+                    table.add_row(str(index), row['Name'], row['Task'])
+                if column == "DateDonated":
+                    table.add_row(str(index), row['Name'], row['DateDonated'])
+                if column == "numInstances":
+                    table.add_row(str(index), row['Name'], str(
+                        row['numInstances']))
+                if column == "numAttributes":
+                    table.add_row(
+                        str(index), row['Name'], str(row['numAttributes']))
+                if column == "Views":
+                    table.add_row(str(index), row['Name'], str(row['NumHits']))
+                if column == "Abstract":
+                    table.add_row(
+                        str(index), row['Name'], row['Abstract'][0:50])
             console: Console = Console()
             console.print(table)
 
         if type == "line":
             count: int = 0
             for index, row in data.iterrows():
-                print(f"ID: {index}")
-                print(f"Name : {row['Name']}")
-                print(f"DataSet Characteristic : {row['Types']}")
-                print(f"Subject Area : {row['Area']}")
-                print(f"Associated Task : {row['Task']}")
-                print(f"Date Donated : {row['DateDonated']}")
-                print(f"Instances : {row['numInstances']}")
-                print(f"Attributes : {row['numAttributes']}")
-                print(f"Views : {row['NumHits']}")
-                print(f"Abstract: {row['Abstract']}")
-                print("-----------------------------")
+                from rich import print
+                from rich import print
+                from rich.panel import Panel
+
+                content = ""
+                content += f"[cyan]Name : [magenta]{row['Name']}\n"
+                content += f"[cyan]DataSet Characteristic : [magenta]{row['Types']}\n"
+                content += f"[cyan]Subject Area : [magenta]{row['Area']}\n"
+                content += f"[cyan]Associated Task : [magenta]{row['Task']}\n"
+                content += f"[cyan]Date Donated : [magenta]{row['DateDonated']}\n"
+                content += f"[cyan]Instances : [magenta]{row['numInstances']}\n"
+                content += f"[cyan]Attributes : [magenta]{row['numAttributes']}\n"
+                content += f"[cyan]Views : [magenta]{row['NumHits']}\n"
+                content += f"[cyan]Abstract: [magenta]{row['Abstract']}\n"
+                print(
+                    Panel(content, title=f"[cyan]ID: [green4]{index}", expand=False, style="green4"))
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 
