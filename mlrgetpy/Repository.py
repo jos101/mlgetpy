@@ -55,6 +55,11 @@ class Repository:
 
         data: pd.DataFrame = self.__filter()
         return data
+    '''
+    show data
+    limit: The maximun to display
+    type: table to show a table with ID, Name an aditional column, line to show as boxes 
+    '''
 
     def showData(self, limit: int = None, type="table", column="Abstract") -> None:
         # TODO: show data with the rich module
@@ -114,10 +119,12 @@ class Repository:
             console: Console = Console()
             console.print(table)
 
-        if type == "line":
+        if type == "box":
             count: int = 0
             for index, row in data.iterrows():
-                from rich import print
+                count += 1
+                if limit != None and count > limit:
+                    break
                 from rich import print
                 from rich.panel import Panel
 
@@ -132,7 +139,7 @@ class Repository:
                 content += f"[cyan]Views : [magenta]{row['NumHits']}\n"
                 content += f"[cyan]Abstract: [magenta]{row['Abstract']}\n"
                 print(
-                    Panel(content, title=f"[cyan]ID: [green4]{index}", expand=False, style="green4"))
+                    Panel(content, title=f"[cyan]ID: [magenta]{index}", expand=False, style="magenta"))
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 
