@@ -66,7 +66,7 @@ class TestRepository(unittest.TestCase):
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         # print()
 
-        rep.showData(limit=10, type="box")
+        #rep.showData(limit=10, type="box")
 
         #rep.showData(limit=10, type="table", column="Characteristic")
         #rep.showData(limit=10, type="table", column="Area")

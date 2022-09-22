@@ -196,14 +196,9 @@ class Repository:
     def download(self) -> None:
         NotImplemented
 
-    # TODO: Remove
-    def remove(self):
-        NotImplemented
-
     '''
     create add by ID script to share with colleagues
     '''
-    # TODO: create add by ID script to share with colleagues
 
     def share(self) -> str:
 
