@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import re
+from typing import List
 from lxml import html
 import pandas as pd
 from mlrgetpy.MyProgressBar import MyProgressBar
@@ -43,20 +44,22 @@ class RepodDownloader:
 
             # TODO: create function downloadLinks
             print(parent_url)
-            for link in links:
-                if link == "/ml/machine-learning-databases/":
-                    continue
+            self.__downloadLinks(req, links, parent_url,
+                                 nameFolder=row["Name"])
 
-                # TODO: Refactor
-                print(parse.unquote(link))
-                url = urljoin(parent_url, link)
-                response2 = requests.get(url)
+    # TODO: determine if the link is a folder or an archive
+    def __downloadLinks(self, req: RequestHelper, links: List, parent_url, nameFolder="") -> None:
+        for link in links:
+            if link == "/ml/machine-learning-databases/":
+                continue
 
-                req.saveFile(response2, url, row["Name"])
+            # TODO: Refactor
+            print(parse.unquote(link))
+            url = urljoin(parent_url, link)
+            response2 = requests.get(url)
 
-            print("---")
-
-    # TODO repodownloader
+            req.saveFile(response2, url, nameFolder)
+        print("---")
 
     def downloadALl(self, rep):
         NotImplemented

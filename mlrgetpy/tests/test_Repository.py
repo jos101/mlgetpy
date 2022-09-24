@@ -12,8 +12,9 @@ class TestRepository(unittest.TestCase):
     # TODO: download
     def test_download(self):
         rep = Repository()
-        #rep.addByIDs(IDs=[480, 296, 540, 307, 314])
+        # rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         rep.addByIDs(IDs=[296, 540, 307, 314])
+        # rep.addByIDs(IDs=[516, 296, 540, 307, 314])
 
         rep.download()
 
@@ -23,7 +24,7 @@ class TestRepository(unittest.TestCase):
         repo.load()
         repo.getData()
 
-        #self.assertEqual(data["payload"]["rows"][0]["Name"], ": Simulated Data set of Iraqi tourism places")
+        # self.assertEqual(data["payload"]["rows"][0]["Name"], ": Simulated Data set of Iraqi tourism places")
 
     def test_addByIDs(self):
         repo = Repository()
@@ -74,16 +75,16 @@ class TestRepository(unittest.TestCase):
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         # print()
 
-        #rep.showData(limit=10, type="box")
+        # rep.showData(limit=10, type="box")
 
-        #rep.showData(limit=10, type="table", column="Characteristic")
-        #rep.showData(limit=10, type="table", column="Area")
-        #rep.showData(limit=10, type="table", column="Task")
-        #rep.showData(limit=10, type="table", column="DateDonated")
-        #rep.showData(limit=10, type="table", column="numInstances")
-        #rep.showData(limit=10, type="table", column="numAttributes")
-        #rep.showData(limit=10, type="table", column="Views")
-        #rep.showData(limit=10, type="table", column="Abstract")
+        # rep.showData(limit=10, type="table", column="Characteristic")
+        # rep.showData(limit=10, type="table", column="Area")
+        # rep.showData(limit=10, type="table", column="Task")
+        # rep.showData(limit=10, type="table", column="DateDonated")
+        # rep.showData(limit=10, type="table", column="numInstances")
+        # rep.showData(limit=10, type="table", column="numAttributes")
+        # rep.showData(limit=10, type="table", column="Views")
+        # rep.showData(limit=10, type="table", column="Abstract")
 #
 
     def test_add_data_set(self):
@@ -94,7 +95,7 @@ class TestRepository(unittest.TestCase):
         data = rep.getData().sort_index()
         # print(f"\n{data.shape[0]}")
         pd.set_option('display.max_rows', None)
-        #print(data[["Area", "Name"]])
+        # print(data[["Area", "Name"]])
         self.assertEqual(data.shape[0], 272)
 
     def test_share(self):

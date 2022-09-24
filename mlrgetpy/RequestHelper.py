@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import os
+from typing import List
 from urllib import response
 import requests
 from requests import Response
@@ -54,3 +55,6 @@ class RequestHelper:
     def __createDirPath(self, directory):
         if os.path.exists(directory) == False:
             os.mkdir(directory)
+
+    def downloadLinks(self, links: List, parent_url) -> None:
+        NotImplemented
