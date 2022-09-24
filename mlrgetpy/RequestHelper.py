@@ -40,7 +40,17 @@ class RequestHelper:
 
         fname = self.getName(response, url)
         directory = os.path.join("repo_download", folder)
-        os.mkdir(directory)
         file = os.path.join(directory, fname)
 
+        self.__removeFilePath(file)
+        self.__createDirPath(directory)
+
         response = request.urlretrieve(url, file, MyProgressBar())
+
+    def __removeFilePath(self, file):
+        if os.path.exists(file):
+            os.remove(file)
+
+    def __createDirPath(self, directory):
+        if os.path.exists(directory) == False:
+            os.mkdir(directory)

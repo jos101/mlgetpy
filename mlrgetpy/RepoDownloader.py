@@ -41,6 +41,7 @@ class RepodDownloader:
             response = req.get(parent_url)
             links = self.__getLinks(response)
 
+            # TODO: create function downloadLinks
             print(parent_url)
             for link in links:
                 if link == "/ml/machine-learning-databases/":
