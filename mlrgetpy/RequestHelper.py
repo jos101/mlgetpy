@@ -23,6 +23,9 @@ class RequestHelper:
 
         return response
 
+    def head(self, url) -> Response:
+        response = requests.head(url, verify=False)
+
     def getName(self, response: Response, url) -> str:
         try:
             fname = ''
@@ -37,24 +40,13 @@ class RequestHelper:
 
         return fname
 
-    def saveFile(self, response: Response, url: str, folder=""):
+    def saveFile(self, response: Response, url: str, directory=""):
 
         fname = self.getName(response, url)
-        directory = os.path.join("repo_download", folder)
         file = os.path.join(directory, fname)
 
-        self.__removeFilePath(file)
-        self.__createDirPath(directory)
-
+        print(f"filename: {fname}")
         response = request.urlretrieve(url, file, MyProgressBar())
-
-    def __removeFilePath(self, file):
-        if os.path.exists(file):
-            os.remove(file)
-
-    def __createDirPath(self, directory):
-        if os.path.exists(directory) == False:
-            os.mkdir(directory)
 
     def downloadLinks(self, links: List, parent_url) -> None:
         NotImplemented
