@@ -12,10 +12,12 @@ class TestRepository(unittest.TestCase):
     # TODO: download
     def test_download(self):
         rep = Repository()
-        rep.addByIDs(IDs=[480, 296, 540, 307, 314])
+        #rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         #rep.addByIDs(IDs=[296, 540, 307, 314])
         #rep.addByIDs(IDs=[516, 296, 540, 307, 314])
-        # rep.addByIDs(IDs=[692])
+
+        # use https://archive-beta.ics.uci.edu/api/static/ml/datasets/
+        rep.addByIDs(IDs=[713, 480, 692])
 
         rep.download()
 

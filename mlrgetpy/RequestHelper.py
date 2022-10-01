@@ -25,6 +25,7 @@ class RequestHelper:
 
     def head(self, url) -> Response:
         response = requests.head(url, verify=False)
+        return response
 
     def getName(self, response: Response, url) -> str:
         try:

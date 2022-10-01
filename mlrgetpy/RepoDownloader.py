@@ -27,7 +27,7 @@ class RepodDownloader:
 
     __new_url = "https://archive-beta.ics.uci.edu/api/static/ml/datasets/"
     __new_sub_url = "/ml/datasets/"
-    __new_parent_url = "/api/static/ml/datasets/"
+    __new_parent_url = "/api/static/ml/datasets"
     pbar = None
     # TODO repodownloader
 
@@ -43,6 +43,8 @@ class RepodDownloader:
         webpage = html.fromstring(response.content)
         if url_type == "old":
             links = webpage.xpath('//a/@href')
+        elif url_type == "new":
+            links = webpage.xpath('//ul[@class="view-tiles"]/li/a/@href')
 
         return links
 
@@ -67,24 +69,44 @@ class RepodDownloader:
                 print(f'rep {index}: Not compatible url ({row["URLFolder"]})')
                 continue
 
-            print(f"currwnt url: {current_url}")
+            print(f"current url: {current_url}")
             response = req.get(current_url)
-            links = self.__getLinks(response, url_type="old")
+            links = self.__getLinks(response, url_type=url_type)
             # TODO: create function downloadLinks
             directory = os.path.join("repo_download")
             self.__createDirPath(directory)
 
             self.__downloadLinks(req, links, parent_url, current_url,
-                                 nameFolder=os.path.join(directory, row["Name"]), url_type=url_type)
+                                 nameFolder=os.path.join(directory, f'{index}_[{row["Name"]}]'), url_type=url_type)
+
+    def __createNameFolder(self, nameFolder, link, parent_url, url_type="old"):
+        newNamefolder = ""
+        if url_type == "old":
+            newNamefolder = os.path.join(nameFolder, link)
+        elif url_type == "new":
+            newNamefolder = os.path.join(
+                nameFolder, link.rsplit('/', 1)[-1])
+
+        print(f"--name folder    : {nameFolder}")
+        print(f"--link           : {link}")
+        print(f"--new name folder: {newNamefolder}")
+        return newNamefolder
 
     # TODO: determine if the link is a folder or an archive
 
     def __downloadLinks(self, req: RequestHelper, links: List, parent_url, current_url, nameFolder="", url_type="old", recursion=1) -> None:
+        if url_type == "old":
+            root_url = "https://archive.ics.uci.edu"
+        elif url_type == "new":
+            root_url = "https://archive-beta.ics.uci.edu"
+        else:
+            raise Exception(f"there is no type {url_type}")
+
         #print(f"recursion: {recursion}")
-        #print(f"parent_url: {parent_url}")
+        print(f"parent_url: {parent_url}")
         print(f"current_url: {current_url}")
         print(f"link: {links}")
-        #print(f"name_folder: {nameFolder}")
+        print(f"name_folder: {nameFolder}")
 
         for link in links:
             if link == parent_url:
@@ -92,23 +114,24 @@ class RepodDownloader:
 
             # TODO: Refactor
             url = urljoin(current_url, link)
-            response = requests.head(url, verify=False)
+            response = req.head(url)
+            print(response.headers['Content-Type'])
+            if response.headers['Content-Type'] == 'text/html;charset=ISO-8859-1' or response.headers['Content-Type'] == 'text/html; charset=UTF-8':
+                response = req.get(url)
+                self.__createDirPath(nameFolder)
 
-            if response.headers['Content-Type'] != 'text/html;charset=ISO-8859-1':
-                self.__createDirPath(nameFolder)
-                req.saveFile(response, url, nameFolder)
-            else:
-                response = requests.get(url)
-                self.__createDirPath(nameFolder)
                 self.__downloadLinks(
                     req=req,
-                    links=self.__getLinks(response),
+                    links=self.__getLinks(response, url_type=url_type),
                     # TODO: create variable
-                    parent_url=current_url.replace(
-                        "https://archive.ics.uci.edu", ""),
+                    parent_url=current_url.replace(root_url, ""),
                     current_url=url,
-                    nameFolder=os.path.join(nameFolder, link),
+                    nameFolder=self.__createNameFolder(
+                        nameFolder, link, parent_url, url_type),
                     recursion=recursion+1)
+            else:
+                self.__createDirPath(nameFolder)
+                req.saveFile(response, url, nameFolder)
 
     def downloadALl(self, rep):
         NotImplemented
