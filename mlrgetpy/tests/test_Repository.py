@@ -14,10 +14,12 @@ class TestRepository(unittest.TestCase):
         rep = Repository()
         #rep.addByIDs(IDs=[480, 296, 540, 307, 314])
         #rep.addByIDs(IDs=[296, 540, 307, 314])
-        #rep.addByIDs(IDs=[516, 296, 540, 307, 314])
+
+        # usfolders in old_url
+        rep.addByIDs(IDs=[516, 296, 540, 307, 314])
 
         # use https://archive-beta.ics.uci.edu/api/static/ml/datasets/
-        rep.addByIDs(IDs=[713, 480, 692])
+        #rep.addByIDs(IDs=[713, 480, 692])
 
         rep.download()
 
