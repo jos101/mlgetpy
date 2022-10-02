@@ -21,6 +21,19 @@ class DownloaderNew(DownloaderAbstract):
 
     def initiateDownload(self):
         # TODO: add create_links_path(self, parent_url, url, name_folder):
+        print("New: Initiate download")
+        print(f"New: current url ->{self.current_url}")
+
+        directory = os.path.join("repo_download")
+        name_folder = os.path.join(directory, self.repo_name)
+        self.__createDirPath(directory)
+
+        links_path = self.create_links_path(
+            self.parent_url, self.current_url, name_folder)
+
+        print(f"link paths: {links_path}")
+        # TODO: change save file
+
         return 0
         print("NEW: Initiate download")
         print(f"NEW: current url ->{self.current_url}")
@@ -36,6 +49,25 @@ class DownloaderNew(DownloaderAbstract):
 
         # self.downloadLinks(links, self.parent_url,
         #                   self.current_url, name_folder = repo_name2)
+
+    def create_links_path(self, parent_url, url, name_folder):
+        list_urls = []
+        response = self.req.head(url)
+
+        if response.headers['Content-Type'] == 'text/html;charset=ISO-8859-1' or response.headers['Content-Type'] == 'text/html; charset=UTF-8':
+            list_urls = [(url, name_folder)]
+            self.__createDirPath(name_folder)
+            response = self.req.get(url)
+            links = self.getLinks(response)
+            for link in links:
+                if link == parent_url:
+                    continue
+                new_name_folder = self.__createNameFolder(
+                    name_folder, link, parent_url)
+                list_urls = list_urls + \
+                    self.create_links_path(url.replace(
+                        self.root_url, ""), urljoin(url, link), new_name_folder)
+        return list_urls
 
     def downloadLinks(self, links, parent_url, current_url, name_folder):
         print("-----Download links--------")
@@ -81,7 +113,7 @@ class DownloaderNew(DownloaderAbstract):
         newNamefolder = os.path.join(
             nameFolder, link.rsplit('/', 1)[-1])
 
-        print(f"--name folder    : {nameFolder}")
-        print(f"--link           : {link}")
-        print(f"--new name folder: {newNamefolder}")
+        #print(f"--name folder    : {nameFolder}")
+        #print(f"--link           : {link}")
+        #print(f"--new name folder: {newNamefolder}")
         return newNamefolder
