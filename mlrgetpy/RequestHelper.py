@@ -14,13 +14,14 @@ from urllib import parse
 from mlrgetpy.MyProgressBar import MyProgressBar
 
 
+@dataclass
 class RequestHelper:
 
-    def get(self, url) -> Response:
-
+    def __post_init__(self) -> None:
         urllib3.disable_warnings()
-        response = requests.get(url, verify=False)
 
+    def get(self, url) -> Response:
+        response = requests.get(url, verify=False)
         return response
 
     def head(self, url) -> Response:
