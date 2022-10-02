@@ -20,6 +20,8 @@ class DownloaderNew(DownloaderAbstract):
     parent_url = "/api/static/ml/datasets"
 
     def initiateDownload(self):
+        # TODO: add create_links_path(self, parent_url, url, name_folder):
+        return 0
         print("NEW: Initiate download")
         print(f"NEW: current url ->{self.current_url}")
 
@@ -31,8 +33,9 @@ class DownloaderNew(DownloaderAbstract):
         repo_name2 = os.path.join(directory, self.repo_name)
         print(f"repo_name2: {repo_name2}")
         self.__createDirPath(directory)
-        self.downloadLinks(links, self.parent_url,
-                           self.current_url, name_folder=repo_name2)
+
+        # self.downloadLinks(links, self.parent_url,
+        #                   self.current_url, name_folder = repo_name2)
 
     def downloadLinks(self, links, parent_url, current_url, name_folder):
         print("-----Download links--------")
