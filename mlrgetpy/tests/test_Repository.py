@@ -16,13 +16,16 @@ class TestRepository(unittest.TestCase):
         #rep.addByIDs(IDs=[296, 540, 307, 314])
 
         # uses folders in old_url (432, 442)
-        rep.addByIDs(IDs=[432])
+        # rep.addByIDs(IDs=[432])
         # rep.addByIDs(IDs=[442])
         # uses folders in old_url (516)
         #rep.addByIDs(IDs=[516, 296, 540, 307, 314])
 
-        # use https://archive-beta.ics.uci.edu/api/static/ml/datasets/
-        #rep.addByIDs(IDs=[713, 480, 692])
+        # 713 uses https://archive-beta.ics.uci.edu/api/static/ml/datasets/713
+        # and subfolder
+        # 480 uses url https://archive.ics.uci.edu/ml/machine-learning-databases/00480/
+        # 692 uses url https://archive-beta.ics.uci.edu/api/static/ml/datasets/692
+        rep.addByIDs(IDs=[713, 480, 692])
 
         rep.download()
 

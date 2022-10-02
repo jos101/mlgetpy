@@ -16,6 +16,7 @@ from rich import print
 from urllib.parse import urljoin
 import requests
 from urllib import parse
+from mlrgetpy.downloader.DownloaderNew import DownloaderNew
 
 from mlrgetpy.downloader.DownloaderOld import DownloaderOld
 
@@ -68,23 +69,10 @@ class RepodDownloader:
             elif row["URLFolder"][0:13] == self.__new_sub_url:
                 temp = row["URLFolder"].replace(self.__new_sub_url, "")
                 current_url = urljoin(self.__new_url, temp)
-                parent_url = self.__new_parent_url
-                url_type = "new"
 
-                #
-
-                #print(f"current url: {current_url}")
-                #response = req.get(current_url)
-                #links = self.__getLinks(response, url_type=url_type)
-                # TODO: create function downloadLinks
-                #directory = os.path.join("repo_download")
-                # self.__createDirPath(directory)
-
-                # self.__downloadLinks(req, links, parent_url, current_url,
-                #                     nameFolder=os.path.join(directory, f'{index}_[{row["Name"]}]'), url_type=url_type)
-
-                #
-
+                downloader = DownloaderNew(
+                    current_url, repo_name=f'{index}_[{row["Name"]}]')
+                downloader.initiateDownload()
             else:
                 print(f'rep {index}: Not compatible url ({row["URLFolder"]})')
                 continue
