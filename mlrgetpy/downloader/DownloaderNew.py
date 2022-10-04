@@ -20,7 +20,6 @@ class DownloaderNew(DownloaderAbstract):
     parent_url = "/api/static/ml/datasets"
 
     def initiateDownload(self):
-        # TODO: add create_links_path(self, parent_url, url, name_folder):
         print("New: Initiate download")
         print(f"New: current url ->{self.current_url}")
 
@@ -31,30 +30,13 @@ class DownloaderNew(DownloaderAbstract):
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
 
-        print(f"link paths: {links_path}")
-        # TODO: change save file
-
-        return 0
-        print("NEW: Initiate download")
-        print(f"NEW: current url ->{self.current_url}")
-
-        response = self.req.get(self.current_url)
-        links = self.getLinks(response)
-        print(f"Links: {links}")
-        # TODO: create function downloadLinks
-        directory = os.path.join("repo_download")
-        repo_name2 = os.path.join(directory, self.repo_name)
-        print(f"repo_name2: {repo_name2}")
-        self.__createDirPath(directory)
-
-        # self.downloadLinks(links, self.parent_url,
-        #                   self.current_url, name_folder = repo_name2)
+        self.downloadLinks(links_path)
 
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
         response = self.req.head(url)
-
-        if response.headers['Content-Type'] == 'text/html;charset=ISO-8859-1' or response.headers['Content-Type'] == 'text/html; charset=UTF-8':
+        #print(f"header: {response.headers['Content-Type'].rsplit(';')[0]}")
+        if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
             list_urls = [(url, name_folder)]
             self.__createDirPath(name_folder)
             response = self.req.get(url)
@@ -69,36 +51,20 @@ class DownloaderNew(DownloaderAbstract):
                         self.root_url, ""), urljoin(url, link), new_name_folder)
         return list_urls
 
-    def downloadLinks(self, links, parent_url, current_url, name_folder):
-        print("-----Download links--------")
-        print(f"current_url: {current_url}")
-        print(f"parent_url: {parent_url}")
-        print(f"links: {links}")
-        print(f"name_folder: {name_folder}")
+    def downloadLinks(self, links_path):
+        for i in links_path:
+            print(f"url: {i[0]}")
+            response = self.req.get(i[0])
+            links = self.getLinks(response)
+            for link in links:
+                if urljoin(self.root_url, link)+"/" == urljoin(i[0], '.'):
+                    continue
 
-        for link in links:
-            if link == parent_url:
-                continue
-            url = urljoin(current_url, link)
-            response = self.req.head(url)
-            print(f"link: {link}")
-            print(f"header: {response.headers['Content-Type']}")
-
-            if response.headers['Content-Type'] == 'text/html;charset=ISO-8859-1' or response.headers['Content-Type'] == 'text/html; charset=UTF-8':
-                response = self.req.get(url)
-                self.__createDirPath(name_folder)
-
-                self.downloadLinks(
-                    links=self.getLinks(response),
-                    # TODO: create variable
-                    parent_url=current_url.replace(self.root_url, ""),
-                    current_url=url,
-                    name_folder=self.__createNameFolder(
-                        name_folder, link, parent_url))
-            else:
-                print(f"create dir: {name_folder}")
-                self.__createDirPath(name_folder)
-                self.req.saveFile(response, url, name_folder)
+                res2 = self.req.head(urljoin(i[0], link))
+                if res2.headers['Content-Type'].rsplit(';')[0] != 'text/html':
+                    print(f"  arhive: {urljoin(i[0], link)}")
+                    self.req.saveFile(
+                        response, urljoin(i[0], link), i[1])
 
     def getLinks(self, response: Response):
         webpage = html.fromstring(response.content)
