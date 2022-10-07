@@ -19,7 +19,7 @@ class DataSetListAbstract:
     def getCount(self) -> int:
         response = self.request.get(self.url)
         json_response = JsonParser().encode(response.text)
-        self.__check_response(json_response)
+        self.__check_count_response(json_response, response.url)
 
         return json_response["payload"]["count"]
 
@@ -27,13 +27,19 @@ class DataSetListAbstract:
         NotImplemented
 
     def getCreators(self, id: int) -> list:
+
         response = self.request.get(self.creator_url + str(id))
         json_response = JsonParser().encode(response.text)
-        self.__check_response(json_response)
+        self.__check_creators_response(json_response, response.url)
 
         return json_response["payload"]
 
-    def __check_response(self, json_response: dict):
+    def __check_count_response(self, json_response: dict, url: str):
         if 'payload' not in json_response or 'count' not in json_response['payload']:
             raise Exception(
-                f"Not valid response: Json without key ('payload') in {self.url}")
+                f"Not valid response: Json without key ('payload') in {url}")
+
+    def __check_creators_response(self, json_response: dict, url: str):
+        if 'payload' not in json_response:
+            raise Exception(
+                f"Not valid response: Json without key ('payload') in {url}")
