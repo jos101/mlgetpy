@@ -29,9 +29,8 @@ class DataSetListAbstract:
     def getCreators(self, id: int) -> list:
         response = self.request.get(self.creator_url + str(id))
         json_response = JsonParser().encode(response.text)
-        if 'payload' not in json_response:
-            raise Exception(
-                f"Not valid response: Json without payload key in {self.url}")
+        self.__check_response(json_response)
+
         return json_response["payload"]
 
     def __check_response(self, json_response: dict):
