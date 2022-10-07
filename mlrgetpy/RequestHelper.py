@@ -21,10 +21,12 @@ class RequestHelper:
         urllib3.disable_warnings()
 
     def get(self, url) -> Response:
+        urllib3.disable_warnings()
         response = requests.get(url, verify=False)
         return response
 
     def head(self, url) -> Response:
+        urllib3.disable_warnings()
         response = requests.head(url, verify=False)
         return response
 
