@@ -1,17 +1,57 @@
 import progressbar
+from dataclasses import dataclass, field
 
 
+@dataclass
 class MyProgressBar():
-    def __init__(self):
+    fname: str = field()
+
+    def __post_init__(self) -> None:
         self.pbar = None
 
     def __call__(self, block_num, block_size, total_size):
-        if not self.pbar:
-            self.pbar = progressbar.ProgressBar(maxval=total_size)
-            self.pbar.start()
+        # if not self.pbar:
+        #    self.pbar = progressbar.ProgressBar(maxval=total_size)
 
+        #    self.pbar.start()
+        size = 60
         downloaded = block_num * block_size
         if downloaded < total_size:
-            self.pbar.update(downloaded)
+            # self.pbar.update(downloaded)
+            # print("-----", end="\r")
+            perc = int((downloaded / total_size)*size)
+            self.__print_bar(perc, size, downloaded, total_size)
         else:
-            self.pbar.finish()
+            self.__print_bar(size, size, total_size, total_size)
+            # self.pbar.finish()
+            print()
+
+    def __print_bar(self, perc, size, downloaded, total_size):
+        t_down = "#" * perc
+        t_ream = " " * (size - perc)
+        str_downloaded = self.__get_string_size(downloaded)
+        str_total_size = self.__get_string_size(total_size)
+        str_progress = ""
+
+        if downloaded != total_size:
+            str_progress = f"({str_downloaded})"
+        else:
+            str_progress = f"({str_total_size})"
+
+        print(
+            f"  {self.fname} {str_progress} [{t_down}{t_ream}] { int(perc/size*100)}%", end="\r")
+
+    def __get_string_size(self, downloaded):
+        kbs = downloaded / 1024
+        mbs = kbs / 1024
+        gbs = mbs / 1024
+
+        str = f"{downloaded:.1f} bytes"
+        if (int(kbs) > 0):
+            str = f"{kbs:.1f} KB"
+        elif (int(mbs) > 0):
+            str = f"{mbs:.1f} MB"
+        elif (int(gbs) > 0):
+            str = f"{gbs:.1f} GB"
+
+        return str

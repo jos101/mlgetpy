@@ -50,7 +50,7 @@ class RequestHelper:
         file = os.path.join(directory, fname)
 
         #print(f"filename: {fname}")
-        response = request.urlretrieve(url, file, MyProgressBar())
+        response = request.urlretrieve(url, file, MyProgressBar(fname))
 
     def downloadLinks(self, links: List, parent_url) -> None:
         NotImplemented

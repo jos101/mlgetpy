@@ -62,7 +62,7 @@ class DownloaderNew(DownloaderAbstract):
 
                 res2 = self.req.head(urljoin(i[0], link))
                 if res2.headers['Content-Type'].rsplit(';')[0] != 'text/html':
-                    print(f"  arhive: {urljoin(i[0], link)}")
+                    #print(f"  arhive: {urljoin(i[0], link)}")
                     self.req.saveFile(
                         response, urljoin(i[0], link), i[1])
 
