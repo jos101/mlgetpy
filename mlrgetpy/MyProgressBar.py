@@ -14,7 +14,7 @@ class MyProgressBar():
         #    self.pbar = progressbar.ProgressBar(maxval=total_size)
 
         #    self.pbar.start()
-        size = 60
+        size = 40
         downloaded = block_num * block_size
         if downloaded < total_size:
             # self.pbar.update(downloaded)
@@ -27,7 +27,7 @@ class MyProgressBar():
             print()
 
     def __print_bar(self, perc, size, downloaded, total_size):
-        t_down = "#" * perc
+        t_down = "━" * perc
         t_ream = " " * (size - perc)
         str_downloaded = self.__get_string_size(downloaded)
         str_total_size = self.__get_string_size(total_size)
@@ -39,7 +39,7 @@ class MyProgressBar():
             str_progress = f"({str_total_size})"
 
         print(
-            f"  {self.fname} {str_progress} [{t_down}{t_ream}] { int(perc/size*100)}%", end="\r")
+            f"  ├──{self.fname:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%", end="\r")
 
     def __get_string_size(self, downloaded):
         kbs = downloaded / 1024
