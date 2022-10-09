@@ -21,12 +21,24 @@ class TestRepository(unittest.TestCase):
         # rep.addByIDs(IDs=[516])
         #rep.addByIDs(IDs=[516, 296, 540, 307, 314])
 
-        # 713 uses https://archive-beta.ics.uci.edu/api/static/ml/datasets/713
+        # 713 uses new url https://archive-beta.ics.uci.edu/api/static/ml/datasets/713
         # and subfolder
-        # 480 uses url https://archive.ics.uci.edu/ml/machine-learning-databases/00480/
-        # 692 uses url https://archive-beta.ics.uci.edu/api/static/ml/datasets/692
-        #rep.addByIDs(IDs=[713, 480, 692])
-        rep.addByIDs(IDs=[713])
+        # 480 uses old url https://archive.ics.uci.edu/ml/machine-learning-databases/00480/
+        # 692 uses new url https://archive-beta.ics.uci.edu/api/static/ml/datasets/692
+
+        # ┌────┬───────────┬────────┬───────────┐
+        # │    │   old url │ new url│ subfolders│
+        # ├────┼───────────┼────────┼───────────┤
+        # │ 713│           │     x  │     x     │
+        # ├────┼───────────┼────────┼───────────┤
+        # │ 299│     x     │        │           │
+        # ├────┼───────────┼────────┼───────────┤
+        # │ 692│     x     │        │           │
+        # └────┴───────────┴────────┴───────────┘
+        # TODO: test with old url with subfolders
+        rep.addByIDs(IDs=[713, 299, 692])
+
+        # rep.addByIDs(IDs=[713])
 
         rep.download()
 

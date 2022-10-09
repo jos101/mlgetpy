@@ -39,7 +39,8 @@ class MyProgressBar():
         if self.last == True:
             tree = "└──"
 
-        time.sleep(0.5)
+        # TODO: activate sleep
+        # time.sleep(0.1)
         if downloaded != total_size:
             str_progress = f"({str_downloaded})"
         else:

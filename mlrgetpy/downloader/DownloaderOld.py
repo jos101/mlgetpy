@@ -39,13 +39,21 @@ class DownloaderOld(DownloaderAbstract):
             links = self.getLinks(response)
             archives: List = []
 
-            # TODO: find archives as DownloaderNew
             for link in links:
                 res2 = self.req.head(urljoin(i[0], link))
                 if res2.headers['Content-Type'] != 'text/html;charset=ISO-8859-1' and res2.headers['Content-Type'] != 'text/html; charset=UTF-8':
-                    self.req.saveFile(
-                        response, urljoin(i[0], link), i[1])
+                    archives.append(link)
 
+            count = 0
+            for archive in archives:
+                last = False
+                if count == len(archives) - 1:
+                    last = True
+                self.req.saveFile(response, urljoin(
+                    i[0], archive), i[1], last)
+                count += 1
+
+    # TODO: Refactor in class linksPaths
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
         response = self.req.head(url)
@@ -70,12 +78,3 @@ class DownloaderOld(DownloaderAbstract):
 
     def __createDirPath(self, directory):
         return super().createDirPath(directory)
-
-    def __createNameFolder(self, nameFolder, link, parent_url, url_type="old"):
-        newNamefolder = ""
-        newNamefolder = os.path.join(nameFolder, link)
-
-        print(f"--name folder    : {nameFolder}")
-        print(f"--link           : {link}")
-        print(f"--new name folder: {newNamefolder}")
-        return newNamefolder
