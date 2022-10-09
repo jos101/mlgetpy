@@ -54,7 +54,7 @@ class DownloaderNew(DownloaderAbstract):
 
     def downloadLinks(self, links_path):
         for path in links_path:
-            print(f"url: {path['url']}")
+            print(f"{path['url']}")
             response = self.req.get(path['url'])
             links = self.getLinks(response)
             archives: List = []
