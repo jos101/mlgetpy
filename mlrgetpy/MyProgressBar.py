@@ -1,10 +1,12 @@
 import progressbar
 from dataclasses import dataclass, field
+import time
 
 
 @dataclass
 class MyProgressBar():
     fname: str = field()
+    last: bool = field()
 
     def __post_init__(self) -> None:
         self.pbar = None
@@ -32,14 +34,19 @@ class MyProgressBar():
         str_downloaded = self.__get_string_size(downloaded)
         str_total_size = self.__get_string_size(total_size)
         str_progress = ""
+        tree = "├──"
 
+        if self.last == True:
+            tree = "└──"
+
+        time.sleep(0.5)
         if downloaded != total_size:
             str_progress = f"({str_downloaded})"
         else:
             str_progress = f"({str_total_size})"
 
         print(
-            f"  ├──{self.fname:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%", end="\r")
+            f"  {tree}{self.fname:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%", end="\r")
 
     def __get_string_size(self, downloaded):
         kbs = downloaded / 1024

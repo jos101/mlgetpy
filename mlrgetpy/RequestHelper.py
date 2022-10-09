@@ -6,6 +6,7 @@ import requests
 from requests import Response
 from requests.exceptions import RequestException
 from urllib import request
+from sympy import false
 
 import urllib3
 import re
@@ -44,13 +45,13 @@ class RequestHelper:
 
         return fname
 
-    def saveFile(self, response: Response, url: str, directory=""):
+    def saveFile(self, response: Response, url: str, directory="", last=false):
 
         fname = self.getName(response, url)
         file = os.path.join(directory, fname)
 
         #print(f"filename: {fname}")
-        response = request.urlretrieve(url, file, MyProgressBar(fname))
+        response = request.urlretrieve(url, file, MyProgressBar(fname, last))
 
     def downloadLinks(self, links: List, parent_url) -> None:
         NotImplemented

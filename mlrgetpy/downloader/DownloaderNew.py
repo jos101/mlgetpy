@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 import os
+from typing import List
 from urllib.parse import urljoin
 
 from requests import Response
@@ -37,7 +38,7 @@ class DownloaderNew(DownloaderAbstract):
         response = self.req.head(url)
         #print(f"header: {response.headers['Content-Type'].rsplit(';')[0]}")
         if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
-            list_urls = [(url, name_folder)]
+            list_urls = [{'url': url, 'name_folder': name_folder}]
             self.__createDirPath(name_folder)
             response = self.req.get(url)
             links = self.getLinks(response)
@@ -52,19 +53,30 @@ class DownloaderNew(DownloaderAbstract):
         return list_urls
 
     def downloadLinks(self, links_path):
-        for i in links_path:
-            print(f"url: {i[0]}")
-            response = self.req.get(i[0])
+        for path in links_path:
+            print(f"url: {path['url']}")
+            response = self.req.get(path['url'])
             links = self.getLinks(response)
+            archives: List = []
+
+            # find archives
             for link in links:
-                if urljoin(self.root_url, link)+"/" == urljoin(i[0], '.'):
+                if urljoin(self.root_url, link)+"/" == urljoin(path['url'], '.'):
                     continue
 
-                res2 = self.req.head(urljoin(i[0], link))
+                res2 = self.req.head(urljoin(path['url'], link))
                 if res2.headers['Content-Type'].rsplit(';')[0] != 'text/html':
                     #print(f"  arhive: {urljoin(i[0], link)}")
-                    self.req.saveFile(
-                        response, urljoin(i[0], link), i[1])
+                    archives.append(link)
+
+            count = 0
+            for archive in archives:
+                last = False
+                if count == len(archives) - 1:
+                    last = True
+                self.req.saveFile(response, urljoin(
+                    path['url'], archive), path['name_folder'], last)
+                count += 1
 
     def getLinks(self, response: Response):
         webpage = html.fromstring(response.content)

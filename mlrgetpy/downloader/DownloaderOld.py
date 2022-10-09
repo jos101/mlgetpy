@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 import os
+from typing import List
 from urllib.parse import urljoin
 
 from requests import Response
@@ -24,7 +25,6 @@ class DownloaderOld(DownloaderAbstract):
         print(f"OLD: current url ->{self.current_url}")
 
         #print(f"Links: {links}")
-        # TODO: create function downloadLinks
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
 
@@ -37,6 +37,9 @@ class DownloaderOld(DownloaderAbstract):
             print(f"url: {i[0]}")
             response = self.req.get(i[0])
             links = self.getLinks(response)
+            archives: List = []
+
+            # TODO: find archives as DownloaderNew
             for link in links:
                 res2 = self.req.head(urljoin(i[0], link))
                 if res2.headers['Content-Type'] != 'text/html;charset=ISO-8859-1' and res2.headers['Content-Type'] != 'text/html; charset=UTF-8':
