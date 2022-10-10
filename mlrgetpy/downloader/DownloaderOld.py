@@ -43,13 +43,13 @@ class DownloaderOld(DownloaderAbstract):
     def downloadLinks(self, links_path):
         print('\033[?25l', end="")  # hide cursor
         for path in links_path:
-            print(f"│{path[0]:90s}│")
-            response = self.req.get(path[0])
+            print(f"│{path['url']:90s}│")
+            response = self.req.get(path['url'])
             links = self.getLinks(response)
             archives: List = []
 
             for link in links:
-                res2 = self.req.head(urljoin(path[0], link))
+                res2 = self.req.head(urljoin(path['url'], link))
                 if res2.headers['Content-Type'] != 'text/html;charset=ISO-8859-1' and res2.headers['Content-Type'] != 'text/html; charset=UTF-8':
                     archives.append(link)
 
@@ -59,7 +59,7 @@ class DownloaderOld(DownloaderAbstract):
                 if count == len(archives) - 1:
                     last = True
                 self.req.saveFile(response, urljoin(
-                    path[0], archive), path[1], last)
+                    path['url'], archive), path['name_folder'], last)
                 count += 1
 
         print('\033[?25h', end="")  # show cursor
@@ -69,8 +69,8 @@ class DownloaderOld(DownloaderAbstract):
         list_urls = []
         response = self.req.head(url)
 
-        if response.headers['Content-Type'] == 'text/html;charset=ISO-8859-1' or response.headers['Content-Type'] == 'text/html; charset=UTF-8':
-            list_urls = [(url, name_folder)]
+        if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
+            list_urls = [{'url': url, 'name_folder': name_folder}]
             self.__createDirPath(name_folder)
             response = self.req.get(url)
             links = self.getLinks(response)
