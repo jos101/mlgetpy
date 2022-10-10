@@ -21,8 +21,8 @@ class DownloaderOld(DownloaderAbstract):
     parent_url = "/ml/machine-learning-databases/"
 
     def initiateDownload(self):
-        print("OLD: Initiate download")
-        print(f"OLD: current url ->{self.current_url}")
+        #print("OLD: Initiate download")
+        #print(f"OLD: current url ->{self.current_url}")
 
         #print(f"Links: {links}")
         directory = os.path.join("repo_download")
@@ -34,9 +34,16 @@ class DownloaderOld(DownloaderAbstract):
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
 
+        print("┌" + "─" * 90 + "┐")
+        print(f"│{self.repo_name:90s}│")
+        print("├" + "─" * 90 + "┤")
+        self.downloadLinks(links_path)
+        print("└" + "─" * 90 + "┘")
+
+    def downloadLinks(self, links_path):
         print('\033[?25l', end="")  # hide cursor
         for path in links_path:
-            print(f"url: {path[0]}")
+            print(f"│{path[0]:90s}│")
             response = self.req.get(path[0])
             links = self.getLinks(response)
             archives: List = []

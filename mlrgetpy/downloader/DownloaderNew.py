@@ -21,8 +21,7 @@ class DownloaderNew(DownloaderAbstract):
     parent_url = "/api/static/ml/datasets"
 
     def initiateDownload(self):
-        print("New: Initiate download")
-        print(f"New: current url ->{self.current_url}")
+        #print("New: Initiate download")
 
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
@@ -31,7 +30,11 @@ class DownloaderNew(DownloaderAbstract):
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
 
+        print("┌" + "─" * 90 + "┐")
+        print(f"│{self.repo_name:90s}│")
+        print("├" + "─" * 90 + "┤")
         self.downloadLinks(links_path)
+        print("└" + "─" * 90 + "┘")
 
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
@@ -55,7 +58,7 @@ class DownloaderNew(DownloaderAbstract):
     def downloadLinks(self, links_path):
         print('\033[?25l', end="")  # hide cursor
         for path in links_path:
-            print(f"{path['url']}")
+            print(f"│{path['url']:90s}│")
             response = self.req.get(path['url'])
             links = self.getLinks(response)
             archives: List = []
