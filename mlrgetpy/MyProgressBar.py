@@ -46,7 +46,7 @@ class MyProgressBar():
         else:
             str_progress = f"({str_total_size})"
 
-        content = f"{tree}{self.fname:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%"
+        content = f"{tree}{self.fname[0:18]:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%"
         content = f"│{content:90s}│"
         print(
             f"{content}", end="\r")
