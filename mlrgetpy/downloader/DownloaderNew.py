@@ -53,6 +53,7 @@ class DownloaderNew(DownloaderAbstract):
         return list_urls
 
     def downloadLinks(self, links_path):
+        print('\033[?25l', end="")  # hide cursor
         for path in links_path:
             print(f"{path['url']}")
             response = self.req.get(path['url'])
@@ -77,6 +78,8 @@ class DownloaderNew(DownloaderAbstract):
                 self.req.saveFile(response, urljoin(
                     path['url'], archive), path['name_folder'], last)
                 count += 1
+
+        print('\033[?25h', end="")  # show cursor
 
     def getLinks(self, response: Response):
         webpage = html.fromstring(response.content)

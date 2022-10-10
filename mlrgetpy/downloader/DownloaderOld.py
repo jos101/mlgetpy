@@ -33,14 +33,16 @@ class DownloaderOld(DownloaderAbstract):
 
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
-        for i in links_path:
-            print(f"url: {i[0]}")
-            response = self.req.get(i[0])
+
+        print('\033[?25l', end="")  # hide cursor
+        for path in links_path:
+            print(f"url: {path[0]}")
+            response = self.req.get(path[0])
             links = self.getLinks(response)
             archives: List = []
 
             for link in links:
-                res2 = self.req.head(urljoin(i[0], link))
+                res2 = self.req.head(urljoin(path[0], link))
                 if res2.headers['Content-Type'] != 'text/html;charset=ISO-8859-1' and res2.headers['Content-Type'] != 'text/html; charset=UTF-8':
                     archives.append(link)
 
@@ -50,8 +52,10 @@ class DownloaderOld(DownloaderAbstract):
                 if count == len(archives) - 1:
                     last = True
                 self.req.saveFile(response, urljoin(
-                    i[0], archive), i[1], last)
+                    path[0], archive), path[1], last)
                 count += 1
+
+        print('\033[?25h', end="")  # show cursor
 
     # TODO: Refactor in class linksPaths
     def create_links_path(self, parent_url, url, name_folder):
