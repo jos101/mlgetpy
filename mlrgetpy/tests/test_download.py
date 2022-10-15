@@ -38,9 +38,5 @@ class Test_Download(unittest.TestCase):
         # ├────┼───────────┼────────┼───────────┤
         # │ 692│     x     │        │           │
         # └────┴───────────┴────────┴───────────┘
-        # TODO: test with old url with subfolders
         rep.addByIDs(IDs=[713, 299, 432, 692])
-
-        # rep.addByIDs(IDs=[713])
-
         rep.download()

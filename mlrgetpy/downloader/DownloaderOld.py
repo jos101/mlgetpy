@@ -64,7 +64,6 @@ class DownloaderOld(DownloaderAbstract):
 
         print('\033[?25h', end="")  # show cursor
 
-    # TODO: Refactor in class linksPaths
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
         response = self.req.head(url)
