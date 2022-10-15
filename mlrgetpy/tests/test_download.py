@@ -9,6 +9,7 @@ from mlrgetpy.enums.AttributeType import FilterAttributeType
 
 class Test_Download(unittest.TestCase):
 
+    @unittest.skip("Download takes long time")
     def test_download(self):
         rep = Repository()
         #rep.addByIDs(IDs=[480, 296, 540, 307, 314])
