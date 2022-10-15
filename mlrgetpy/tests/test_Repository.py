@@ -39,12 +39,6 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.getData(
         ).shape[0], count, msg="addByIds after load must not alter the row count")
 
-    def test_showData(self):
-        repo = Repository()
-
-        repo.load()
-        # repo.showData()
-
     def test_extractCitation(self):
         repo = Repository()
         repo.load()
@@ -60,23 +54,6 @@ class TestRepository(unittest.TestCase):
 
         citations = repo.saveCitations("plaintext", 4)
         self.assertEqual(len(citations), 4, "saving plaintext")
-
-    def test_show_data(self):
-        rep = Repository()
-        rep.addByIDs(IDs=[480, 296, 540, 307, 314])
-        # print()
-
-        # rep.showData(limit=10, type="box")
-
-        # rep.showData(limit=10, type="table", column="Characteristic")
-        # rep.showData(limit=10, type="table", column="Area")
-        # rep.showData(limit=10, type="table", column="Task")
-        # rep.showData(limit=10, type="table", column="DateDonated")
-        # rep.showData(limit=10, type="table", column="numInstances")
-        # rep.showData(limit=10, type="table", column="numAttributes")
-        # rep.showData(limit=10, type="table", column="Views")
-        # rep.showData(limit=10, type="table", column="Abstract")
-#
 
     def test_add_data_set(self):
         rep = Repository()

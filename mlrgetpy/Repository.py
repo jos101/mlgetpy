@@ -63,7 +63,7 @@ class Repository:
     '''
 
     def showData(self, limit: int = None, type="table", column="Abstract") -> None:
-        # TODO: show data with the rich module
+
         table: Table = Table(title="Data Set", style="green4")
 
         table.add_column("ID", justify="right", style="cyan", no_wrap=True)
@@ -145,6 +145,8 @@ class Repository:
                 answer = input("Next? yes(enter)/No(q):")
                 if (answer == 'q'):
                     break
+
+        # TODO: add type box2
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 
