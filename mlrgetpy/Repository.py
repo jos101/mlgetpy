@@ -13,6 +13,7 @@ from mlrgetpy.filehandler.FileHandlerFactory import FileHandlerFactory
 
 from rich.console import Console
 from rich.table import Table
+import rich
 
 
 @dataclass
@@ -126,8 +127,6 @@ class Repository:
                 count += 1
                 if limit != None and count > limit:
                     break
-                from rich import print
-                from rich.panel import Panel
 
                 content = ""
                 content += f"[cyan]Name : [magenta]{row['Name']}\n"
@@ -139,14 +138,29 @@ class Repository:
                 content += f"[cyan]Attributes : [magenta]{row['numAttributes']}\n"
                 content += f"[cyan]Views : [magenta]{row['NumHits']}\n"
                 content += f"[cyan]Abstract: [magenta]{row['Abstract']}\n"
-                print(
-                    Panel(content, title=f"[cyan]ID: [magenta]{index}", expand=False, style="magenta"))
+                rich.print(
+                    rich.panel.Panel(content, title=f"[cyan]ID: [magenta]{index}", expand=False, style="magenta"))
 
                 answer = input("Next? yes(enter)/No(q):")
                 if (answer == 'q'):
                     break
 
         # TODO: add type box2
+        if type == "box2":
+            print("hola")
+            # print("┌─────────────────────────────────────┐")
+            #print(f"│               {row['Name'][0:50]}        │")
+            # ┌────┬───────────┬────────┬───────────┐
+            # │    │   old url │ new url│ subfolders│
+            # ├────┼───────────┼────────┼───────────┤
+            # │ 713│           │     x  │     x     │
+            # ├────┼───────────┼────────┼───────────┤
+            # │ 299│     x     │        │           │
+            # ├────┼───────────┼────────┼───────────┤
+            # │ 432│     x     │        │     x     │
+            # ├────┼───────────┼────────┼───────────┤
+            # │ 692│     x     │        │           │
+            # └────┴───────────┴────────┴───────────┘
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 
