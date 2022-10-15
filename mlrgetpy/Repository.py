@@ -177,12 +177,28 @@ class Repository:
                       + "│")
 
                 # TODO: test multiple task for repository 540
+                task: str = ""
+                area: str = ""
+                num_hits: int = 0
+                num_instances: int = 0
+                num_attr:  int = 0
+                if row['Task'] != None:
+                    task = row['Task']
+                if row['Area'] != None:
+                    area = row['Area']
+                if row['NumHits'] != None:
+                    num_hits = row['NumHits']
+                if row['numInstances'] != None:
+                    num_instances = row['numInstances']
+                if row['numAttributes'] != None:
+                    num_attr = row['numAttributes']
+
                 print("│"
-                      + f"{str(row['numInstances'])[0:19]:19s}" + "│"
-                      + f"{str(row['numAttributes'])[0:19]:19s}" + "│"
-                      + f"{str(row['NumHits'])[0:19]:19s}" + "│"
-                      + f"{row['Task'][0:19]:19s}" + "│"
-                      + f"{row['Area'][0:19]:19s}" + " "
+                      + f"{str(num_instances)[0:19]:19s}" + "│"
+                      + f"{str(num_attr)[0:19]:19s}" + "│"
+                      + f"{str(num_hits)[0:19]:19s}" + "│"
+                      + f"{task[0:19]:19s}" + "│"
+                      + f"{area[0:19]:19s}" + " "
                       + "│")
 
                 print("├"
