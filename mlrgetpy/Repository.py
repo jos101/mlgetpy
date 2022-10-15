@@ -117,7 +117,7 @@ class Repository:
                     table.add_row(str(index), row['Name'], str(row['NumHits']))
                 if column == "Abstract":
                     table.add_row(
-                        str(index), row['Name'], row['Abstract'][0:50])
+                        str(index), row['Name'], row['Abstract'][0:100])
             console: Console = Console()
             console.print(table)
 
@@ -147,9 +147,68 @@ class Repository:
 
         # TODO: add type box2
         if type == "box2":
-            print("hola")
-            # print("┌─────────────────────────────────────┐")
-            #print(f"│               {row['Name'][0:50]}        │")
+            count: int = 0
+            for index, row in data.iterrows():
+                count += 1
+                if limit != None and count > limit:
+                    break
+
+                print("┌" + "─"*100 + "┐")
+
+                print("│"
+                      + f"{str(index)[0:5]:5s}" + ": "
+                      + f"{row['Name'][0:93]:93s}"
+                      + "│")
+
+                print("├"
+                      + "─"*19 + "┬"
+                      + "─"*19 + "┬"
+                      + "─"*19 + "┬"
+                      + "─"*19 + "┬"
+                      + "─"*19 + "─"
+                      + "┤")
+
+                print("│"
+                      + f"{'Instances'[0:19]:19s}" + "│"
+                      + f"{'Attributes'[0:19]:19s}" + "│"
+                      + f"{'Views'[0:19]:19s}" + "│"
+                      + f'{"Associated Task"[0:19]:19s}' + "│"
+                      + f"{('Subject Area')[0:19]:19s}" + " "
+                      + "│")
+
+                # TODO: test multiple task for repository 540
+                print("│"
+                      + f"{str(row['numInstances'])[0:19]:19s}" + "│"
+                      + f"{str(row['numAttributes'])[0:19]:19s}" + "│"
+                      + f"{str(row['NumHits'])[0:19]:19s}" + "│"
+                      + f"{row['Task'][0:19]:19s}" + "│"
+                      + f"{row['Area'][0:19]:19s}" + " "
+                      + "│")
+
+                print("├"
+                      + "─" * 19 + "┴"
+                      + "─" * 19 + "┴"
+                      + "─" * 19 + "┴"
+                      + "─" * 19 + "┴"
+                      + "─" * 19 + "─"
+                      + "┤")
+
+                abstract: str = row['Abstract'].replace("\n", " ")
+                buffer: str = ""
+                for word in abstract.split(" "):
+                    prev_buffer = buffer
+                    if buffer == "":
+                        buffer = word
+                    else:
+                        buffer += " " + word
+
+                    if len(buffer) > 98:
+                        print("│" + f"{prev_buffer[0:100]:100s}" + "│")
+                        buffer = word
+                print("│" + f"{buffer[0:100]:100s}" + "│")
+
+                print("└"+"─"*100+"┘")
+
             # ┌────┬───────────┬────────┬───────────┐
             # │    │   old url │ new url│ subfolders│
             # ├────┼───────────┼────────┼───────────┤
@@ -161,6 +220,17 @@ class Repository:
             # ├────┼───────────┼────────┼───────────┤
             # │ 692│     x     │        │           │
             # └────┴───────────┴────────┴───────────┘
+                question = "Next? yes(enter)/No(q): "
+                answer = input(question)
+                if (answer == 'q'):
+                    print("\033[A", end="")
+                    print("\r", end="")
+                    print(" " * (len(question) + len(answer)), end="\r")
+                    break
+                else:
+                    print("\033[A", end="")
+                    print("\r", end="")
+                    print(" " * (len(question) + len(answer)), end="\r")
 
     def extractCitation(self, ids: list, type: str = "bibtext") -> str:
 

@@ -9,12 +9,12 @@ class TestShowData(unittest.TestCase):
         repo = Repository()
 
         repo.load()
-        # repo.showData()
+        repo.showData()
 
-    # @unittest.skip("prints too much")
-    def test_show_data(self):
+    @unittest.skip("prints too much")
+    def test_show_data_box(self):
         rep = Repository()
-        rep.addByIDs(IDs=[480, 296, 540, 307, 314])
+        rep.addByIDs(IDs=[480, 298, 540, 307, 314])
 
         print()
         rep.showData(limit=10, type="box")
@@ -29,5 +29,9 @@ class TestShowData(unittest.TestCase):
         # rep.showData(limit=10, type="table", column="Abstract")
 
     def test_show_data_box2(self):
-        # TODO: add type box2
-        NotImplemented
+        # TODO: test multiple task for repository 540
+        rep = Repository()
+        rep.addByIDs(IDs=[480, 298, 540, 307, 314])
+
+        print()
+        rep.showData(limit=10, type="box2")
