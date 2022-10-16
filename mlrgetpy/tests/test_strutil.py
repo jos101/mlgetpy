@@ -33,10 +33,22 @@ class test_strutil(unittest.TestCase):
         result: List = Strutil.get_list(text, " ", 10)
         self.assertListEqual(expected_result, result, "long word")
 
-        #text = "computer, long long long long text,tabular"
-        #result: List = Strutil.get_list(text, ",", 10)
-        # expected_result: List = ["computer",
-        #                         ", long",
-        #                         " long long",
-        #                         " long text",
-        #                         ",tabular"]
+        text = "computer, long long long long text,tabular"
+        result: List = Strutil.get_list(text, ",", 10)
+        expected_result: List = ["computer",
+                                 ", long",
+                                 " long long",
+                                 " long text",
+                                 ",tabular"]
+        self.assertListEqual(expected_result, result,
+                             "long paragraph between commas")
+
+        text = "computer, long long long long text,tabular long long long"
+        result: List = Strutil.get_list(text, ",", 10)
+        expected_result: List = ["computer",
+                                 ", long",
+                                 " long long",
+                                 " long text",
+                                 ",tabular", " long long", " long"]
+        self.assertListEqual(expected_result, result,
+                             "last element with long paragraph")

@@ -19,13 +19,18 @@ class Strutil:
                 buffer += sep + word
 
             if len(buffer) > width and first == False:
-                text_list.append(prev_buffer)
+                if len(prev_buffer) > width and sep == ",":
+                    text_list += Strutil.get_list(prev_buffer, " ")
+                else:
+                    text_list.append(prev_buffer)
                 buffer = sep + word
             first = False
 
         if len(buffer) > width and sep == " ":
             #text_list += Strutil.get_list(buffer, " ")
             text_list.append(buffer[0:width-3] + "...")
+        elif len(buffer) > width and sep == ",":
+            text_list += Strutil.get_list(buffer, " ")
         else:
             text_list.append(buffer)
 
