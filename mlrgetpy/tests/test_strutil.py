@@ -8,7 +8,7 @@ class test_strutil(unittest.TestCase):
     def test_get_list(self):
 
         result: List = Strutil.get_list("computer, tabular", ",", 10)
-        expected_result: List = ["computer", ", tabular"]
+        expected_result: List = ["computer,", "tabular"]
         self.assertListEqual(expected_result, result, "normal")
 
         result: List = Strutil.get_list("computer", ",", 10)
@@ -20,7 +20,7 @@ class test_strutil(unittest.TestCase):
         self.assertListEqual(expected_result, result, "two short word")
 
         text = "long long long long text"
-        expected_result = ["long long", " long long", " text"]
+        expected_result = ["long long ", "long long ", "text"]
         result: List = Strutil.get_list(text, " ", 10)
         self.assertListEqual(expected_result, result, "long parragrahp")
 
@@ -35,20 +35,20 @@ class test_strutil(unittest.TestCase):
 
         text = "computer, long long long long text,tabular"
         result: List = Strutil.get_list(text, ",", 10)
-        expected_result: List = ["computer",
-                                 ", long",
-                                 " long long",
-                                 " long text",
-                                 ",tabular"]
+        expected_result: List = ["computer,",
+                                 "long long ",
+                                 "long long ",
+                                 "text,",
+                                 "tabular"]
         self.assertListEqual(expected_result, result,
                              "long paragraph between commas")
 
         text = "computer, long long long long text,tabular long long long"
         result: List = Strutil.get_list(text, ",", 10)
-        expected_result: List = ["computer",
-                                 ", long",
-                                 " long long",
-                                 " long text",
-                                 ",tabular", " long long", " long"]
+        expected_result: List = ["computer,",
+                                 "long long ",
+                                 "long long ",
+                                 "text,",
+                                 "tabular ", "long long ", "long"]
         self.assertListEqual(expected_result, result,
                              "last element with long paragraph")

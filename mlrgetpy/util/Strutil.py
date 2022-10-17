@@ -10,20 +10,30 @@ class Strutil:
         text_list: List = []
 
         first = true
-        for word in text.split(sep):
+        for (i, word) in enumerate(text.split(sep)):
             prev_buffer = buffer
-            if buffer == "":
+            if i == 0 and len(text.split(sep)) == 1:
                 buffer = word
                 prev_buffer = word
+            elif i == 0 and len(text.split(sep)) > 1:
+                buffer = word + sep
+                prev_buffer = word + sep
+            elif i < (len(text.split(sep)) - 1):
+                buffer += word + sep
             else:
-                buffer += sep + word
+                buffer += word
 
             if len(buffer) > width and first == False:
                 if len(prev_buffer) > width and sep == ",":
                     text_list += Strutil.get_list(prev_buffer, " ")
                 else:
                     text_list.append(prev_buffer)
-                buffer = sep + word
+
+                if i < (len(text.split(sep)) - 1):
+                    buffer = word.lstrip() + sep
+                else:
+                    buffer = word.lstrip()
+
             first = False
 
         if len(buffer) > width and sep == " ":
