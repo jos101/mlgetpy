@@ -35,3 +35,13 @@ class Strutil:
             text_list.append(buffer)
 
         return text_list
+
+    def get_max_length(li1: List, li2: List):
+        return max([len(li1), len(li2)])
+
+    def get_value(li: List, idx):
+        value: str = ""
+        if idx < len(li):
+            value = li[idx]
+
+        return value

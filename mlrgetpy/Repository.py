@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from mlrgetpy.Filter import Filter
 
+from mlrgetpy.util.Strutil import Strutil
 from mlrgetpy.DataFrameConverter import DataFrameConverter
 import pandas as pd
 from mlrgetpy.RepoDownloader import RepodDownloader
@@ -193,13 +194,23 @@ class Repository:
                 if row['numAttributes'] != None:
                     num_attr = row['numAttributes']
 
-                print("│"
-                      + f"{str(num_instances)[0:19]:19s}" + "│"
-                      + f"{str(num_attr)[0:19]:19s}" + "│"
-                      + f"{str(num_hits)[0:19]:19s}" + "│"
-                      + f"{task[0:19]:19s}" + "│"
-                      + f"{area[0:19]:19s}" + " "
-                      + "│")
+                task_list = Strutil.get_list(task, ",", 19)
+                area_list = Strutil.get_list(area, ",", 19)
+                for i in range(Strutil.get_max_length(task_list, area_list)):
+                    num_instances_str = str(num_instances)
+                    num_attr_str = str(num_attr)
+                    num_hits_str = str(num_hits)
+                    if i > 0:
+                        num_instances_str = ""
+                        num_attr_str = ""
+                        num_hits_str = ""
+                    print("│"
+                          + f"{num_instances_str[0:19]:19s}" + "│"
+                          + f"{num_attr_str[0:19]:19s}" + "│"
+                          + f"{num_hits_str[0:19]:19s}" + "│"
+                          + f"{Strutil.get_value(task_list, i):19s}" + "│"
+                          + f"{Strutil.get_value(area_list, i):19s}" + " "
+                          + "│")
 
                 print("├"
                       + "─" * 19 + "┴"
