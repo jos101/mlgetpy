@@ -1,12 +1,13 @@
 from dataclasses import dataclass
-from mlrgetpy.JsonParser import JsonParser 
+from mlrgetpy.JsonParser import JsonParser
 import pandas as pd
+
 
 @dataclass
 class DataFrameConverter:
-    
+
     def convertFromList(self, rows: list) -> pd.DataFrame:
-        dict = {} 
+        dict = {}
 
         dict["ID"] = []
         dict["userID"] = []
@@ -26,9 +27,9 @@ class DataFrameConverter:
         dict["URLLink"] = []
 
         dict["Graphics"] = []
-        dict["Status"]  = []
+        dict["Status"] = []
         dict["NumHits"] = []
-        dict["AttributeTypes"] =  []
+        dict["AttributeTypes"] = []
         dict["numInstances"] = []
         dict["slug"] = []
 
@@ -39,55 +40,57 @@ class DataFrameConverter:
         dict["user_firstName"] = []
         dict["user_lastName"] = []
 
-
         for i in rows:
-            dict["ID"].append( i["ID"] )
-            dict["userID"].append( i["userID"] )
-            dict["introPaperID"].append( i["introPaperID"] )
-            dict["Name"].append( i["Name"] )
+            dict["ID"].append(i["ID"])
+            dict["userID"].append(i["userID"])
+            dict["introPaperID"].append(i["introPaperID"])
+            dict["Name"].append(i["Name"])
 
-            dict["Abstract"].append( i["Abstract"] )
-            dict["Area"].append( i["Area"] )
+            dict["Abstract"].append(i["Abstract"])
+            dict["Area"].append(i["Area"])
 
-            dict["Task"].append( i["Task"] )
-            dict["Types"].append( i["Types"] )
-            dict["DOI"].append( i["DOI"] )
-            dict["DateDonated"].append( i["DateDonated"] )
+            dict["Task"].append(i["Task"])
+            dict["Types"].append(i["Types"])
+            dict["DOI"].append(i["DOI"])
+            dict["DateDonated"].append(i["DateDonated"])
 
-            dict["isTabular"].append( i["isTabular"] )
-            dict["URLFolder"].append( i["URLFolder"] )
-            dict["URLReadme"].append( i["URLReadme"] )
-            dict["URLLink"].append( i["URLLink"] )
+            dict["isTabular"].append(i["isTabular"])
+            dict["URLFolder"].append(i["URLFolder"])
 
-            dict["Graphics"].append( i["Graphics"] )
-            dict["Status"].append( i["Status"] )
-            dict["NumHits"].append( i["NumHits"] )
-            dict["AttributeTypes"].append( i["AttributeTypes"] )
-            dict["numInstances"].append( i["numInstances"] ) 
-            dict["slug"].append( i["slug"] )    
+            if "URLReadme" in i.keys():
+                dict["URLReadme"].append(i["URLReadme"])
+            else:
+                dict["URLReadme"].append(None)
 
-            dict["tabular"].append( i["tabular"] )    
-            dict["user"].append( i["user"] )    
+            dict["URLLink"].append(i["URLLink"])
+
+            dict["Graphics"].append(i["Graphics"])
+            dict["Status"].append(i["Status"])
+            dict["NumHits"].append(i["NumHits"])
+            dict["AttributeTypes"].append(i["AttributeTypes"])
+
+            dict["numInstances"].append(i["NumInstances"])
+            dict["numAttributes"].append(i["NumAttributes"])
+
+            dict["slug"].append(i["slug"])
+
+            dict["tabular"].append(i["isTabular"])
+            dict["user"].append(i["users"])
 
             dict["user_user"].append(None)
             dict["user_firstName"].append(None)
             dict["user_lastName"].append(None)
 
-            if i["user"] != None :
+            if i["users"] != None:
 
-                if "user" in i["user"].keys():
-                    dict["user_user"][-1] = i["user"]["user"]
-                
-                if "firstName" in i["user"].keys():
-                    dict["user_firstName"][-1] = i["user"]["firstName"]
+                if "user" in i["users"].keys():
+                    dict["user_user"][-1] = i["users"]["user"]
 
-                if "lastName" in i ["user"].keys():
-                    dict["user_lastName"][-1] = i["user"]["lastName"]
+                if "firstName" in i["users"].keys():
+                    dict["user_firstName"][-1] = i["users"]["firstName"]
 
-            if i["tabular"] != None and "numAttributes" in i["tabular"].keys():
-                dict["numAttributes"].append( i["tabular"]["numAttributes"] )
-            else:
-                dict["numAttributes"].append(0)
+                if "lastName" in i["users"].keys():
+                    dict["user_lastName"][-1] = i["users"]["lastName"]
 
         df = pd.DataFrame.from_dict(dict)
         df = df.set_index('ID')

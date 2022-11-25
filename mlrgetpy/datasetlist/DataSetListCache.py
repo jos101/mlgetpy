@@ -34,10 +34,10 @@ class DataSetListCache(DataSetListAbstract):
         if cached_date == None or (current_date - cached_date).days >= 1:
 
             count = self.getCount()
-            response = self.request.get(self.url + f'?limit={count}')
+            response = self.request.get(self.url)
         else:
             response = cached_response
 
         self.save_object([response, current_date], "response.pkl")
 
-        return JsonParser().encode(response.content)
+        return JsonParser().encode(response.content)[0]["result"]["data"]["json"]
