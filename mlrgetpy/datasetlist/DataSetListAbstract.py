@@ -13,8 +13,8 @@ class DataSetListAbstract:
     request = RequestHelper()
 
     # ?offset=0&limit=2
-    # TODO: class for the input with method to serialize like json string
-    url = 'https://archive-beta.ics.uci.edu/trpc/donated_datasets.filter?batch=1&input={"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0,"take":10}}}'
+    # TODO: class for the input with method to serialize like json string an use in DataSetListCache.FindAll
+    url = 'https://archive-beta.ics.uci.edu/trpc/donated_datasets.filter?batch=1&input={"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0,"take":700}}}'
     url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/"
 
     creator_url = "https://archive-beta.ics.uci.edu/api/creators/pk/"
