@@ -14,7 +14,6 @@ from mlrgetpy.enums.Task import Task
 
 class TestFilter(unittest.TestCase):
 
-    # TODO: fix tests
     def test_area_init(self):
 
         with self.assertRaises(ValueError, msg="Must be an Area Class"):
@@ -65,153 +64,123 @@ class TestFilter(unittest.TestCase):
         self.assertEqual(Filter, type(filter))
 
     def test_area(self):
+        df = pd.DataFrame({'ID': [25, 78, 86,
+                                  93, 102, 124,
+                                  128, 132, 135],
+                           'Name': ['data1', 'data2', 'data3',
+                                    'data4', 'data5', 'data6',
+                                    'data7', 'data8', 'data9'],
+                           'Area': ['Financial', 'Computer', 'Business',
+                                    'Computer Science', 'Life', 'Life Sciences',
+                                    'Other', None, 'Area1']})
+        df = df.set_index('ID')
 
         # Business should search for Financial and Business
-        rep = Repository()
         filter = Filter(area=[Area.BUSINESS])
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
-
-        expected = (data.Area == data.Area)
-        expected[:] = True
-        result = (data.Area == "Business") | (data.Area == "Financial")
-        tm.assert_series_equal(result, expected)
+        result = filter.filter(df)
+        self.assertEqual([25, 86], result.index.tolist())
 
         # test Computer science should search for Computer and Compute Science
-        rep = Repository()
         # in the online repository mistakenly just search for
         # "Computer" and not for "Computer Science"
         filter = Filter(area=[Area.COMPUTER_SCIENCE])
-        rep.load(filter)
-
-        data: pd.DataFrame = rep.getData()
-        result: pd.Series = (data.Area == 'Computer') | (
-            data.Area == 'Computer Science')
-
-        expected: pd.Series = pd.Series(
-            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
-
-        tm.assert_series_equal(result, expected)
+        result = filter.filter(df)
+        self.assertEqual([78, 93], result.index.tolist())
 
         # test LIFE_SCIENCES should search for Life and Life Sciences
-        rep = Repository()
         filter = Filter(area=[Area.LIFE_SCIENCES])
-        rep.load(filter)
-
-        data: pd.DataFrame = rep.getData()
-        result: pd.Series = data.Area.isin(['Life', 'Life Sciences'])
-
-        expected: pd.Series = pd.Series(
-            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
-
-        tm.assert_series_equal(result, expected)
+        result = filter.filter(df)
+        self.assertEqual([102, 124], result.index.tolist())
 
         # test other. false in none value
-        rep = Repository()
         filter = Filter(area=[Area.OTHER])
-        rep.load(filter)
-
-        data: pd.DataFrame = rep.getData()
-        result: pd.Series = (data.Area == 'Other')
-
-        expected: pd.Series = pd.Series(
-            data=True, index=data.index.tolist(), name="Area").rename_axis("ID")
-
-        tm.assert_series_equal(result, expected)
+        result = filter.filter(df)
+        self.assertEqual([128], result.index.tolist())
 
     def test_characteristic(self):
 
-        rep = Repository()
+        df = pd.DataFrame({'ID': [25, 78, 86,
+                                  93, 102, 124,
+                                  128, 132, 135,
+                                  137, 139, 142,
+                                  145, 147],
+                           'Name': ['data1', 'data2', 'data3',
+                                    'data4', 'data5', 'data6',
+                                    'data7', 'data8', 'data9',
+                                    'data10', 'data11', 'data12',
+                                    'data13', 'data14'],
+                           'Types': ['Tabular', 'Multivariate', 'Univariate',
+                                     'Sequential', 'Time-Series', 'Sequential',
+                                     'Other', None, 'Tabular,Multivariate',
+                                     'Tabular,Univariate', 'Univariate, Multivariate', 'Univariate,Multivariate',
+                                     'Tabular,Multivariate', 'Multivariate,Tabular']})
+        df = df.set_index('ID')
+
+        # TABULAR: str = ["Tabular", "Multivariate", "Univariate"]
+        # The characteristic in id 139 is not valid due to a space
         filter = Filter(characteristics=[Characteristic.TABULAR])
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
-
-        expected = pd.Series(
-            data=True, index=data.index.tolist()).rename_axis('ID')
-
-        result = pd.Series(
-            data=False, index=data.index.tolist()).rename_axis('ID')
-
-        for index, row in data.iterrows():
-
-            valid_items = Characteristic.TABULAR.value
-            result[result.index == index] = all(
-                item in valid_items for item in row.Types.split(","))
-
-            if result[result.index == index].any() == False:
-                error = f'index {index}:  Not all values in  {row.Types.split(",")} are in {valid_items}'
-                raise Exception(error)
-
-        tm.assert_series_equal(result, expected)
+        result = filter.filter(df)
+        self.assertEqual([25, 78, 86, 135, 137, 142, 145, 147],
+                         result.index.tolist())
 
     def test_task(self):
+        # test data
+        df = pd.DataFrame({'ID': [25, 78, 86, 93, 102],
+                           'Name': ['data1', 'data2', 'data3', 'data4', 'data5'],
+                           'Task': ['Classification', 'Classification', 'Regression', 'Clustering', 'Other']})
+        df = df.set_index('ID')
 
-        rep = Repository()
+        # test classification
         filter = Filter(task=Task.CLASSIFICATION)
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
+        result = filter.filter(df)
+        self.assertEqual([25, 78], result.index.tolist())
 
-        serie = data.Task.str.contains(Task.CLASSIFICATION.value)
-        expected = data[serie]
-
-        #print(f"\ndata: {data.shape}")
-        #print(f"res: {expected.shape}")
-
-        self.assertEqual(data.index.tolist(), expected.index.tolist())
-
-        rep = Repository()
+        # test Regression
         filter = Filter(task=Task.REGRESSION)
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
+        result = filter.filter(df)
+        self.assertEqual([86], result.index.tolist())
 
-        serie = data.Task.str.contains(Task.REGRESSION.value)
-        expected = data[serie]
-
-        #print(f"\ndata: {data.shape}")
-        #print(f"res: {expected.shape}")
-        self.assertEqual(data.index.tolist(), expected.index.tolist())
-
-        rep = Repository()
+        # test clustering
         filter = Filter(task=Task.CLUSTERING)
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
+        result = filter.filter(df)
+        self.assertEqual([93], result.index.tolist())
 
-        serie = data.Task.str.contains(Task.CLUSTERING.value)
-        expected = data[serie]
-
-        #print(f"\ndata: {data.shape}")
-        #print(f"res: {expected.shape}")
-        self.assertEqual(data.index.tolist(), expected.index.tolist())
-
-        rep = Repository()
+        # test Other
         filter = Filter(task=Task.OTHER)
-        rep.load(filter)
-        data: pd.DataFrame = rep.getData()
-
-        #print(f"\ndata: {data.shape}")
-        #print(f"res: {expected.shape}")
+        result = filter.filter(df)
+        self.assertEqual([102], result.index.tolist())
 
     def test_attribute_type(self):
-        rep = Repository()
+
+        df = pd.DataFrame({'ID': [25, 78, 86,
+                                  93, 102, 124,
+                                  128, 132, 135,
+                                  137, 139, 142,
+                                  145, 147],
+                           'Name': ['data1', 'data2', 'data3',
+                                    'data4', 'data5', 'data6',
+                                    'data7', 'data8', 'data9',
+                                    'data10', 'data11', 'data12',
+                                    'data13', 'data14'],
+                           'AttributeTypes': ['Integer', 'Real', 'Integer,Real',
+                                              'Categorical', 'Time-Series', 'Sequential',
+                                              'Categorical', None, 'Integer,Real',
+                                              'Integer,Categorical', 'Real,Categorical', 'Real, Categorical',
+                                              'Tabular,Multivariate', 'Multivariate,Tabular']})
+        df = df.set_index('ID')
 
         filter = Filter(attribute_type=FilterAttributeType.NUMERICAL)
-        # TODO: test with filter.filter(data:dataframe)
-        rep.load(filter)
-        data = rep.getData()
-        self.assertEqual(data.shape[0], 380)
-        #print(f"\nNumerical : {data.shape}")
+        result = filter.filter(df)
+        self.assertEqual([25, 78, 86, 135, 137, 139, 142],
+                         result.index.tolist())
 
         filter = Filter(attribute_type=FilterAttributeType.CATEGORICAL)
-        rep.load(filter)
-        data = rep.getData()
+        result = filter.filter(df)
+        self.assertEqual([93, 128, 137, 139, 142], result.index.tolist())
 
-        #print(f"data : {data['AttributeTypes']}")
-
-        #self.assertEqual(data.shape[0], 93)
-        #print(f"categorical : {data.shape}")
-
+        # There should be at least one attribute type Numerical and one Categorical
+        # every attribute type is separated by comma and may contain space (id 142)
         filter = Filter(attribute_type=FilterAttributeType.MIXED)
-        rep.load(filter)
-        data = rep.getData()
-        #self.assertEqual(data.shape[0], 55)
-        #print(f"Mixed : {data.shape}")
+        result = filter.filter(df)
+        self.assertEqual([137, 139, 142],
+                         result.index.tolist())
