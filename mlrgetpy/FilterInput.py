@@ -23,7 +23,6 @@ class FilterInput:
         if self.keywords == None:
             self.keywords = []
 
-    # TODO: class to json
     '''
     return a str json of the object
     {"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0, "take":700}}}'
