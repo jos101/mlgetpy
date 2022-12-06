@@ -195,6 +195,7 @@ class TestFilter(unittest.TestCase):
         rep = Repository()
 
         filter = Filter(attribute_type=FilterAttributeType.NUMERICAL)
+        # TODO: test with filter.filter(data:dataframe)
         rep.load(filter)
         data = rep.getData()
         self.assertEqual(data.shape[0], 380)
