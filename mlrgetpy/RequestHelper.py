@@ -24,6 +24,10 @@ class RequestHelper:
     def get(self, url) -> Response:
         urllib3.disable_warnings()
         response = requests.get(url, verify=False)
+
+        if response.status_code == 404:
+            raise ValueError(f"request error 404: Not found page ({url})")
+
         return response
 
     def head(self, url) -> Response:
