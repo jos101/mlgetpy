@@ -284,7 +284,7 @@ class Repository:
         # retrieves all data set list
         d: dict = self.__data_set_list.findAll()
         # converts dict to dataframe
-        data: pd.DataFrame = self.__dfc.convertFromList(d["payload"]["rows"])
+        data: pd.DataFrame = self.__dfc.convertFromList(d["datasets"])
         # filters the dataFrame
         data = data.filter(items=IDs, axis="index")
 
