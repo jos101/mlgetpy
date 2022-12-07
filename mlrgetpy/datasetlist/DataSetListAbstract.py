@@ -5,6 +5,7 @@ from mlrgetpy.JsonParser import JsonParser
 from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.FilterInput import FilterInput
 from datetime import date
+from mlrgetpy.IDInput import IDInput
 
 
 @dataclass
@@ -19,7 +20,7 @@ class DataSetListAbstract:
     url = 'https://archive-beta.ics.uci.edu/trpc/donated_datasets.filter?batch=1&input='
     url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/"
 
-    creator_url = "https://archive-beta.ics.uci.edu/api/creators/pk/"
+    creator_url = "https://archive-beta.ics.uci.edu/trpc/creators.getByDatasetId?batch=1&input="
 
     '''
     URL to get repositories with the input in a json object
@@ -45,12 +46,14 @@ class DataSetListAbstract:
         NotImplemented
 
     def getCreators(self, id: int) -> list:
+        id_input_object = IDInput(id)
+        id_input_str: str = id_input_object.str_json()
 
-        response = self.request.get(self.creator_url + str(id))
+        response = self.request.get(self.creator_url + id_input_str)
         json_response = JsonParser().encode(response.text)
         self.__check_creators_response(json_response, response.url)
 
-        return json_response["payload"]
+        return json_response[0]["result"]["data"]["json"]
 
     def __check_count_response(self, json_response: dict, url: str):
         if 'data' not in json_response[0]:
@@ -58,6 +61,6 @@ class DataSetListAbstract:
                 f"Not valid response: Json without key ('data') in {url}")
 
     def __check_creators_response(self, json_response: dict, url: str):
-        if 'payload' not in json_response:
+        if 'json' not in json_response[0]["result"]["data"]:
             raise Exception(
-                f"Not valid response: Json without key ('payload') in {url}")
+                f"Not valid response: Json without key ('json') in {url}")

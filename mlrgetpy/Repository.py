@@ -267,7 +267,6 @@ class Repository:
 
         data = self.__data.filter(items=ids, axis="index")
         citations_list = bib.get(self.__data_set_list, data)
-
         return citations_list
 
     def saveCitations(self, type: str = "bibtext", limit: int = None) -> list:

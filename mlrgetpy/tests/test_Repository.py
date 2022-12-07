@@ -17,7 +17,7 @@ class TestRepository(unittest.TestCase):
 
         # self.assertEqual(data["payload"]["rows"][0]["Name"], ": Simulated Data set of Iraqi tourism places")
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_addByIDs(self):
         repo = Repository()
 
@@ -40,7 +40,7 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(repo.getData(
         ).shape[0], count, msg="addByIds after load must not alter the row count")
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_extractCitation(self):
         repo = Repository()
         repo.load()

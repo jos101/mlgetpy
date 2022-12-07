@@ -6,7 +6,6 @@ import json
 class JsonParser:
 
     def encode(self, text: str) -> dict:
-
         data = json.loads(text)
 
         return data
