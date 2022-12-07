@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from mlrgetpy.JsonParser import JsonParser
 import pandas as pd
+from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
 
 
 @dataclass
@@ -9,6 +10,7 @@ class DataFrameConverter:
     def convertFromList(self, rows: list) -> pd.DataFrame:
         dict = {}
 
+        # TODO: use enum
         dict["ID"] = []
         dict["userID"] = []
         dict["introPaperID"] = []
@@ -41,38 +43,38 @@ class DataFrameConverter:
         dict["user_lastName"] = []
 
         for i in rows:
-            dict["ID"].append(i["ID"])
-            dict["userID"].append(i["userID"])
-            dict["introPaperID"].append(i["introPaperID"])
-            dict["Name"].append(i["Name"])
+            dict[c.ID.value].append(i[c.ID.value])
+            dict[c.USER_ID.value].append(i[c.USER_ID.value])
+            dict[c.INTRO_PAPER_ID.value].append(i[c.INTRO_PAPER_ID.value])
+            dict[c.NAME.value].append(i[c.NAME.value])
 
-            dict["Abstract"].append(i["Abstract"])
-            dict["Area"].append(i["Area"])
+            dict[c.ABSTRACT.value].append(i[c.ABSTRACT.value])
+            dict[c.AREA.value].append(i[c.AREA.value])
 
-            dict["Task"].append(i["Task"])
-            dict["Types"].append(i["Types"])
-            dict["DOI"].append(i["DOI"])
-            dict["DateDonated"].append(i["DateDonated"])
+            dict[c.TASK.value].append(i[c.TASK.value])
+            dict[c.TYPES.value].append(i[c.TYPES.value])
+            dict[c.DOI.value].append(i[c.DOI.value])
+            dict[c.DATE_DONATED.value].append(i[c.DATE_DONATED.value])
 
-            dict["isTabular"].append(i["isTabular"])
-            dict["URLFolder"].append(i["URLFolder"])
+            dict[c.IS_TABULAR.value].append(i[c.IS_TABULAR.value])
+            dict[c.URL_FOLDER.value].append(i[c.URL_FOLDER.value])
 
-            if "URLReadme" in i.keys():
-                dict["URLReadme"].append(i["URLReadme"])
+            if c.URL_README.value in i.keys():
+                dict[c.URL_README.value].append(i[c.URL_README.value])
             else:
-                dict["URLReadme"].append(None)
+                dict[c.URL_README.value].append(None)
 
-            dict["URLLink"].append(i["URLLink"])
+            dict[c.URL_LINK.value].append(i[c.URL_LINK.value])
 
-            dict["Graphics"].append(i["Graphics"])
-            dict["Status"].append(i["Status"])
-            dict["NumHits"].append(i["NumHits"])
-            dict["AttributeTypes"].append(i["AttributeTypes"])
+            dict[c.GRAPHICS.value].append(i[c.GRAPHICS.value])
+            dict[c.STATUS.value].append(i[c.STATUS.value])
+            dict[c.NUM_HITS.value].append(i[c.NUM_HITS.value])
+            dict[c.ATTRIBUTE_TYPES.value].append(i[c.ATTRIBUTE_TYPES.value])
 
-            dict["numInstances"].append(i["NumInstances"])
-            dict["numAttributes"].append(i["NumAttributes"])
+            dict["numInstances"].append(i[c.NUM_INSTANCES.value])
+            dict["numAttributes"].append(i[c.NUM_ATTRIBUTES.value])
 
-            dict["slug"].append(i["slug"])
+            dict[c.SLUG.value].append(i[c.SLUG.value])
 
             dict["tabular"].append(i["isTabular"])
             dict["user"].append(i["users"])
@@ -93,6 +95,6 @@ class DataFrameConverter:
                     dict["user_lastName"][-1] = i["users"]["lastName"]
 
         df = pd.DataFrame.from_dict(dict)
-        df = df.set_index('ID')
+        df = df.set_index(c.ID.value)
 
         return df
