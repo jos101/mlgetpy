@@ -47,7 +47,7 @@ class TestRepository(unittest.TestCase):
 
         repo.extractCitation([722])
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_saveCitations(self):
         repo = Repository()
         repo.load()
@@ -58,7 +58,7 @@ class TestRepository(unittest.TestCase):
         citations = repo.saveCitations("plaintext", 4)
         self.assertEqual(len(citations), 4, "saving plaintext")
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_add_data_set(self):
         rep = Repository()
         rep.add_data_set(Filter(area=[Area.BUSINESS]))
@@ -70,7 +70,7 @@ class TestRepository(unittest.TestCase):
         # print(data[["Area", "Name"]])
         self.assertEqual(data.shape[0], 272)
 
-    @unittest.skip("")
+    # @unittest.skip("")
     def test_share(self):
         rep = Repository()
         rep.addByIDs(IDs=[480, 296, 540, 307, 314])

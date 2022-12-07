@@ -4,7 +4,9 @@ from ..citation.Citation import Citation
 
 from ..citation.FormatAbstract import FormatAbstract
 from ..datasetlist.DataSetListAbstract import DataSetListAbstract
+import dateutil.parser
 import pandas as pd
+
 
 @dataclass
 class PlainCitation(FormatAbstract):
@@ -13,19 +15,19 @@ class PlainCitation(FormatAbstract):
         citations = []
         cit = Citation()
         year = None
-        DOI:str = None
-        
-        for repo_id, row in data.iterrows(): 
+        DOI: str = None
+
+        for repo_id, row in data.iterrows():
 
             if (row["DateDonated"] != None):
-                year = datetime.strptime(row["DateDonated"], '%Y-%m-%d').year
+                year = dateutil.parser.isoparse(row["DateDonated"]).year
 
             if (row["DOI"] != None):
                 DOI = row["DOI"]
-            
+
             creators = data_set_list.getCreators(repo_id)
 
+            citations.append(cit.getPlaintext(
+                creators, row['Name'], year, DOI))
 
-            citations.append(cit.getPlaintext(creators, row['Name'], year, DOI) )
-        
         return citations
