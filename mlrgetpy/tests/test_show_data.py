@@ -28,6 +28,7 @@ class TestShowData(unittest.TestCase):
         # rep.showData(limit=10, type="table", column="Views")
         # rep.showData(limit=10, type="table", column="Abstract")
 
+    @unittest.skip("prints too much")
     def test_show_data_box2(self):
         # TODO: test multiple task for repository 540
         rep = Repository()

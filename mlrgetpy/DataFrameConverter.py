@@ -37,7 +37,7 @@ class DataFrameConverter:
         dict["slug"] = []
 
         dict["tabular"] = []
-        dict["numAttributes"] = []
+        dict[c.NUM_ATTRIBUTES.value] = []
         dict["user"] = []
         dict["user_user"] = []
         dict["user_firstName"] = []
@@ -73,7 +73,7 @@ class DataFrameConverter:
             dict[c.ATTRIBUTE_TYPES.value].append(i[c.ATTRIBUTE_TYPES.value])
 
             dict["numInstances"].append(i[c.NUM_INSTANCES.value])
-            dict["numAttributes"].append(i[c.NUM_ATTRIBUTES.value])
+            dict[c.NUM_ATTRIBUTES.value].append(i[c.NUM_ATTRIBUTES.value])
 
             dict[c.SLUG.value].append(i[c.SLUG.value])
 
