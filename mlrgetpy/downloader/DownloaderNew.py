@@ -16,9 +16,9 @@ class DownloaderNew(DownloaderAbstract):
     req: RequestHelper = RequestHelper()
 
     root_url = "https://archive-beta.ics.uci.edu"
-    url = "https://archive-beta.ics.uci.edu/api/static/ml/datasets/"
+    url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
     sub_url = "/ml/datasets/"
-    parent_url = "/api/static/ml/datasets"
+    parent_url = "/static/ml/datasets"
 
     def initiateDownload(self):
         #print("New: Initiate download")

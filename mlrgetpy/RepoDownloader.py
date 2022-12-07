@@ -27,7 +27,7 @@ class RepodDownloader:
     __old_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/"
     __old_sub_url = "../machine-learning-databases/"
 
-    __new_url = "https://archive-beta.ics.uci.edu/api/static/ml/datasets/"
+    __new_url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
     __new_sub_url = "/ml/datasets/"
 
     def download(self, data: pd.DataFrame):
