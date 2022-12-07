@@ -10,28 +10,29 @@ class DataFrameConverter:
     def convertFromList(self, rows: list) -> pd.DataFrame:
         dict = {}
 
+        dict[c.ID.value] = []
+        dict[c.USER_ID.value] = []
+        dict[c.INTRO_PAPER_ID.value] = []
+        dict[c.NAME.value] = []
+        dict[c.ABSTRACT.value] = []
+        dict[c.AREA.value] = []
+        dict[c.TASK.value] = []
+        dict[c.TYPES.value] = []
+
+        dict[c.DOI.value] = []
+        dict[c.DATE_DONATED.value] = []
+
+        dict[c.IS_TABULAR.value] = []
+        dict[c.URL_FOLDER.value] = []
+        dict[c.URL_README.value] = []
+        dict[c.URL_LINK.value] = []
+
+        dict[c.GRAPHICS.value] = []
+        dict[c.STATUS.value] = []
+        dict[c.NUM_HITS.value] = []
+        dict[c.ATTRIBUTE_TYPES.value] = []
+
         # TODO: use enum
-        dict["ID"] = []
-        dict["userID"] = []
-        dict["introPaperID"] = []
-        dict["Name"] = []
-        dict["Abstract"] = []
-        dict["Area"] = []
-        dict["Task"] = []
-        dict["Types"] = []
-
-        dict["DOI"] = []
-        dict["DateDonated"] = []
-
-        dict["isTabular"] = []
-        dict["URLFolder"] = []
-        dict["URLReadme"] = []
-        dict["URLLink"] = []
-
-        dict["Graphics"] = []
-        dict["Status"] = []
-        dict["NumHits"] = []
-        dict["AttributeTypes"] = []
         dict["numInstances"] = []
         dict["slug"] = []
 
