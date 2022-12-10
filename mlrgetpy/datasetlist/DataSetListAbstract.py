@@ -35,7 +35,7 @@ class DataSetListAbstract:
         filter_input = FilterInput()
         response = self.request.get(self.get_url(filter_input))
         json_response = JsonParser().encode(response.text)
-        #self.__check_count_response(json_response, response.url)
+        self.__check_count_response(json_response, response.url)
 
         return json_response[0]["result"]["data"]["json"]["count"]
 
@@ -47,17 +47,62 @@ class DataSetListAbstract:
         id_input_str: str = id_input_object.str_json()
 
         response = self.request.get(self.__creator_url + id_input_str)
+
         json_response = JsonParser().encode(response.text)
         self.__check_creators_response(json_response, response.url)
 
         return json_response[0]["result"]["data"]["json"]
 
+    '''
+    expected json
+    [
+    {
+        "id": null,
+        "result": {
+        "type": "data",
+        "data": {
+            "json": {
+            "datasets": [
+                
+            ],
+            "count": 612
+            }
+        }
+        }
+    }
+    ]
+    '''
+
     def __check_count_response(self, json_response: dict, url: str):
-        if 'data' not in json_response[0]:
+        if json_response[0] == False:
+            raise Exception(
+                f"Not valid response: Expected json in index 0 of the list in {url}")
+
+        if 'result' not in json_response[0]:
+            raise Exception(
+                f"Not valid response: Json without key ('result') in {url}")
+
+        if 'data' not in json_response[0]["result"]:
             raise Exception(
                 f"Not valid response: Json without key ('data') in {url}")
 
+        if 'json' not in json_response[0]["result"]["data"]:
+            raise Exception(
+                f"Not valid response: Json without key ('json') in {url}")
+
     def __check_creators_response(self, json_response: dict, url: str):
+        if json_response[0] == False:
+            raise Exception(
+                f"Not valid response: Expected json in index 0 of the list in {url}")
+
+        if 'result' not in json_response[0]:
+            raise Exception(
+                f"Not valid response: Json without key ('result') in {url}")
+
+        if 'data' not in json_response[0]["result"]:
+            raise Exception(
+                f"Not valid response: Json without key ('data') in {url}")
+
         if 'json' not in json_response[0]["result"]["data"]:
             raise Exception(
                 f"Not valid response: Json without key ('json') in {url}")

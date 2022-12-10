@@ -21,12 +21,15 @@ class RequestHelper:
     def __post_init__(self) -> None:
         urllib3.disable_warnings()
 
-    def get(self, url) -> Response:
+    def get(self, url, expecting_json=True) -> Response:
         urllib3.disable_warnings()
         response = requests.get(url, verify=False)
 
         if response.status_code == 404:
-            raise ValueError(f"request error 404: Not found page ({url})")
+            raise ValueError(f"[request error] 404: Not found page ({url})")
+
+        if expecting_json and response.headers.get('Content-Type').startswith('application/json') == false:
+            raise ValueError(f"[request error] Not a json content: ({url})")
 
         return response
 
