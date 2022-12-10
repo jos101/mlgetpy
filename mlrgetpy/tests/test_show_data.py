@@ -4,14 +4,14 @@ import unittest
 
 class TestShowData(unittest.TestCase):
 
-    @unittest.skip("prints too much")
+    # @unittest.skip("prints too much")
     def test_showData(self):
         repo = Repository()
 
         repo.load()
         repo.showData()
 
-    @unittest.skip("prints too much")
+    # @unittest.skip("prints too much")
     def test_show_data_box(self):
         rep = Repository()
         rep.addByIDs(IDs=[480, 298, 540, 307, 314])
@@ -28,7 +28,7 @@ class TestShowData(unittest.TestCase):
         # rep.showData(limit=10, type="table", column="Views")
         # rep.showData(limit=10, type="table", column="Abstract")
 
-    @unittest.skip("prints too much")
+    # @unittest.skip("prints too much")
     def test_show_data_box2(self):
         rep = Repository()
         rep.addByIDs(IDs=[480, 298, 540, 307, 314])
@@ -41,7 +41,8 @@ class TestShowData(unittest.TestCase):
     The task should print below when there is no space 
     in the cell
     '''
-    @unittest.skip("prints too much")
+    # @unittest.skip("prints too much")
+
     def test_show_data_multiple_task_box2(self):
         rep = Repository()
         rep.addByIDs(IDs=[540])

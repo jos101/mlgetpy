@@ -34,7 +34,7 @@ class DataFrameConverter:
 
         # TODO: use enum
         dict[c.NUM_INSTANCES.value] = []
-        dict["slug"] = []
+        dict[c.SLUG.value] = []
 
         dict[c.NUM_ATTRIBUTES.value] = []
         dict["user"] = []
