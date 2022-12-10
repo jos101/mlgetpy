@@ -9,6 +9,6 @@ class DataSetList (DataSetListAbstract):
     def findAll(self) -> dict:
 
         count = super.getCount()
-        response = self.request.get(self.url)
+        response = self.request.get(self.__url)
 
         return JsonParser().encode(response.content)
