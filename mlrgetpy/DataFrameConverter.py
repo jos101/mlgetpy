@@ -33,10 +33,9 @@ class DataFrameConverter:
         dict[c.ATTRIBUTE_TYPES.value] = []
 
         # TODO: use enum
-        dict["numInstances"] = []
+        dict[c.NUM_INSTANCES.value] = []
         dict["slug"] = []
 
-        dict["tabular"] = []
         dict[c.NUM_ATTRIBUTES.value] = []
         dict["user"] = []
         dict["user_user"] = []
@@ -72,12 +71,11 @@ class DataFrameConverter:
             dict[c.NUM_HITS.value].append(i[c.NUM_HITS.value])
             dict[c.ATTRIBUTE_TYPES.value].append(i[c.ATTRIBUTE_TYPES.value])
 
-            dict["numInstances"].append(i[c.NUM_INSTANCES.value])
+            dict[c.NUM_INSTANCES.value].append(i[c.NUM_INSTANCES.value])
             dict[c.NUM_ATTRIBUTES.value].append(i[c.NUM_ATTRIBUTES.value])
 
             dict[c.SLUG.value].append(i[c.SLUG.value])
 
-            dict["tabular"].append(i["isTabular"])
             dict["user"].append(i["users"])
 
             dict["user_user"].append(None)

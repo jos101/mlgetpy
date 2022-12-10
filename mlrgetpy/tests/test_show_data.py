@@ -36,3 +36,10 @@ class TestShowData(unittest.TestCase):
 
         print()
         rep.showData(limit=10, type="box2")
+
+    @unittest.skip("prints too much")
+    def test_show_data_multiple_task_box2(self):
+        rep = Repository()
+        rep.addByIDs(IDs=[540])
+        print()
+        rep.showData(limit=10, type="box2")

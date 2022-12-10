@@ -11,6 +11,7 @@ from mlrgetpy.citation.FormatAbstract import FormatAbstract
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.datasetlist.DataSetListFactory import DataSetListFactory
 from mlrgetpy.filehandler.FileHandlerFactory import FileHandlerFactory
+from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
 
 from rich.console import Console
 from rich.table import Table
@@ -38,7 +39,7 @@ class Repository:
         cols_to_remove: list = ["userID", "introPaperID",
                                 "DOI", "isTabular", "URLFolder",
                                 "URLReadme", "URLLink", "Graphics", "Status",
-                                "slug", "tabular", "user"
+                                "slug", "user"
                                 ]
 
         data: pd.DataFrame = pd.DataFrame()
@@ -131,15 +132,15 @@ class Repository:
                     break
 
                 content = ""
-                content += f"[cyan]Name : [magenta]{row['Name']}\n"
-                content += f"[cyan]DataSet Characteristic : [magenta]{row['Types']}\n"
-                content += f"[cyan]Subject Area : [magenta]{row['Area']}\n"
-                content += f"[cyan]Associated Task : [magenta]{row['Task']}\n"
-                content += f"[cyan]Date Donated : [magenta]{row['DateDonated']}\n"
-                content += f"[cyan]Instances : [magenta]{row['numInstances']}\n"
-                content += f"[cyan]Attributes : [magenta]{row['numAttributes']}\n"
-                content += f"[cyan]Views : [magenta]{row['NumHits']}\n"
-                content += f"[cyan]Abstract: [magenta]{row['Abstract']}\n"
+                content += f"[cyan]Name : [magenta]{row[c.NAME.value]}\n"
+                content += f"[cyan]DataSet Characteristic : [magenta]{row[c.TYPES.value]}\n"
+                content += f"[cyan]Subject Area : [magenta]{row[c.AREA.value]}\n"
+                content += f"[cyan]Associated Task : [magenta]{row[c.TASK.value]}\n"
+                content += f"[cyan]Date Donated : [magenta]{row[c.DATE_DONATED.value]}\n"
+                content += f"[cyan]Instances : [magenta]{row[c.NUM_INSTANCES.value]}\n"
+                content += f"[cyan]Attributes : [magenta]{row[c.NUM_ATTRIBUTES.value]}\n"
+                content += f"[cyan]Views : [magenta]{row[c.NUM_HITS.value]}\n"
+                content += f"[cyan]Abstract: [magenta]{row[c.ABSTRACT.value]}\n"
                 rich.print(
                     rich.panel.Panel(content, title=f"[cyan]ID: [magenta]{index}", expand=False, style="magenta"))
 
@@ -178,23 +179,23 @@ class Repository:
                       + f"{('Subject Area')[0:19]:19s}" + " "
                       + "│")
 
-                # TODO: test multiple task for repository 540
                 task: str = ""
                 area: str = ""
                 num_hits: int = 0
                 num_instances: int = 0
                 num_attr:  int = 0
-                if row['Task'] != None:
-                    task = row['Task']
-                if row['Area'] != None:
-                    area = row['Area']
-                if row['NumHits'] != None:
-                    num_hits = row['NumHits']
-                if row['numInstances'] != None:
-                    num_instances = row['numInstances']
-                if row['numAttributes'] != None:
-                    num_attr = row['numAttributes']
+                if row[c.TASK.value] != None:
+                    task = row[c.TASK.value]
+                if row[c.AREA.value] != None:
+                    area = row[c.AREA.value]
+                if row[c.NUM_HITS.value] != None:
+                    num_hits = row[c.NUM_HITS.value]
+                if row[c.NUM_INSTANCES.value] != None:
+                    num_instances = row[c.NUM_INSTANCES.value]
+                if row[c.NUM_ATTRIBUTES.value] != None:
+                    num_attr = row[c.NUM_ATTRIBUTES.value]
 
+                # print every task in a new line when there is no space (ID 540)
                 task_list = Strutil.get_list(task, ",", 19)
                 area_list = Strutil.get_list(area, ",", 19)
                 for i in range(Strutil.get_max_length(task_list, area_list)):
