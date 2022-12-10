@@ -8,7 +8,6 @@ import json
 class IDInput:
     id: int = None
 
-    # TODO: make test
     def str_json(self) -> str:
         json_string: str = ""
 
