@@ -30,13 +30,17 @@ class TestShowData(unittest.TestCase):
 
     @unittest.skip("prints too much")
     def test_show_data_box2(self):
-        # TODO: test multiple task for repository 540
         rep = Repository()
         rep.addByIDs(IDs=[480, 298, 540, 307, 314])
 
         print()
         rep.showData(limit=10, type="box2")
 
+    '''
+    test a repository with multiple tasks in the box2. 
+    The task should print below when there is no space 
+    in the cell
+    '''
     @unittest.skip("prints too much")
     def test_show_data_multiple_task_box2(self):
         rep = Repository()

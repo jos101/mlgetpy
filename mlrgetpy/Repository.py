@@ -148,7 +148,6 @@ class Repository:
                 if (answer == 'q'):
                     break
 
-        # TODO: add type box2
         if type == "box2":
             count: int = 0
             for index, row in data.iterrows():
