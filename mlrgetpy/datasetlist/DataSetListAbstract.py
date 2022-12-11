@@ -27,10 +27,6 @@ class DataSetListAbstract:
     def get_url(self, filter_input: FilterInput = FilterInput()) -> str:
         return self.__url + filter_input.str_json()
 
-    # TODO: check valid response
-    def check_valid_response(self):
-        NotImplemented
-
     def getCount(self) -> int:
         filter_input = FilterInput()
         response = self.request.get(self.get_url(filter_input))
@@ -54,26 +50,33 @@ class DataSetListAbstract:
         return json_response[0]["result"]["data"]["json"]
 
     '''
-    expected json
-    [
-    {
-        "id": null,
-        "result": {
-        "type": "data",
-        "data": {
-            "json": {
-            "datasets": [
-                
-            ],
-            "count": 612
-            }
-        }
-        }
-    }
-    ]
+    expected json [{"id": null,"result": {"type": "data","data": {"json": {"datasets": [],"count": 612}}}}]
     '''
 
     def __check_count_response(self, json_response: dict, url: str):
+        expected_json = '[{"id": null,"result": {"type": "data","data": {"json": {"datasets": [],"count": 612}}}}]'
+
+        if json_response[0] == False:
+            msg = f"Not valid response: Expected json in index 0 of the list in {url}"
+            msg += f"\nexpected json: {expected_json}"
+            raise Exception(msg)
+
+        if 'result' not in json_response[0]:
+            msg = f"Not valid response: Json without key ('result') in {url}"
+            msg += f"\nexpected json: {expected_json}"
+            raise Exception(msg)
+
+        if 'data' not in json_response[0]["result"]:
+            msg = f"Not valid response: Json without key ('data') in {url}"
+            msg += f"\nexpected json: {expected_json}"
+            raise Exception(msg)
+
+        if 'json' not in json_response[0]["result"]["data"]:
+            msg = f"Not valid response: Json without key ('json') in {url}"
+            msg += f"\nexpected json: {expected_json}"
+            raise Exception(msg)
+
+    def __check_creators_response(self, json_response: dict, url: str):
         if json_response[0] == False:
             raise Exception(
                 f"Not valid response: Expected json in index 0 of the list in {url}")
@@ -90,7 +93,7 @@ class DataSetListAbstract:
             raise Exception(
                 f"Not valid response: Json without key ('json') in {url}")
 
-    def __check_creators_response(self, json_response: dict, url: str):
+    def check_find_all_response(self, json_response: dict, url: str):
         if json_response[0] == False:
             raise Exception(
                 f"Not valid response: Expected json in index 0 of the list in {url}")

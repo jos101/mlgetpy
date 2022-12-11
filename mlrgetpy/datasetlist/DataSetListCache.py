@@ -23,6 +23,9 @@ class DataSetListCache(DataSetListAbstract):
             filter_input = FilterInput(take=count)
 
             response = self.request.get(self.get_url(filter_input))
+            self.check_find_all_response(
+                JsonParser().encode(response.content), self.get_url(filter_input))
+
             self.save_object([response, current_date], "response.pkl")
         else:
             response = cached_response
