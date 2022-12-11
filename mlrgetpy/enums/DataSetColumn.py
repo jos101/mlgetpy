@@ -25,4 +25,12 @@ class DataSetColumn(Enum):
     NUM_ATTRIBUTES: str = "NumAttributes"
     SLUG: str = "slug"
     TABULAR: str = "tabular"
+
     USERS: str = "users"
+    FIRSTNAME: str = "firstName"
+    LASTNAME: str = "lastName"
+    USER: str = "user"
+
+    USER_USER: str = "user_user"
+    USER_FIRSTNAME: str = "user_firstName"
+    USER_LASTNAME: str = "user_lastName"

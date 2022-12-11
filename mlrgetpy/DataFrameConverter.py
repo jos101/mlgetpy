@@ -32,15 +32,14 @@ class DataFrameConverter:
         dict[c.NUM_HITS.value] = []
         dict[c.ATTRIBUTE_TYPES.value] = []
 
-        # TODO: use enum
         dict[c.NUM_INSTANCES.value] = []
         dict[c.SLUG.value] = []
 
         dict[c.NUM_ATTRIBUTES.value] = []
-        dict["user"] = []
-        dict["user_user"] = []
-        dict["user_firstName"] = []
-        dict["user_lastName"] = []
+        dict[c.USER.value] = []
+        dict[c.USER_USER.value] = []
+        dict[c.USER_FIRSTNAME.value] = []
+        dict[c.USER_LASTNAME.value] = []
 
         for i in rows:
             dict[c.ID.value].append(i[c.ID.value])
@@ -76,22 +75,22 @@ class DataFrameConverter:
 
             dict[c.SLUG.value].append(i[c.SLUG.value])
 
-            dict["user"].append(i["users"])
+            dict[c.USER.value].append(i[c.USERS.value])
 
-            dict["user_user"].append(None)
-            dict["user_firstName"].append(None)
-            dict["user_lastName"].append(None)
+            dict[c.USER_USER.value].append(None)
+            dict[c.USER_FIRSTNAME.value].append(None)
+            dict[c.USER_LASTNAME.value].append(None)
 
-            if i["users"] != None:
+            if i[c.USERS.value] != None:
 
-                if "user" in i["users"].keys():
-                    dict["user_user"][-1] = i["users"]["user"]
+                if c.USER.value in i[c.USERS.value].keys():
+                    dict[c.USER_USER.value][-1] = i[c.USERS.value][c.USER.value]
 
-                if "firstName" in i["users"].keys():
-                    dict["user_firstName"][-1] = i["users"]["firstName"]
+                if c.FIRSTNAME.value in i[c.USERS.value].keys():
+                    dict[c.USER_FIRSTNAME.value][-1] = i[c.USERS.value][c.FIRSTNAME.value]
 
-                if "lastName" in i["users"].keys():
-                    dict["user_lastName"][-1] = i["users"]["lastName"]
+                if c.LASTNAME.value in i[c.USERS.value].keys():
+                    dict[c.USER_LASTNAME.value][-1] = i[c.USERS.value][c.LASTNAME.value]
 
         df = pd.DataFrame.from_dict(dict)
         df = df.set_index(c.ID.value)
