@@ -109,3 +109,7 @@ class DataSetListAbstract:
         if 'json' not in json_response[0]["result"]["data"]:
             raise Exception(
                 f"Not valid response: Json without key ('json') in {url}")
+
+        if 'datasets' not in json_response[0]["result"]["data"]["json"]:
+            raise Exception(
+                f"Not valid response: Json without key ('datasets') in {url}")

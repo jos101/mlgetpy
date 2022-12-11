@@ -1,16 +1,19 @@
 from mlrgetpy.datasetlist.DataSetList import DataSetList
-import unittest 
+import unittest
+
 
 class TestDataSetList(unittest.TestCase):
 
     @unittest.skip("no caching")
     def test_findAll(self):
-        dataSet = DataSetList() 
+        dataSet = DataSetList()
 
         data: dict = dataSet.findAll()
 
-        self.assertEqual(data["payload"]["rows"][0]["Name"], ": Simulated Data set of Iraqi tourism places")
-        self.assertEqual(data["payload"]["rows"][1]["Name"], "2.4 GHZ Indoor Channel Measurements")
+        self.assertEqual("Iris",
+                         data[0]["result"]["data"]["json"]["datasets"][0]["Name"])
+        self.assertEqual("Dry Bean Dataset",
+                         data[0]["result"]["data"]["json"]["datasets"][1]["Name"])
 
     def test_findByID(self):
         NotImplemented
