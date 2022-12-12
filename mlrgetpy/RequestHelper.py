@@ -28,6 +28,10 @@ class RequestHelper:
         if response.status_code == 404:
             raise ValueError(f"[request error] 404: Not found page ({url})")
 
+        if response.status_code != 200:
+            raise ValueError(
+                f"[request error] code {response.status_code}: page ({url})")
+
         if expecting_json and response.headers.get('Content-Type').startswith('application/json') == false:
             raise ValueError(f"[request error] Not a json content: ({url})")
 
