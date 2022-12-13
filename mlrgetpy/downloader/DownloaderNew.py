@@ -43,7 +43,7 @@ class DownloaderNew(DownloaderAbstract):
         if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
             list_urls = [{'url': url, 'name_folder': name_folder}]
             self.__createDirPath(name_folder)
-            response = self.req.get(url)
+            response = self.req.get(url, expecting_json=False)
             links = self.getLinks(response)
             for link in links:
                 if link == parent_url:
@@ -59,7 +59,7 @@ class DownloaderNew(DownloaderAbstract):
         print('\033[?25l', end="")  # hide cursor
         for path in links_path:
             print(f"│{path['url']:90s}│")
-            response = self.req.get(path['url'])
+            response = self.req.get(path['url'], expecting_json=False)
             links = self.getLinks(response)
             archives: List = []
 
