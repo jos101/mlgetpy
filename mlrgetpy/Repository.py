@@ -17,6 +17,8 @@ from rich.console import Console
 from rich.table import Table
 import rich
 
+from mlrgetpy.log.ConfigLog import ConfigLog
+
 
 @dataclass
 class Repository:
@@ -280,6 +282,8 @@ class Repository:
         return citations
 
     def addByIDs(self, IDs: list) -> None:
+        ConfigLog.log.write_add_ids(IDs)
+
         # retrieves all data set list
         d: dict = self.__data_set_list.findAll()
         # converts dict to dataframe
@@ -299,6 +303,7 @@ class Repository:
         return data
 
     def removeByIndex(self, indexes: list) -> None:
+        ConfigLog.log.write_remove_indexes(indexes)
         self.__data = self.__data.drop(indexes)
 
     ''' add data set using the filter class '''

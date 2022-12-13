@@ -5,6 +5,7 @@ from datetime import date
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 from mlrgetpy.JsonParser import JsonParser
 from mlrgetpy.FilterInput import FilterInput
+from mlrgetpy.log.ConfigLog import ConfigLog
 
 
 @dataclass
@@ -22,12 +23,14 @@ class DataSetListCache(DataSetListAbstract):
             count = self.getCount()
             filter_input = FilterInput(take=count)
 
+            ConfigLog.log.write_url(self.get_url(filter_input))
             response = self.request.get(self.get_url(filter_input))
             self.check_find_all_response(
                 JsonParser().encode(response.content), self.get_url(filter_input))
 
             self.save_object([response, current_date], "response.pkl")
         else:
+            ConfigLog.log.write_use_cache()
             response = cached_response
 
         return JsonParser().encode(response.content)[0]["result"]["data"]["json"]
