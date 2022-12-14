@@ -11,7 +11,6 @@ from lxml import html
 
 @dataclass
 class DownloaderNewHref(DownloaderAbstract):
-    current_url: str = field()
     href_url: str = field(default="")
     repo_name: str = field(default="")
     req: RequestHelper = RequestHelper()
@@ -20,11 +19,12 @@ class DownloaderNewHref(DownloaderAbstract):
 
     def initiateDownload(self):
         # print("New: Initiate download")
-        url = urljoin(self.current_url, self.href_url)
+        url = urljoin(self.root_url, self.href_url)
 
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
         self.__createDirPath(directory)
+        self.__createDirPath(name_folder)
 
         response_headers = self.req.head(url)
 

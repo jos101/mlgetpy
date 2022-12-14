@@ -63,7 +63,7 @@ class RepodDownloader:
                 downloader.initiateDownload()
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
                 downloader = DownloaderNewHref(
-                    self.__new_url, href, repo_name=f'{index}_[{row["Name"]}]')
+                    href_url=href, repo_name=f'{index}_[{row["Name"]}]')
                 downloader.initiateDownload()
             else:
                 print(
