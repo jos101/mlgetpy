@@ -26,6 +26,7 @@ class DataFrameConverter:
         dict[c.URL_FOLDER.value] = []
         dict[c.URL_README.value] = []
         dict[c.URL_LINK.value] = []
+        dict[c.HREF.value] = []
 
         dict[c.GRAPHICS.value] = []
         dict[c.STATUS.value] = []
@@ -62,6 +63,11 @@ class DataFrameConverter:
                 dict[c.URL_README.value].append(i[c.URL_README.value])
             else:
                 dict[c.URL_README.value].append(None)
+
+            if c.HREF.value in i.keys():
+                dict[c.HREF.value].append(i[c.HREF.value])
+            else:
+                dict[c.HREF.value].append(None)
 
             dict[c.URL_LINK.value].append(i[c.URL_LINK.value])
 

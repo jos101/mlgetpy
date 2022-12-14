@@ -13,6 +13,7 @@ import re
 from urllib import parse
 
 from mlrgetpy.MyProgressBar import MyProgressBar
+from mlrgetpy.log.ConfigLog import ConfigLog
 
 
 @dataclass
@@ -57,6 +58,7 @@ class RequestHelper:
         return fname
 
     def saveFile(self, response: Response, url: str, directory="", last=false):
+        ConfigLog.log.write_save_file(response, url, directory, last)
 
         fname = self.getName(response, url)
         file = os.path.join(directory, fname)

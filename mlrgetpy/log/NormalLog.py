@@ -1,5 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
+
+from requests import Response
 from mlrgetpy.log.LogAbstract import LogAbstract
 
 
@@ -25,3 +27,9 @@ class NormalLog(LogAbstract):
     @abstractmethod
     def write_remove_indexes(self, IDs: list):
         print(f'removing indexes {IDs}')
+
+    @abstractmethod
+    def write_save_file(self, response: Response, url: str, directory="", last=False):
+        print(f'[saving file] url: {url}')
+        print(f'        directory: {directory}')
+        print(f'            last?: {last}')

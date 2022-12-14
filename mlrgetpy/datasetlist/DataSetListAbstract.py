@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass, field
+import json
 from urllib import response
 from mlrgetpy.JsonParser import JsonParser
 from mlrgetpy.RequestHelper import RequestHelper
@@ -15,7 +16,8 @@ class DataSetListAbstract:
 
     # ...&input={"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0,"take":700}}}
     __url = 'https://archive-beta.ics.uci.edu/trpc/donated_datasets.filter?batch=1&input='
-    __url2 = "https://archive-beta.ics.uci.edu/api/datasets-donated/pk/"
+    # {"0":{"json":53}}
+    __url2 = "https://archive-beta.ics.uci.edu/trpc/donated_datasets.getById?batch=1&input="
 
     __creator_url = "https://archive-beta.ics.uci.edu/trpc/creators.getByDatasetId?batch=1&input="
 
@@ -37,6 +39,14 @@ class DataSetListAbstract:
 
     def findAll(self):
         NotImplemented
+
+    def get_href_by_id(self, id: int):
+        dictionary: dict = {0: {"json": id}}
+        json_input = json.dumps(dictionary, separators=[",", ":"])
+        response = self.request.get(self.__url2 + json_input)
+        json_response = JsonParser().encode(response.text)
+
+        return json_response[0]["result"]["data"]["json"]["href"]
 
     def getCreators(self, id: int) -> list:
         id_input_object = IDInput(id)

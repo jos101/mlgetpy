@@ -1,6 +1,8 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 
+from requests import Response
+
 
 @dataclass
 class LogAbstract:
@@ -23,4 +25,8 @@ class LogAbstract:
 
     @abstractmethod
     def write_remove_indexes(self, IDs: list):
+        NotImplemented
+
+    @abstractmethod
+    def write_save_file(self, response: Response, url: str, directory="", last=False):
         NotImplemented

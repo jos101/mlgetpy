@@ -15,6 +15,8 @@ class DataSetColumn(Enum):
     DATE_DONATED: str = "DateDonated"
     IS_TABULAR: str = "isTabular"
     URL_FOLDER: str = "URLFolder"
+    HREF: str = "href"
+
     URL_README: str = "URLReadme"
     URL_LINK: str = "URLLink"
     GRAPHICS: str = "Graphics"

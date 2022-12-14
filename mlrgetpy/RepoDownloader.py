@@ -17,8 +17,11 @@ from urllib.parse import urljoin
 import requests
 from urllib import parse
 from mlrgetpy.downloader.DownloaderNew import DownloaderNew
+from mlrgetpy.downloader.DownloaderNewHref import DownloaderNewHref
 
 from mlrgetpy.downloader.DownloaderOld import DownloaderOld
+from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
+from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
 
 
 @dataclass
@@ -32,9 +35,15 @@ class RepodDownloader:
 
     def download(self, data: pd.DataFrame):
         req = RequestHelper()
+        dataset: DataSetListAbstract = DataSetListAbstract()
 
         print()
         for index, row in data.iterrows():
+            # print(row)
+            href = urljoin(self.__new_url, dataset.get_href_by_id(index))
+            response = req.head(href)
+            is_zip = response.headers['Content-Type'] == "application/zip"
+
             # req.get(row["URLFolder"])
             # join with ml/machine-learning-databases/<index_repo>/
             if row["URLFolder"][0:30] == self.__old_sub_url:
@@ -45,15 +54,20 @@ class RepodDownloader:
                     current_url, repo_name=f'{index}_[{row["Name"]}]')
                 downloader.initiateDownload()
 
-            elif row["URLFolder"][0:13] == self.__new_sub_url:
+            elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
                 temp = row["URLFolder"].replace(self.__new_sub_url, "")
                 current_url = urljoin(self.__new_url, temp)
 
                 downloader = DownloaderNew(
                     current_url, repo_name=f'{index}_[{row["Name"]}]')
                 downloader.initiateDownload()
+            elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
+                downloader = DownloaderNewHref(
+                    self.__new_url, href, repo_name=f'{index}_[{row["Name"]}]')
+                downloader.initiateDownload()
             else:
-                print(f'rep {index}: Not compatible url ({row["URLFolder"]})')
+                print(
+                    f'rep {index}: Not compatible url ({row["URLFolder"]}), href: {href}')
                 continue
 
     def downloadALl(self, rep):
