@@ -7,15 +7,53 @@ from requests import Response
 from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
+import re
 
 
 @dataclass
 class DownloaderNewHref(DownloaderAbstract):
+    """
+    A class used to download usually a zip file from the repository 
+
+    Parameters
+    ----------
+    href_url : str
+        The href taken from the object
+        Should have the pattern ^https://archive-beta\.ics\.uci\.edu/static/ml/datasets/[0-9]+/.+
+        i.e. https://archive-beta.ics.uci.edu/static/ml/datasets/100/arhive.zip
+    repo_name : str
+        The name of the repository
+        should have the pattern [0-9]+_\[.+\]
+        i.e. 100_[Iris]
+
+    Attributes
+    ----------
+    req : RequestHelper
+        A RequestHelper object
+
+    """
     href_url: str = field(default="")
     repo_name: str = field(default="")
     req: RequestHelper = RequestHelper()
 
     root_url = "https://archive-beta.ics.uci.edu"
+
+    def __post_init__(self) -> None:
+        pattern = "^https://archive-beta\.ics\.uci\.edu/static/ml/datasets/[0-9]+/.+"
+        x = re.search(pattern, self.href_url)
+        if x == None:
+            msg = f"[DownloaderNewHref error]: Not valid href_url\n"
+            msg += f"\texpected pattern: {pattern}\n"
+            msg += f"\thref_url: {self.href_url}"
+            raise ValueError(msg)
+
+        pattern_repo_name = "[0-9]+_\[.+\]"
+        x = re.search(pattern_repo_name, self.repo_name)
+        if x == None:
+            msg = f"[DownloaderNewHref error]: Not valid repo_name\n"
+            msg += f"\texpected pattern: {pattern_repo_name}\n"
+            msg += f"\repo_name: {self.repo_name}"
+            raise ValueError(msg)
 
     def initiateDownload(self):
         # print("New: Initiate download")
