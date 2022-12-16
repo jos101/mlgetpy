@@ -45,6 +45,7 @@ class DownloaderNew(DownloaderAbstract):
             self.__createDirPath(name_folder)
             response = self.req.get(url, expecting_json=False)
             links = self.getLinks(response)
+
             for link in links:
                 if link == parent_url:
                     continue
