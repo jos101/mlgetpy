@@ -50,7 +50,7 @@ class DownloaderNew(DownloaderAbstract):
                 if link == parent_url:
                     continue
                 new_name_folder = self.__createNameFolder(
-                    name_folder, link, parent_url)
+                    name_folder, link)
                 list_urls = list_urls + \
                     self.create_links_path(url.replace(
                         self.root_url, ""), urljoin(url, link), new_name_folder)
@@ -93,7 +93,7 @@ class DownloaderNew(DownloaderAbstract):
     def __createDirPath(self, directory):
         return super().createDirPath(directory)
 
-    def __createNameFolder(self, nameFolder, link, parent_url, url_type="old"):
+    def __createNameFolder(self, nameFolder, link):
         newNamefolder = ""
         newNamefolder = os.path.join(
             nameFolder, link.rsplit('/', 1)[-1])
@@ -102,3 +102,6 @@ class DownloaderNew(DownloaderAbstract):
         #print(f"--link           : {link}")
         #print(f"--new name folder: {newNamefolder}")
         return newNamefolder
+
+    def create_name_folder(self, nameFolder: str, link: str):
+        return self.__createNameFolder(nameFolder, link)
