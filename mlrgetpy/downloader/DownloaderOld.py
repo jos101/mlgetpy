@@ -70,21 +70,25 @@ class DownloaderOld(DownloaderAbstract):
 
         list_urls = []
         response = self.req.head(url)
-        if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
-            list_urls = [{'url': url, 'name_folder': name_folder}]
-            self.__createDirPath(name_folder)
-            response = self.req.get(url, expecting_json=False)
-            links = self.getLinks(response)
-            for link in links:
-                if link == parent_url:
-                    continue
+        if response.headers['Content-Type'].rsplit(';')[0] != 'text/html':
+            return list_urls
 
-                new_parent_url = url.replace(self.root_url, "")
-                new_url = urljoin(url, link)
-                new_name_folder = self.create_name_folder(name_folder, link)
-                list_urls = list_urls + \
-                    self.create_links_path(
-                        new_parent_url, new_url, new_name_folder)
+        list_urls = [{'url': url, 'name_folder': name_folder}]
+        self.__createDirPath(name_folder)
+        response = self.req.get(url, expecting_json=False)
+
+        links = self.getLinks(response)
+        for link in links:
+            if link == parent_url:
+                continue
+
+            new_parent_url = url.replace(self.root_url, "")
+            new_url = urljoin(url, link)
+            new_name_folder = self.create_name_folder(name_folder, link)
+            list_urls = list_urls + \
+                self.create_links_path(
+                    new_parent_url, new_url, new_name_folder)
+
         return list_urls
 
     def getLinks(self, response: Response):
