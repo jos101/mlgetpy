@@ -26,4 +26,4 @@ class DownloaderAbstract:
 
     def createDirPath(self, directory):
         if os.path.exists(directory) == False:
-            os.mkdir(directory)
+            os.makedirs(directory)
