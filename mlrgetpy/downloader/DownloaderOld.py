@@ -67,7 +67,6 @@ class DownloaderOld(DownloaderAbstract):
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
         response = self.req.head(url)
-
         if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
             list_urls = [{'url': url, 'name_folder': name_folder}]
             self.__createDirPath(name_folder)
@@ -81,6 +80,7 @@ class DownloaderOld(DownloaderAbstract):
                         self.root_url, ""), urljoin(url, link), os.path.join(name_folder, link))
         return list_urls
 
+    # TODO: create test
     def getLinks(self, response: Response):
         webpage = html.fromstring(response.content)
         links = webpage.xpath('//a/@href')

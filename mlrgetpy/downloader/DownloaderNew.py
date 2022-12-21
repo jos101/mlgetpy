@@ -85,6 +85,7 @@ class DownloaderNew(DownloaderAbstract):
 
         print('\033[?25h', end="")  # show cursor
 
+    # TODO: create test
     def getLinks(self, response: Response):
         webpage = html.fromstring(response.content)
         links = webpage.xpath('//ul[@class="view-tiles"]/li/a/@href')
