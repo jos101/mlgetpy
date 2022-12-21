@@ -30,3 +30,7 @@ class LogAbstract:
     @abstractmethod
     def write_save_file(self, response: Response, url: str, directory="", last=False):
         NotImplemented
+
+    @abstractmethod
+    def write_create_link_path(self, parent_url, current_url, name_folder):
+        NotImplemented

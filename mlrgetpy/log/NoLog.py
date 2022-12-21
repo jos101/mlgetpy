@@ -25,3 +25,7 @@ class NoLog(LogAbstract):
     @abstractmethod
     def write_remove_indexes(self, IDs: list):
         pass
+
+    @abstractmethod
+    def write_create_link_path(self, parent_url, current_url, name_folder):
+        pass

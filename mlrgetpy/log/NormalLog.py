@@ -33,3 +33,9 @@ class NormalLog(LogAbstract):
         print(f'[saving file] url: {url}')
         print(f'        directory: {directory}')
         print(f'            last?: {last}')
+
+    @abstractmethod
+    def write_create_link_path(self, parent_url, current_url, name_folder):
+        print(f'[create link path] parent url: {parent_url}')
+        print(f'                  current_url: {current_url}')
+        print(f'                  name folder: {name_folder}')
