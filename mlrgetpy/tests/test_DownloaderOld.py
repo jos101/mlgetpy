@@ -13,13 +13,13 @@ class Test_DownloaderOld(unittest.TestCase):
 
         folder_name = os.path.join(
             'repo_download', '298_[Bach Choral Harmony]')
-        download_new = DownloaderOld(current_url, folder_name)
+        download_old = DownloaderOld(current_url, folder_name)
 
         expected = [{'name_folder': os.path.join(
             'repo_download', '298_[Bach Choral Harmony]'),
             'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00298/'}]
 
-        result = download_new.create_links_path(
+        result = download_old.create_links_path(
             parent_url, current_url, folder_name)
 
         self.assertListEqual(expected, result)
@@ -29,13 +29,13 @@ class Test_DownloaderOld(unittest.TestCase):
         current_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/"
 
         folder_name = os.path.join('repo_download', '53_[iris]')
-        download_new = DownloaderOld(current_url, folder_name)
+        download_old = DownloaderOld(current_url, folder_name)
 
         expected = [{'name_folder': os.path.join(
             'repo_download', '53_[iris]'),
             'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/'}]
 
-        result = download_new.create_links_path(
+        result = download_old.create_links_path(
             parent_url, current_url, folder_name)
 
         self.assertListEqual(expected, result)
@@ -76,12 +76,12 @@ class Test_DownloaderOld(unittest.TestCase):
         parent_url = "/ml/machine-learning-databases/"
         current_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/"
         folder_name = os.path.join('repo_download', '53_[iris]')
-        download_new = DownloaderOld(current_url, folder_name)
+        download_old = DownloaderOld(current_url, folder_name)
 
         expected = [{'name_folder': 'repo_download\\53_[iris]',
                      'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/'}]
 
-        result = download_new.create_links_path(
+        result = download_old.create_links_path(
             parent_url, current_url, folder_name)
 
         self.assertListEqual(expected, result)
@@ -91,15 +91,50 @@ class Test_DownloaderOld(unittest.TestCase):
         current_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00432/"
         folder_name = os.path.join(
             'repo_download', '432_[News Popularity in Multiple Social Media Platforms]')
-        download_new = DownloaderOld(current_url, folder_name)
+        download_old = DownloaderOld(current_url, folder_name)
 
         expected = [{'name_folder': folder_name,
-                     'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00432/'},
-                    {'name_folder': os.path.join(folder_name, 'Data/'),
-                     'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00432/Data/'}]
+                     'url': current_url},
 
-        result = download_new.create_links_path(
+                    {'name_folder': os.path.join(folder_name, 'Data'),
+                     'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00432/Data/'}
+                    ]
+
+        result = download_old.create_links_path(
             parent_url, current_url, folder_name)
 
         msg = "subfolders"
         self.assertListEqual(expected, result, msg)
+
+    def test_remove_last_forward_slash(self):
+        parent_url = "/ml/machine-learning-databases/"
+        current_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/"
+        folder_name = os.path.join('repo_download', '53_[iris]')
+        download_old = DownloaderOld(current_url, folder_name)
+
+        result = download_old.remove_last_forward_slash(
+            'http://foo.com/bar/cat.txt/')
+        expected = 'http://foo.com/bar/cat.txt'
+        msg = 'Last Character is a forward slash. Should strip forward slash'
+        self.assertEqual(expected, result, msg)
+
+        result = download_old.remove_last_forward_slash(
+            'http://foo.com/bar/cat.txt')
+        expected = 'http://foo.com/bar/cat.txt'
+        msg = 'The last character is not a forward slash'
+        self.assertEqual(expected, result, msg)
+
+    def test_folder_from_link(self):
+        current_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/"
+        folder_name = os.path.join('repo_download', '53_[iris]')
+        download_old = DownloaderOld(current_url, folder_name)
+
+        expected = 'cat'
+
+        result = download_old.folder_from_link('http://foo.com/bar/cat/')
+        msg = "Forward slash at the end of the link"
+        self.assertEqual(expected, result, msg)
+
+        result = download_old.folder_from_link('http://foo.com/bar/cat')
+        msg = "There is not a forward slash at the end of the link"
+        self.assertEqual(expected, result)

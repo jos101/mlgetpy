@@ -78,9 +78,13 @@ class DownloaderOld(DownloaderAbstract):
             for link in links:
                 if link == parent_url:
                     continue
+
+                new_parent_url = url.replace(self.root_url, "")
+                new_url = urljoin(url, link)
+                new_name_folder = self.create_name_folder(name_folder, link)
                 list_urls = list_urls + \
-                    self.create_links_path(url.replace(
-                        self.root_url, ""), urljoin(url, link), os.path.join(name_folder, link))
+                    self.create_links_path(
+                        new_parent_url, new_url, new_name_folder)
         return list_urls
 
     def getLinks(self, response: Response):
@@ -90,3 +94,19 @@ class DownloaderOld(DownloaderAbstract):
 
     def __createDirPath(self, directory):
         return super().createDirPath(directory)
+
+    def create_name_folder(self, nameFolder: str, link: str):
+        link = self.remove_last_forward_slash(link)
+
+        newNamefolder = ""
+        newNamefolder = os.path.join(nameFolder, self.folder_from_link(link))
+        return newNamefolder
+
+    def remove_last_forward_slash(self, link):
+        if (link[-1] == "/"):
+            link = link[:len(link)-1]
+        return link
+
+    def folder_from_link(self, link):
+        link = self.remove_last_forward_slash(link)
+        return link.rsplit('/', 1)[-1]
