@@ -8,6 +8,7 @@ from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
 from mlrgetpy.log.ConfigLog import ConfigLog
+from mlrgetpy.URLManager import URLManager
 
 
 @dataclass
@@ -66,6 +67,25 @@ class DownloaderOld(DownloaderAbstract):
         print('\033[?25h', end="")  # show cursor
 
     def create_links_path(self, parent_url, url, name_folder):
+        """ Create recursively url paths in starting from th url
+
+        Args:
+            parent_url (string): the parent url
+            url (string): the current url
+            name_folder (string): directory in the local machine
+
+        Returns:
+            List[dict]: List of dictionaries containing the url and the name folder
+
+            i.e
+                [{'name_folder': 'folder_name',
+                     'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00432/'},
+
+                    {'name_folder': 'folder_name\\Data'),
+                     'url': 'https://archive.ics.uci.edu/ml/machine-learning-databases/00432/Data/'}
+                    ]
+        """
+
         ConfigLog.log.write_create_link_path(parent_url, url, name_folder)
 
         list_urls = []
@@ -84,7 +104,7 @@ class DownloaderOld(DownloaderAbstract):
 
             new_parent_url = url.replace(self.root_url, "")
             new_url = urljoin(url, link)
-            new_name_folder = self.create_name_folder(name_folder, link)
+            new_name_folder = URLManager.create_name_folder(name_folder, link)
             list_urls = list_urls + \
                 self.create_links_path(
                     new_parent_url, new_url, new_name_folder)
@@ -98,19 +118,3 @@ class DownloaderOld(DownloaderAbstract):
 
     def __createDirPath(self, directory):
         return super().createDirPath(directory)
-
-    def create_name_folder(self, nameFolder: str, link: str):
-        link = self.remove_last_forward_slash(link)
-
-        newNamefolder = ""
-        newNamefolder = os.path.join(nameFolder, self.folder_from_link(link))
-        return newNamefolder
-
-    def remove_last_forward_slash(self, link):
-        if (link[-1] == "/"):
-            link = link[:len(link)-1]
-        return link
-
-    def folder_from_link(self, link):
-        link = self.remove_last_forward_slash(link)
-        return link.rsplit('/', 1)[-1]

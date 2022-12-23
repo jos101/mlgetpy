@@ -7,6 +7,7 @@ from requests import Response
 from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
+from mlrgetpy.URLManager import URLManager
 
 
 @dataclass
@@ -49,7 +50,7 @@ class DownloaderNew(DownloaderAbstract):
             for link in links:
                 if link == parent_url:
                     continue
-                new_name_folder = self.__createNameFolder(
+                new_name_folder = URLManager.create_name_folder(
                     name_folder, link)
                 list_urls = list_urls + \
                     self.create_links_path(url.replace(
@@ -92,16 +93,3 @@ class DownloaderNew(DownloaderAbstract):
 
     def __createDirPath(self, directory):
         return super().createDirPath(directory)
-
-    def __createNameFolder(self, nameFolder, link):
-        newNamefolder = ""
-        newNamefolder = os.path.join(
-            nameFolder, link.rsplit('/', 1)[-1])
-
-        #print(f"--name folder    : {nameFolder}")
-        #print(f"--link           : {link}")
-        #print(f"--new name folder: {newNamefolder}")
-        return newNamefolder
-
-    def create_name_folder(self, nameFolder: str, link: str):
-        return self.__createNameFolder(nameFolder, link)

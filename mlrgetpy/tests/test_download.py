@@ -43,5 +43,5 @@ class Test_Download(unittest.TestCase):
         # │ 692│     x     │        │           │                 │
         # └────┴───────────┴────────┴───────────┴─────────────────┘
         #rep.addByIDs(IDs=[53, 713, 298, 299, 432, 692, 743])
-        rep.addByIDs(IDs=[53, 432])
+        rep.addByIDs(IDs=[53, 432, 713])
         rep.download()
