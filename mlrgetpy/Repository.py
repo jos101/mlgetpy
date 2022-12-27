@@ -18,6 +18,7 @@ from rich.table import Table
 import rich
 
 from mlrgetpy.log.ConfigLog import ConfigLog
+from zipfile import ZipFile
 
 
 @dataclass
@@ -322,11 +323,26 @@ class Repository:
         repDownloader = RepodDownloader()
         repDownloader.download(self.__data)
 
-    '''
-    create add by ID script to share with colleagues
-    '''
+    def unzip(self, zip_path: str, extract_path: str):
+        with ZipFile(zip_path, 'r') as zObject:
+            zObject.extractall(extract_path)
+
+    # TODO
+    def find_zip_files(self):
+        NotImplemented
+
+    # TODO
+    def explore(self) -> None:
+        """Shows the files in the repositories
+        """
+        NotImplemented
 
     def share(self) -> str:
+        """Create add by ID script to share with colleagues
+
+        Returns:
+            str: scripts to share with colleagues
+        """
 
         script: str = "rep = New Repository()\n"
         script += f"rep.addByIDs({self.__data.index.tolist()})"

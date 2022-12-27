@@ -5,6 +5,7 @@ import pandas as pd
 from mlrgetpy.enums.Area import Area
 
 from mlrgetpy.enums.AttributeType import FilterAttributeType
+import os
 
 
 class TestRepository(unittest.TestCase):
@@ -80,3 +81,20 @@ class TestRepository(unittest.TestCase):
 
         self.assertEqual(
             rep.share(), expected)
+
+    def test_unzip(self):
+        rep = Repository()
+        extract_path = os.path.join('mlrgetpy', 'tests', 'zip')
+        file = os.path.join(extract_path, 'hello.py')
+
+        if os.path.exists(file):
+            os.remove(file)
+
+        zip_path = os.path.join(extract_path, 'hello.zip')
+        rep.unzip(zip_path, extract_path)
+
+        result = os.path.exists(file)
+        self.assertTrue(result)
+
+        if os.path.exists(file):
+            os.remove(file)
