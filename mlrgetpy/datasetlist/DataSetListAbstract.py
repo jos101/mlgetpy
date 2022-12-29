@@ -17,7 +17,7 @@ class DataSetListAbstract:
     # ...&input={"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0,"take":700}}}
     __url = 'https://archive-beta.ics.uci.edu/trpc/donated_datasets.filter?batch=1&input='
     # {"0":{"json":53}}
-    __url2 = "https://archive-beta.ics.uci.edu/trpc/donated_datasets.getById?batch=1&input="
+    __url2 = "https://archive-beta.ics.uci.edu/trpc/donated_datasets.findById?batch=1&input="
 
     __creator_url = "https://archive-beta.ics.uci.edu/trpc/creators.findByDatasetId?batch=1&input="
 
