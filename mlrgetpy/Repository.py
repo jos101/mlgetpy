@@ -20,6 +20,7 @@ import rich
 from mlrgetpy.log.ConfigLog import ConfigLog
 from zipfile import ZipFile
 import os
+from mlrgetpy.enums.Paths import Paths
 
 
 @dataclass
@@ -322,7 +323,33 @@ class Repository:
     def download(self) -> None:
         # repodoenloader.py
         repDownloader = RepodDownloader()
-        repDownloader.download(self.__data)
+        repo_names: list = repDownloader.download(self.__data)
+
+        # search zip files
+        zip_files = []
+        for repo_name in repo_names:
+            directory = os.path.join(
+                Paths.ROOT_FOLDER.value, repo_name["name"])
+            zip_files = zip_files + self.find_zip_files(directory)
+
+        # unzip files
+        for zip_file in zip_files:
+            self.unzip(zip_file["zip"], zip_file["root"])
+
+        # load in dataframe
+        data_frames = {}
+        for repo_name in repo_names:
+            data_frames[repo_name["id"]] = []
+            data_files = []
+
+            directory = os.path.join(
+                Paths.ROOT_FOLDER.value, repo_name["name"])
+            data_files = self.find_data_files(directory)
+
+            for data_file in data_files:
+                data_frames[repo_name["id"]].append(pd.read_csv(data_file))
+
+        return data_frames
 
     def unzip(self, zip_path: str, extract_path: str):
         with ZipFile(zip_path, 'r') as zObject:
@@ -334,9 +361,20 @@ class Repository:
         for root, dirs, files in os.walk(path):
             for file in files:
                 if file.endswith(".zip"):
-                    zip_files.append(os.path.join(root, file))
+                    zip_path = os.path.join(root, file)
+                    zip_files.append({"root": root, "zip": zip_path})
 
         return zip_files
+
+    def find_data_files(self, path: str):
+        data_files = []
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                if file.endswith(".data") or file.endswith(".csv"):
+                    path = os.path.join(root, file)
+                    data_files.append(path)
+
+        return data_files
 
     # TODO
     def explore(self) -> None:

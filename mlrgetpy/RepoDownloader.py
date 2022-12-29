@@ -55,7 +55,7 @@ class RepodDownloader:
 
                 downloader = DownloaderOld(current_url, repo_name)
                 downloader.initiateDownload()
-                repo_names.append(repo_name)
+                repo_names.append({"id": index, "name": repo_name})
 
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
                 temp = row["URLFolder"].replace(self.__new_sub_url, "")
@@ -63,12 +63,12 @@ class RepodDownloader:
 
                 downloader = DownloaderNew(current_url, repo_name)
                 downloader.initiateDownload()
-                repo_names.append(repo_name)
+                repo_names.append({"id": index, "name": repo_name})
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
                 downloader = DownloaderNewHref(
                     href_url=href, repo_name=repo_name)
                 downloader.initiateDownload()
-                repo_names.append(repo_name)
+                repo_names.append({"id": index, "name": repo_name})
             else:
                 print(
                     f'rep {index}: Not compatible url ({row["URLFolder"]}), href: {href}')

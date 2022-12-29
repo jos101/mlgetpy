@@ -105,8 +105,32 @@ class TestRepository(unittest.TestCase):
         result = rep.find_zip_files(path)
 
         expected = [
-            os.path.join('mlrgetpy', 'tests', 'zip', 'hello.zip'),
-            os.path.join('mlrgetpy', 'tests', 'zip', 'foo', 'bar.zip')
+            {
+                "root": os.path.join('mlrgetpy', 'tests', 'zip'),
+                "zip": os.path.join('mlrgetpy', 'tests', 'zip', 'hello.zip')
+            },
+            {
+                'root': os.path.join('mlrgetpy', 'tests', 'zip'),
+                'zip': os.path.join('mlrgetpy', 'tests', 'zip', 'nested.zip')
+            },
+            {
+                "root": os.path.join('mlrgetpy', 'tests', 'zip', 'foo'),
+                "zip": os.path.join('mlrgetpy', 'tests', 'zip', 'foo', 'bar.zip')
+            }
+        ]
+
+        self.assertListEqual(expected, result)
+
+    def test_find_data_files(self):
+        rep = Repository()
+        path = os.path.join('mlrgetpy', 'tests', 'zip')
+        result = rep.find_data_files(path)
+
+        expected = [
+            os.path.join('mlrgetpy', 'tests', 'zip', 'set1.data'),
+            os.path.join('mlrgetpy', 'tests', 'zip', 'set2.data'),
+            os.path.join('mlrgetpy', 'tests', 'zip', 'set3.csv'),
+            os.path.join('mlrgetpy', 'tests', 'zip', 'bar', 'set4.csv')
         ]
 
         self.assertListEqual(expected, result)

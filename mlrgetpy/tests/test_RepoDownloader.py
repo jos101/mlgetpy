@@ -12,9 +12,11 @@ class test_RepoDownloader(unittest.TestCase):
         dataframe: pd.DataFrame = self.__dataframe()
         result = down.download(dataframe)
 
-        expected = ['722_[NATICUSdroid (Android Permissions) Dataset]',
-                    '719_[Bengali Hate Speech Detection Dataset]',
-                    '53_[Iris]']
+        expected = [{"id": 722,
+                     "name": '722_[NATICUSdroid (Android Permissions) Dataset]'},
+                    {"id": 719,
+                        "name": '719_[Bengali Hate Speech Detection Dataset]'},
+                    {"id": 53, "name": '53_[Iris]'}]
 
         self.assertListEqual(expected, result)
 
