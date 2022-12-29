@@ -36,9 +36,12 @@ class RepodDownloader:
     def download(self, data: pd.DataFrame):
         req = RequestHelper()
         dataset: DataSetListAbstract = DataSetListAbstract()
+        repo_names = []
 
         print()
         for index, row in data.iterrows():
+            repo_name = f'{index}_[{row["Name"]}]'
+
             # print(row)
             href = urljoin(self.__new_url, dataset.get_href_by_id(index))
             response = req.head(href)
@@ -50,25 +53,28 @@ class RepodDownloader:
                 temp = row["URLFolder"].replace(self.__old_sub_url, "")
                 current_url = urljoin(self.__old_url, temp)
 
-                downloader = DownloaderOld(
-                    current_url, repo_name=f'{index}_[{row["Name"]}]')
+                downloader = DownloaderOld(current_url, repo_name)
                 downloader.initiateDownload()
+                repo_names.append(repo_name)
 
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
                 temp = row["URLFolder"].replace(self.__new_sub_url, "")
                 current_url = urljoin(self.__new_url, temp)
 
-                downloader = DownloaderNew(
-                    current_url, repo_name=f'{index}_[{row["Name"]}]')
+                downloader = DownloaderNew(current_url, repo_name)
                 downloader.initiateDownload()
+                repo_names.append(repo_name)
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
                 downloader = DownloaderNewHref(
-                    href_url=href, repo_name=f'{index}_[{row["Name"]}]')
+                    href_url=href, repo_name=repo_name)
                 downloader.initiateDownload()
+                repo_names.append(repo_name)
             else:
                 print(
                     f'rep {index}: Not compatible url ({row["URLFolder"]}), href: {href}')
                 continue
+
+        return repo_names
 
     def downloadALl(self, rep):
         NotImplemented

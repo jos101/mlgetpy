@@ -61,6 +61,34 @@
                                 "lastName": "Karim",
                                 "user": "rezaul.karim.fit@gmail.com"
                             }
+                        },
+                        {
+                            "ID": 53,
+                            "userID": 1,
+                            "introPaperID": "None",
+                            "Name": "Iris",
+                            "Abstract": "A small classic dataset from Fisher, 1936. One of the earliest datasets used for evaluation of classification methodologies.\n",
+                            "Area": "Life Science",
+                            "Task": "Classification",
+                            "Types": "Multivariate",
+                            "DOI": null,
+                            "DateDonated": "1988-07-01T00:00:00.000Z",
+                            "isTabular": true,
+                            "URLFolder": "../machine-learning-databases/iris/",
+                            "URLReadMe": "../machine-learning-databases/iris/iris.names",
+                            "URLLink": null,
+                            "Graphics": "https://archive.ics.uci.edu/ml/assets/MLimages",
+                            "Status": "APPROVED",
+                            "NumHits": 150106,
+                            "NumInstances": 150,
+                            "NumAttributes": 4,
+                            "AttributeTypes": "Real",
+                            "slug": "iris",
+                            "users": {
+                                "firstName": "Daniel",
+                                "lastName": "Jiang",
+                                "user": "dwjiang@uci.edu"
+                            }
                         }
                     ],
                     "count": 612
