@@ -98,3 +98,15 @@ class TestRepository(unittest.TestCase):
 
         if os.path.exists(file):
             os.remove(file)
+
+    def test_find_zip_files(self):
+        rep = Repository()
+        path = os.path.join('mlrgetpy', 'tests', 'zip')
+        result = rep.find_zip_files(path)
+
+        expected = [
+            os.path.join('mlrgetpy', 'tests', 'zip', 'hello.zip'),
+            os.path.join('mlrgetpy', 'tests', 'zip', 'foo', 'bar.zip')
+        ]
+
+        self.assertListEqual(expected, result)

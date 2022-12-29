@@ -19,7 +19,7 @@ class DataSetListAbstract:
     # {"0":{"json":53}}
     __url2 = "https://archive-beta.ics.uci.edu/trpc/donated_datasets.getById?batch=1&input="
 
-    __creator_url = "https://archive-beta.ics.uci.edu/trpc/creators.getByDatasetId?batch=1&input="
+    __creator_url = "https://archive-beta.ics.uci.edu/trpc/creators.findByDatasetId?batch=1&input="
 
     '''
     URL to get repositories with the input in a json object

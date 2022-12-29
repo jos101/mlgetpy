@@ -19,6 +19,7 @@ import rich
 
 from mlrgetpy.log.ConfigLog import ConfigLog
 from zipfile import ZipFile
+import os
 
 
 @dataclass
@@ -328,8 +329,14 @@ class Repository:
             zObject.extractall(extract_path)
 
     # TODO
-    def find_zip_files(self):
-        NotImplemented
+    def find_zip_files(self, path: str):
+        zip_files = []
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                if file.endswith(".zip"):
+                    zip_files.append(os.path.join(root, file))
+
+        return zip_files
 
     # TODO
     def explore(self) -> None:
