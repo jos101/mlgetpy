@@ -134,3 +134,15 @@ class TestRepository(unittest.TestCase):
         ]
 
         self.assertListEqual(expected, result)
+
+    def test_structure(self):
+        rep = Repository()
+        rep.addByIDs(IDs=[53])
+        rep.download()
+        result = rep.structure()
+
+        expected = """53_[Iris]
+├──bezdekIris.data
+└──iris.data
+"""
+        self.assertEqual(expected, result)

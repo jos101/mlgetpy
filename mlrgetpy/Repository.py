@@ -21,6 +21,7 @@ from mlrgetpy.log.ConfigLog import ConfigLog
 from zipfile import ZipFile
 import os
 from mlrgetpy.enums.Paths import Paths
+from pathlib import Path
 
 
 @dataclass
@@ -29,6 +30,7 @@ class Repository:
     __data: pd.DataFrame = field(init=False, repr=False)
     __data_set_list: DataSetListAbstract = field(init=False, repr=False)
     __dfc: DataFrameConverter = field(init=False, repr=False)
+    __structure: str = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
         self.__data_set_list = DataSetListFactory.create("cache")
@@ -338,22 +340,36 @@ class Repository:
 
         # load in dataframe
         data_frames = {}
+        self.__structure = ""
         for repo_name in repo_names:
-            data_frames[repo_name["id"]] = []
+            data_frames[repo_name["id"]] = {}
             data_files = []
+            self.__structure += f"{repo_name['name']}\n"
 
             directory = os.path.join(
                 Paths.ROOT_FOLDER.value, repo_name["name"])
             data_files = self.find_data_files(directory)
 
+            pos = -1
             for data_file in data_files:
-                data_frames[repo_name["id"]].append(pd.read_csv(data_file))
+                pos += 1
+                p = Path(data_file)
+
+                sep = "├──"
+                if pos == len(data_files) - 1:
+                    sep = "└──"
+
+                self.__structure += f"{sep}{p.name}\n"
+                data_frames[repo_name["id"]][p.name] = pd.read_csv(data_file)
 
         return data_frames
 
     def unzip(self, zip_path: str, extract_path: str):
         with ZipFile(zip_path, 'r') as zObject:
             zObject.extractall(extract_path)
+
+    def structure(self) -> str:
+        return self.__structure
 
     # TODO
     def find_zip_files(self, path: str):
