@@ -33,7 +33,7 @@ class Repository:
     __structure: str = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self.__data_set_list = DataSetListFactory.create("cache")
+        self.__data_set_list = DataSetListFactory.create("cache_html")
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
 

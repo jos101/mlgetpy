@@ -22,6 +22,8 @@ from mlrgetpy.downloader.DownloaderNewHref import DownloaderNewHref
 from mlrgetpy.downloader.DownloaderOld import DownloaderOld
 from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
 from mlrgetpy.datasetlist.DataSetListAbstract import DataSetListAbstract
+import urllib.parse
+from bs4 import BeautifulSoup
 
 
 @dataclass
@@ -49,6 +51,8 @@ class RepodDownloader:
 
             # req.get(row["URLFolder"])
             # join with ml/machine-learning-databases/<index_repo>/
+
+            # old url (../machine-learning-databases/Iris/)
             if row["URLFolder"][0:30] == self.__old_sub_url:
                 temp = row["URLFolder"].replace(self.__old_sub_url, "")
                 current_url = urljoin(self.__old_url, temp)
@@ -57,6 +61,7 @@ class RepodDownloader:
                 downloader.initiateDownload()
                 repo_names.append({"id": index, "name": repo_name})
 
+            # new url no zip
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
                 temp = row["URLFolder"].replace(self.__new_sub_url, "")
                 current_url = urljoin(self.__new_url, temp)
@@ -64,17 +69,49 @@ class RepodDownloader:
                 downloader = DownloaderNew(current_url, repo_name)
                 downloader.initiateDownload()
                 repo_names.append({"id": index, "name": repo_name})
+
+            # zip in new url
             elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
                 downloader = DownloaderNewHref(
                     href_url=href, repo_name=repo_name)
                 downloader.initiateDownload()
                 repo_names.append({"id": index, "name": repo_name})
+
             else:
-                print(
-                    f'rep {index}: Not compatible url ({row["URLFolder"]}), href: {href}')
-                continue
+                url_folder = self.data_folder(row["Name"])
+
+                if url_folder == None:
+                    msg = f'rep {index}: Not compatible url' + "\n"
+                    msg += f'  URL Folder: {row["URLFolder"]}' + "\n"
+                    msg += f'  href: {href}'
+                    print(msg)
+                    continue
+
+                # data folder from old url
+                temp = url_folder.replace(self.__old_sub_url, "")
+                current_url = urljoin(self.__old_url, temp)
+
+                downloader = DownloaderOld(current_url, repo_name)
+                downloader.initiateDownload()
+                repo_names.append({"id": index, "name": repo_name})
 
         return repo_names
 
     def downloadALl(self, rep):
         NotImplemented
+
+    def data_folder(self, repo_name):
+        url_folder = None
+        root_url = 'https://archive.ics.uci.edu/ml/datasets/'
+        name = urllib.parse.quote_plus(repo_name)
+        url = urljoin(root_url, name)
+
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        links = soup.find_all('a', href=True)
+        for link in links:
+            if link.text == 'Data Folder':
+                url_folder = link['href']
+
+        return url_folder
