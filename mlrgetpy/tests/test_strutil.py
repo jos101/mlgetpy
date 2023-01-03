@@ -59,7 +59,7 @@ class test_strutil(unittest.TestCase):
         self.assertEqual(expected, result)
 
         result = Strutil.left("jsbach_harmony.data", 18)
-        expected = "jsbach_[...]y.data"
+        expected = "jsbach_"
         self.assertEqual(expected, result)
 
     # @unittest.skip("skipped")
@@ -68,8 +68,8 @@ class test_strutil(unittest.TestCase):
         expected = "y.data"
         self.assertEqual(expected, result)
 
-        result = Strutil.left("jsbach_harmony.data", 18)
-        expected = "jsbach_harmony.data"
+        result = Strutil.right("jsbach_harmony.data", 18)
+        expected = "y.data"
         self.assertEqual(expected, result)
 
     # @unittest.skip("skipped")
@@ -79,9 +79,9 @@ class test_strutil(unittest.TestCase):
         self.assertEqual(expected, result)
 
         result = Strutil.shorten("jsbach_harmony.data", 18)
-        expected = "jsbach_harmony.data"
+        expected = "jsbach_[...]y.data"
         self.assertEqual(expected, result)
 
         result = Strutil.shorten("jsbach_harmony.data", 18)
-        expected = "jsbach_harmony.data"
+        expected = "jsbach_[...]y.data"
         self.assertEqual(expected, result)
