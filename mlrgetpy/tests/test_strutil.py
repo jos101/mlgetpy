@@ -52,3 +52,36 @@ class test_strutil(unittest.TestCase):
                                  "tabular ", "long long ", "long"]
         self.assertListEqual(expected_result, result,
                              "last element with long paragraph")
+
+    def test_left(self):
+        result = Strutil.left("jsbach_chorals_harmony.data", 18)
+        expected = "jsbach_"
+        self.assertEqual(expected, result)
+
+        result = Strutil.left("jsbach_harmony.data", 18)
+        expected = "jsbach_[...]y.data"
+        self.assertEqual(expected, result)
+
+    # @unittest.skip("skipped")
+    def test_right(self):
+        result = Strutil.right("jsbach_chorals_harmony.data", 18)
+        expected = "y.data"
+        self.assertEqual(expected, result)
+
+        result = Strutil.left("jsbach_harmony.data", 18)
+        expected = "jsbach_harmony.data"
+        self.assertEqual(expected, result)
+
+    # @unittest.skip("skipped")
+    def test_shorten(self):
+        result = Strutil.shorten("jsbach_chorals_harmony.data", 18)
+        expected = "jsbach_"'[...]'"y.data"
+        self.assertEqual(expected, result)
+
+        result = Strutil.shorten("jsbach_harmony.data", 18)
+        expected = "jsbach_harmony.data"
+        self.assertEqual(expected, result)
+
+        result = Strutil.shorten("jsbach_harmony.data", 18)
+        expected = "jsbach_harmony.data"
+        self.assertEqual(expected, result)

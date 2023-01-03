@@ -1,6 +1,7 @@
 from typing import List
 
 from sympy import false, true
+import math
 
 
 class Strutil:
@@ -55,3 +56,31 @@ class Strutil:
             value = li[idx]
 
         return value
+
+    def left(fname, size: int = 18, pad="[...]") -> str:
+        if len(fname) < size:
+            return fname
+
+        num = (size - len(pad)) / 2
+        if (num % 2) != 0:
+            num += 1
+        num = math.floor(num)
+
+        return fname[0:num]
+
+    def right(fname, size: int = 18, pad="[...]") -> str:
+        if len(fname) < size:
+            return fname
+
+        num = (size - len(pad)) / 2
+        num = math.floor(num)
+
+        index1 = len(fname) - num
+
+        return fname[index1:]
+
+    def shorten(fname, size: int = 18, pad="[...]"):
+        if len(fname) < size:
+            return fname
+
+        return Strutil.left(fname, size, pad) + pad + Strutil.right(fname, size, pad)
