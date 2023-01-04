@@ -16,6 +16,7 @@ from rich import print
 from urllib.parse import urljoin
 import requests
 from urllib import parse
+from mlrgetpy.downloader.DownloaderError import DownloaderError
 from mlrgetpy.downloader.DownloaderNew import DownloaderNew
 from mlrgetpy.downloader.DownloaderNewHref import DownloaderNewHref
 
@@ -81,10 +82,10 @@ class RepodDownloader:
                 url_folder = self.data_folder(row["Name"])
 
                 if url_folder == None:
-                    msg = f'rep {index}: Not compatible url' + "\n"
-                    msg += f'  URL Folder: {row["URLFolder"]}' + "\n"
-                    msg += f'  href: {href}'
-                    print(msg)
+                    current_url = ""
+                    downloader = DownloaderError(
+                        current_url, href, row["URLFolder"], repo_name)
+                    downloader.initiateDownload()
                     continue
 
                 # data folder from old url
