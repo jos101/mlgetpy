@@ -9,6 +9,7 @@ from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
 from mlrgetpy.log.ConfigLog import ConfigLog
 from mlrgetpy.URLManager import URLManager
+from mlrgetpy.BoxDownload import BoxDownload
 
 
 @dataclass
@@ -27,6 +28,8 @@ class DownloaderOld(DownloaderAbstract):
         #print(f"OLD: current url ->{self.current_url}")
 
         #print(f"Links: {links}")
+
+        bdo = BoxDownload()
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
 
@@ -36,16 +39,17 @@ class DownloaderOld(DownloaderAbstract):
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
 
-        print("┌" + "─" * 90 + "┐")
-        print(f"│{self.repo_name:90s}│")
-        print("├" + "─" * 90 + "┤")
+        print(bdo.top())
+        print(bdo.header(self.repo_name))
+        print(bdo.row_sep())
         self.downloadLinks(links_path)
-        print("└" + "─" * 90 + "┘")
+        print(bdo.bottom())
 
     def downloadLinks(self, links_path):
+        bdo = BoxDownload()
         print('\033[?25l', end="")  # hide cursor
         for path in links_path:
-            print(f"│{path['url']:90s}│")
+            print(bdo.text_row(path['url']))
             response = self.req.get(path['url'], expecting_json=False)
             links = self.getLinks(response)
             archives: List = []

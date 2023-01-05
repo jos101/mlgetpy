@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 import time
 from mlrgetpy.util.Strutil import Strutil
 import textwrap
+from mlrgetpy.BoxDownload import BoxDownload
 
 
 @dataclass
@@ -32,11 +33,10 @@ class MyProgressBar():
 
         #download is not complete
         if downloaded < total_size:
-            perc = int((downloaded / total_size)*size)
+            percentage = (downloaded / total_size)
 
             str_progress = self.__get_string_size(downloaded)
-            self.__print_bar(name_wrap, perc, size, downloaded,
-                             total_size, str_progress)
+            self.__print_bar(name_wrap, percentage, str_progress)
 
             for name in name_wrap:
                 print("\033[A", end="\r")
@@ -44,28 +44,25 @@ class MyProgressBar():
         # download is complete
         else:
             str_progress = self.__get_string_size(total_size)
-            self.__print_bar(name_wrap, size, size, total_size,
-                             total_size, str_progress)
+            self.__print_bar(name_wrap, 1, str_progress)
             # self.pbar.finish()
 
-    def __print_bar(self, name_wrap: list, perc, size, downloaded, total_size, str_progress: str):
-        t_down = "━" * perc
-        t_ream = " " * (size - perc)
+    def __print_bar(self, name_wrap: list, perc, str_progress: str):
         tree = "├──"
 
         if self.last == True:
             tree = "└──"
 
+        bdo = BoxDownload()
         first = True
         content = ""
         for name in name_wrap:
             if first:
-                content = f"{tree}{name:20s} {str_progress:10s} [{t_down}{t_ream}] { int(perc/size*100)}%"
-                content = f"│{content:90s}│"
+                content = bdo.download_row(tree, name, str_progress, perc)
                 first = False
             else:
                 content += "\n"
-                content += f"││  {name:87}│"
+                content += bdo.download_row2("│", name)
 
         print(f"{content}")
 
