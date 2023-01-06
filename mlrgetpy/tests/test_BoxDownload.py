@@ -75,3 +75,10 @@ class test_BoxDownload(unittest.TestCase):
         result = bod.download_row(tree, file, str_progress, perc)
         expected = "│└──Iris.data               1054 Bytes    [━━━━━━━━━         ]50%    │"
         self.assertEqual(expected, result)
+
+    def test_progress_bar(self):
+        bod = BoxDownload(70, False)
+        result = bod.progress_bar(0.6, 15)
+        expected = "[━━━━━━━━     ]"
+
+        self.assertEqual(expected, result)

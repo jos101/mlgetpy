@@ -10,7 +10,8 @@ from mlrgetpy.BoxDownload import BoxDownload
 class MyProgressBar():
     fname: str = field()
     last: bool = field()
-    short: str = field(default=True)
+    # TODO : add to a config file
+    short: str = field(default=False)
     __num_calls = 0
 
     def __post_init__(self) -> None:
