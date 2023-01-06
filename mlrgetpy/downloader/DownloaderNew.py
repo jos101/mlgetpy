@@ -8,6 +8,7 @@ from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
 from mlrgetpy.URLManager import URLManager
+from mlrgetpy.BoxDownload import BoxDownload
 
 
 @dataclass
@@ -20,6 +21,7 @@ class DownloaderNew(DownloaderAbstract):
     url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
     sub_url = "/ml/datasets/"
     parent_url = "/static/ml/datasets"
+    __bdo = BoxDownload()
 
     def initiateDownload(self):
         #print("New: Initiate download")
@@ -31,11 +33,19 @@ class DownloaderNew(DownloaderAbstract):
         links_path = self.create_links_path(
             self.parent_url, self.current_url, name_folder)
 
-        print("┌" + "─" * 90 + "┐")
-        print(f"│{self.repo_name:90s}│")
-        print("├" + "─" * 90 + "┤")
-        self.downloadLinks(links_path)
-        print("└" + "─" * 90 + "┘")
+        print(self.__bdo.top())
+        print(self.__bdo.text_row(self.repo_name))
+        print(self.__bdo.row_sep())
+
+        if len(links_path):
+            self.downloadLinks(links_path)
+        else:
+            left = "Not Found:"
+            right = "There is no Links in the url "
+            print(self.__bdo.text_row(f"{self.current_url}"))
+            print(self.__bdo.download_row3(left, right, 10))
+
+        print(self.__bdo.bottom())
 
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []

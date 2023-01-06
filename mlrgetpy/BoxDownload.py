@@ -14,6 +14,7 @@ class BoxDownload:
     __perc_width = 0
     __file_width = 0
 
+   # TODO Tests
     def __post_init__(self) -> None:
         self.calc_sizes()
 
@@ -65,6 +66,16 @@ class BoxDownload:
 
         text = "│" + tree + file + "│"
         text = text.ljust(self.__file_width, ' ')
+
+        return text
+
+    def download_row3(self, left, right, left_width=5):
+        self.calc_sizes()
+
+        left2 = left.ljust(left_width, ' ')
+        right2 = right.ljust(self.__text_width - left_width, ' ')
+
+        text = "│" + left2 + right2 + "│"
 
         return text
 
