@@ -26,8 +26,7 @@ class DataSetListHTMLCache (DataSetListAbstract):
             datasets_json = self.__dataset_html.findAll()
             self.save_object([datasets_json, current_date], self.__file_cache)
         else:
-            print()
-            print("using cache...")
+            ConfigLog.log.write_caching(self.__file_cache)
             datasets_json = cached_response
 
         return datasets_json

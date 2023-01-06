@@ -29,3 +29,7 @@ class NoLog(LogAbstract):
     @abstractmethod
     def write_create_link_path(self, parent_url, current_url, name_folder):
         pass
+
+    @abstractmethod
+    def write_caching(self, file: str):
+        pass

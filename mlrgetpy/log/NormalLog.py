@@ -39,3 +39,7 @@ class NormalLog(LogAbstract):
         print(f'[create link path] parent url: {parent_url}')
         print(f'                  current_url: {current_url}')
         print(f'                  name folder: {name_folder}')
+
+    @abstractmethod
+    def write_caching(self, file: str):
+        print(f'[using caching] {file}')
