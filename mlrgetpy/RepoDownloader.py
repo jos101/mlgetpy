@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import json
 from msilib.schema import Directory
 import os
 import re
@@ -116,3 +117,39 @@ class RepodDownloader:
                 url_folder = link['href']
 
         return url_folder
+
+    def attributes(self, id: int) -> List[str]:
+        attrs = []
+        req = RequestHelper()
+        url = 'https://archive-beta.ics.uci.edu/dataset/'
+        new_url = urljoin(url, str(id))
+
+        response = req.get(new_url, expecting_json=False)
+        attrs = self.__extract_attributes(response.content)
+
+        return attrs
+
+    def __extract_attributes(self, content: str) -> List[str]:
+        attrs = []
+        soup = BeautifulSoup(content, 'html.parser')
+        datasets = soup.find('script', type="application/json")
+        # attrs=['data-sveltekit-fetched'])
+        data = json.loads(datasets.text)
+        json1 = json.loads(data["body"])
+
+        for item in json1[0]["result"]["data"]["json"]["attributes"]:
+            attrs.append(item["name"])
+
+        return attrs
+
+    def __extract_attributes_tr(self, content: str) -> List[str]:
+        attrs = []
+        soup = BeautifulSoup(content, 'html.parser')
+
+        table = soup.find('table', class_='table w-full my-4')
+
+        trs = table.tbody.find_all('tr')
+        for tr in trs:
+            attrs.append(tr.td.text)
+
+        return attrs

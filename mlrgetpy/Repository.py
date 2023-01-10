@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import List
 from mlrgetpy.Filter import Filter
 
 from mlrgetpy.util.Strutil import Strutil
@@ -360,7 +361,14 @@ class Repository:
                     sep = "└──"
 
                 self.__structure += f"{sep}{p.name}\n"
-                data_frames[repo_name["id"]][p.name] = pd.read_csv(data_file)
+
+                attributes_list: List[str] = self.attributes(repo_name["id"])
+                if (attributes_list):
+                    data_frames[repo_name["id"]
+                                ][p.name] = pd.read_csv(data_file, header=None, names=attributes_list)
+                else:
+                    data_frames[repo_name["id"]
+                                ][p.name] = pd.read_csv(data_file)
 
         return data_frames
 
@@ -409,3 +417,7 @@ class Repository:
         script += f"rep.addByIDs({self.__data.index.tolist()})"
 
         return script
+
+    def attributes(self, id: int):
+        downloader = RepodDownloader()
+        return downloader.attributes(id)

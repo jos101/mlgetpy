@@ -82,6 +82,7 @@ class TestRepository(unittest.TestCase):
         self.assertEqual(
             rep.share(), expected)
 
+    # @unittest.skip("")
     def test_unzip(self):
         rep = Repository()
         extract_path = os.path.join('mlrgetpy', 'tests', 'zip')
@@ -99,6 +100,7 @@ class TestRepository(unittest.TestCase):
         if os.path.exists(file):
             os.remove(file)
 
+    # @unittest.skip("")
     def test_find_zip_files(self):
         rep = Repository()
         path = os.path.join('mlrgetpy', 'tests', 'zip')
@@ -121,6 +123,7 @@ class TestRepository(unittest.TestCase):
 
         self.assertListEqual(expected, result)
 
+    # @unittest.skip("")
     def test_find_data_files(self):
         rep = Repository()
         path = os.path.join('mlrgetpy', 'tests', 'zip')
@@ -135,6 +138,7 @@ class TestRepository(unittest.TestCase):
 
         self.assertListEqual(expected, result)
 
+    # @unittest.skip("")
     def test_structure(self):
         rep = Repository()
         rep.addByIDs(IDs=[53])
