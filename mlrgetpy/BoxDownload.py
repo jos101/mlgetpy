@@ -142,7 +142,8 @@ class BoxDownload:
         """Create a row divided in two parts (left and right)
 
         The concatenation of the left and right part are padded with the
-        text_width
+        text_width. If the right part does not fit, it is wrap in the next lines.
+        The left part will add spaces.
 
         Diference between download_row and download_row2:
 
@@ -156,7 +157,18 @@ class BoxDownload:
 
         │
 
-        └download_row2("│", "ft.csv)                                                                                  │
+        └download_row2("│", "ft.csv")                                                                                  │
+
+
+        In this case will wrap the right part to fit the text witdh  and add 3 spaces in the next line 
+
+        download_row2( "├──", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod")
+
+        │├──Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do  │
+
+        │   eiusmod                                                          │
+
+         ^^^
 
         Args:
             left (str): left part of the rows. Uses character from the text width
@@ -168,14 +180,33 @@ class BoxDownload:
 
         self.calc_sizes()
 
-        text = left + right
-        text = text.ljust(self.__text_width, ' ')
-        text = "│" + text + "│"
+        left_width = len(left)
+        right_width = self.__text_width - left_width
 
-        return text
+        new_text = ""
+        right_list = textwrap.wrap(right, right_width)
+        left_list = [left]
+
+        i = 0
+        first = True
+        while i < len(right_list):
+            left_text = " "
+            if first:
+                left_text = left
+                first = False
+            else:
+                new_text += "\n"
+
+            right_text = right_list[i].ljust(right_width, ' ')
+            left_text = left_text.ljust(left_width, ' ')
+            new_text += "│" + left_text + right_text + "│"
+
+            i += 1
+
+        return new_text
 
     def download_row3(self, left: str, right: str, left_width: int = 5) -> str:
-        """Similar to download_row3 but defines a fix padding in the left side
+        """Similar to download_row2 but defines a fix padding in the left side
 
 
         Diference between download_row2 and download_row3:
@@ -205,11 +236,35 @@ class BoxDownload:
         """
 
         self.calc_sizes()
+        right_width = self.__text_width - left_width
 
-        left2 = left.ljust(left_width, ' ')
-        right2 = right.ljust(self.__text_width - left_width, ' ')
+        left_list = textwrap.wrap(left, left_width)
+        right_list = textwrap.wrap(right, right_width)
 
-        text = "│" + left2 + right2 + "│"
+        i = 0
+        text = ""
+        first = True
+        while i < len(left_list) or i < len(right_list):
+            if first:
+                first = False
+            else:
+                text += "\n"
+
+            text_left = ""
+            text_right = ""
+            if i < len(left_list):
+                text_left = left_list[i].ljust(left_width, ' ')
+            else:
+                text_left = str(" ").ljust(left_width, ' ')
+
+            if i < len(right_list):
+                text_right = right_list[i].ljust(right_width, ' ')
+            else:
+                text_right = str(" ").ljust(right_width, ' ')
+
+            text += "│" + text_left + text_right + "│"
+
+            i += 1
 
         return text
 
@@ -234,8 +289,22 @@ class BoxDownload:
         """
 
         self.calc_sizes()
-        text = text.ljust(self.__text_width, ' ')
-        return f'│{text}│'
+        new_text = ""
+        text_list = textwrap.wrap(text, self.__text_width)
+
+        i = 0
+        first = True
+        while i < len(text_list):
+            if first:
+                first = False
+            else:
+                new_text += "\n"
+
+            new_text += "│" + text_list[i].ljust(self.__text_width, ' ') + "│"
+
+            i += 1
+
+        return new_text
 
     def row_sep(self) -> str:
         """Create the row separator of the box in ascii
