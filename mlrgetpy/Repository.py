@@ -363,7 +363,10 @@ class Repository:
                 self.__structure += f"{sep}{p.name}\n"
 
                 attributes_list: List[str] = self.attributes(repo_name["id"])
-                if (attributes_list):
+                if (attributes_list and self.__has_duplicated == False):
+                    # TODO: log of this print
+                    #print(f"datafile: {data_file}")
+                    #print(f"attribute list: {attributes_list}")
                     data_frames[repo_name["id"]
                                 ][p.name] = pd.read_csv(data_file, header=None, names=attributes_list)
                 else:
@@ -371,6 +374,17 @@ class Repository:
                                 ][p.name] = pd.read_csv(data_file)
 
         return data_frames
+
+    def __has_duplicated(self, list: List) -> bool:
+        """Check if the list has duplicated items
+
+        Args:
+            list (List): the list with values
+
+        Returns:
+            bool: True is the list has duplicated itmes, false if every item is unique
+        """
+        return len(list) != len(set(list))
 
     def unzip(self, zip_path: str, extract_path: str):
         with ZipFile(zip_path, 'r') as zObject:

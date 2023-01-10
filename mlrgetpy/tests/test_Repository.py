@@ -150,3 +150,14 @@ class TestRepository(unittest.TestCase):
 └──iris.data
 """
         self.assertEqual(expected, result)
+
+    # @unittest.skip("")
+    def test_has_duplicated(self):
+        rep = Repository()
+        result = rep._Repository__has_duplicated(['one', 'two', 'three'])
+        expected = False
+        self.assertEqual(expected, result)
+
+        result = rep._Repository__has_duplicated(['one', 'two', 'one'])
+        expected = True
+        self.assertEqual(expected, result)
