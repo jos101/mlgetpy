@@ -4,6 +4,8 @@ from mlrgetpy.DataLoader import DataLoader
 from typing import List
 import pandas as pd
 
+from mlrgetpy.util.ListUtil import ListUtil
+
 
 @dataclass
 class DataLoaderCSV(DataLoader):
@@ -12,7 +14,7 @@ class DataLoaderCSV(DataLoader):
     def load(self, data_file: str, attributes_list: List[str]):
         df: pd.DataFrame
 
-        if (attributes_list and self.__has_duplicated(attributes_list) == False):
+        if (attributes_list and ListUtil.has_duplicated(attributes_list) == False):
             # TODO: log of this print
             #print(f"datafile: {data_file}")
             #print(f"attribute list: {attributes_list}")
@@ -21,14 +23,3 @@ class DataLoaderCSV(DataLoader):
             df = pd.read_csv(data_file)
 
         return df
-
-    def __has_duplicated(self, list: List) -> bool:
-        """Check if the list has duplicated items
-
-        Args:
-            list (List): the list with values
-
-        Returns:
-            bool: True is the list has duplicated itmes, false if every item is unique
-        """
-        return len(list) != len(set(list))
