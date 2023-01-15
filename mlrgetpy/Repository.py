@@ -363,7 +363,7 @@ class Repository:
                 self.__structure += f"{sep}{p.name}\n"
 
                 attributes_list: List[str] = self.attributes(repo_name["id"])
-                if (attributes_list and self.__has_duplicated == False):
+                if (attributes_list and self.__has_duplicated(attributes_list) == False):
                     # TODO: log of this print
                     #print(f"datafile: {data_file}")
                     #print(f"attribute list: {attributes_list}")
@@ -408,7 +408,7 @@ class Repository:
         data_files = []
         for root, dirs, files in os.walk(path):
             for file in files:
-                if file.endswith(".data") or file.endswith(".csv"):
+                if file.endswith(".data") or file.endswith(".csv") or file.endswith(".xls") or file.endswith(".xlsx"):
                     path = os.path.join(root, file)
                     data_files.append(path)
 
