@@ -34,7 +34,7 @@ class DownloaderNewHref(DownloaderAbstract):
     """
     href_url: str = field(default="")
     repo_name: str = field(default="")
-    req: RequestHelper = RequestHelper()
+    req: RequestHelper = field(default_factory=lambda: RequestHelper())
 
     root_url = "https://archive-beta.ics.uci.edu"
 

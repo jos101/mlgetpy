@@ -16,7 +16,7 @@ from mlrgetpy.BoxDownload import BoxDownload
 class DownloaderOld(DownloaderAbstract):
     current_url: str = field()
     repo_name: str = field(default="")
-    req: RequestHelper = RequestHelper()
+    req: RequestHelper = field(default_factory=lambda: RequestHelper())
 
     root_url = "https://archive.ics.uci.edu"
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/"
@@ -24,16 +24,16 @@ class DownloaderOld(DownloaderAbstract):
     parent_url = "/ml/machine-learning-databases/"
 
     def initiateDownload(self):
-        #print("OLD: Initiate download")
-        #print(f"OLD: current url ->{self.current_url}")
+        # print("OLD: Initiate download")
+        # print(f"OLD: current url ->{self.current_url}")
 
-        #print(f"Links: {links}")
+        # print(f"Links: {links}")
 
         bdo = BoxDownload()
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
 
-        #print(f"repo_name2: {repo_name2}")
+        # print(f"repo_name2: {repo_name2}")
         self.__createDirPath(directory)
 
         links_path = self.create_links_path(

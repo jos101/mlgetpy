@@ -5,7 +5,6 @@ from mlrgetpy.log.NormalLog import NormalLog
 from mlrgetpy.log.LogAbstract import LogAbstract
 
 
-@dataclass
 class ConfigLog:
 
     log: LogAbstract = NoLog()

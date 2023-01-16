@@ -1,6 +1,11 @@
 from dataclasses import dataclass, field
+import dataclasses
 from typing import List
 from mlrgetpy.Filter import Filter
+from mlrgetpy.config.ConfigLogFactory import ConfigLogfactory
+from mlrgetpy.config.ConfigRep import ConfigRep
+from mlrgetpy.log.NoLog import NoLog
+from mlrgetpy.log.NormalLog import NormalLog
 
 from mlrgetpy.util.Strutil import Strutil
 from mlrgetpy.DataFrameConverter import DataFrameConverter
@@ -33,10 +38,18 @@ class Repository:
     __dfc: DataFrameConverter = field(init=False, repr=False)
     __structure: str = field(init=False, repr=False)
 
+    _: dataclasses.KW_ONLY
+    log: str = field(init=True, repr=False, default="No_log")
+    method: str = field(init=True, repr=False, default="cache_html")
+    short_name: bool = field(init=True, default=True)
+
     def __post_init__(self) -> None:
-        self.__data_set_list = DataSetListFactory.create("cache_html")
+        self.__data_set_list = DataSetListFactory.create(self.method)
         self.__dfc = DataFrameConverter()
         self.__data = pd.DataFrame()
+
+        ConfigLogfactory.create(self.log)
+        ConfigRep.short_name = self.short_name
 
     '''
     removes columns no needed in showdata
@@ -365,8 +378,8 @@ class Repository:
                 attributes_list: List[str] = self.attributes(repo_name["id"])
                 if (attributes_list and self.__has_duplicated(attributes_list) == False):
                     # TODO: log of this print
-                    #print(f"datafile: {data_file}")
-                    #print(f"attribute list: {attributes_list}")
+                    # print(f"datafile: {data_file}")
+                    # print(f"attribute list: {attributes_list}")
                     data_frames[repo_name["id"]
                                 ][p.name] = pd.read_csv(data_file, header=None, names=attributes_list)
                 else:

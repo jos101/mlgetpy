@@ -15,7 +15,7 @@ from mlrgetpy.BoxDownload import BoxDownload
 class DownloaderNew(DownloaderAbstract):
     current_url: str = field()
     repo_name: str = field(default="")
-    req: RequestHelper = RequestHelper()
+    req: RequestHelper = field(default_factory=lambda: RequestHelper())
 
     root_url = "https://archive-beta.ics.uci.edu"
     url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
@@ -24,7 +24,7 @@ class DownloaderNew(DownloaderAbstract):
     __bdo = BoxDownload()
 
     def initiateDownload(self):
-        #print("New: Initiate download")
+        # print("New: Initiate download")
 
         directory = os.path.join("repo_download")
         name_folder = os.path.join(directory, self.repo_name)
@@ -50,7 +50,7 @@ class DownloaderNew(DownloaderAbstract):
     def create_links_path(self, parent_url, url, name_folder):
         list_urls = []
         response = self.req.head(url)
-        #print(f"header: {response.headers['Content-Type'].rsplit(';')[0]}")
+        # print(f"header: {response.headers['Content-Type'].rsplit(';')[0]}")
         if response.headers['Content-Type'].rsplit(';')[0] == 'text/html':
             list_urls = [{'url': url, 'name_folder': name_folder}]
             self.__createDirPath(name_folder)
@@ -82,7 +82,7 @@ class DownloaderNew(DownloaderAbstract):
 
                 res2 = self.req.head(urljoin(path['url'], link))
                 if res2.headers['Content-Type'].rsplit(';')[0] != 'text/html':
-                    #print(f"  arhive: {urljoin(i[0], link)}")
+                    # print(f"  arhive: {urljoin(i[0], link)}")
                     archives.append(link)
 
             count = 0

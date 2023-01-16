@@ -1,6 +1,7 @@
 import progressbar
 from dataclasses import dataclass, field
 import time
+from mlrgetpy.config.ConfigRep import ConfigRep
 from mlrgetpy.util.Strutil import Strutil
 import textwrap
 from mlrgetpy.BoxDownload import BoxDownload
@@ -11,7 +12,7 @@ class MyProgressBar():
     fname: str = field()
     last: bool = field()
     # TODO : add to a config file
-    short: str = field(default=False)
+    short: str = field(default=ConfigRep.short_name)
     __num_calls = 0
 
     def __post_init__(self) -> None:
@@ -32,7 +33,7 @@ class MyProgressBar():
         else:
             name_wrap = textwrap.wrap(self.fname, 18)
 
-        #download is not complete
+        # download is not complete
         if downloaded < total_size:
             percentage = (downloaded / total_size)
 

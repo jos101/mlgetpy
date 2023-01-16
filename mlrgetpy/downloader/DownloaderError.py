@@ -12,8 +12,6 @@ class DownloaderError(DownloaderAbstract):
     url_folder: str = field(default="")
     repo_name: str = field(default="")
 
-    req: RequestHelper = RequestHelper()
-
     def initiateDownload(self):
         bdo = BoxDownload()
         text = "Not compatible URL"
