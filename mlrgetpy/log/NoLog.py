@@ -1,10 +1,11 @@
+
 from abc import abstractmethod
 from dataclasses import dataclass
-from mlrgetpy.log.LogAbstract import LogAbstract
+from mlrgetpy.log.ILog import ILog
 
 
 @dataclass
-class NoLog(LogAbstract):
+class NoLog(ILog):
 
     @abstractmethod
     def write_url(self, url: str):
@@ -32,4 +33,12 @@ class NoLog(LogAbstract):
 
     @abstractmethod
     def write_caching(self, file: str):
+        pass
+
+    @abstractmethod
+    def write_datafile(self, file: str):
+        pass
+
+    @abstractmethod
+    def write_attributes(self, file: str):
         pass

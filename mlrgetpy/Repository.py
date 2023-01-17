@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 import dataclasses
 from typing import List
+from mlrgetpy.DataLoaderCSV import DataLoaderCSV
+from mlrgetpy.DataLoaderxls import DataLoaderxls
 from mlrgetpy.Filter import Filter
 from mlrgetpy.config.ConfigLogFactory import ConfigLogfactory
 from mlrgetpy.config.ConfigRep import ConfigRep
@@ -365,9 +367,9 @@ class Repository:
             data_files = self.find_data_files(directory)
 
             pos = -1
-            for data_file in data_files:
+            for datafile in data_files:
                 pos += 1
-                p = Path(data_file)
+                p = Path(datafile)
 
                 sep = "├──"
                 if pos == len(data_files) - 1:
@@ -375,16 +377,15 @@ class Repository:
 
                 self.__structure += f"{sep}{p.name}\n"
 
-                attributes_list: List[str] = self.attributes(repo_name["id"])
-                if (attributes_list and self.__has_duplicated(attributes_list) == False):
-                    # TODO: log of this print
-                    # print(f"datafile: {data_file}")
-                    # print(f"attribute list: {attributes_list}")
-                    data_frames[repo_name["id"]
-                                ][p.name] = pd.read_csv(data_file, header=None, names=attributes_list)
-                else:
-                    data_frames[repo_name["id"]
-                                ][p.name] = pd.read_csv(data_file)
+                dataloader = DataLoaderCSV()
+                if datafile.endswith(".data") or datafile.endswith(".csv"):
+                    dataloader = DataLoaderCSV()
+                elif datafile.endswith(".xls") or datafile.endswith(".xlsx"):
+                    dataloader = DataLoaderxls()
+
+                id = repo_name["id"]
+                attributes: List[str] = self.attributes(id)
+                data_frames[id][p.name] = dataloader.load(datafile, attributes)
 
         return data_frames
 

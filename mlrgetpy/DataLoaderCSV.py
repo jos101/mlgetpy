@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from mlrgetpy.DataLoader import DataLoader
 from typing import List
 import pandas as pd
+from mlrgetpy.log.ConfigLog import ConfigLog
 
 from mlrgetpy.util.ListUtil import ListUtil
 
@@ -15,11 +16,11 @@ class DataLoaderCSV(DataLoader):
         df: pd.DataFrame
 
         if (attributes_list and ListUtil.has_duplicated(attributes_list) == False):
-            # TODO: log of this print
-            #print(f"datafile: {data_file}")
-            #print(f"attribute list: {attributes_list}")
+            ConfigLog.log.write_datafile(data_file, has_header=False)
+            ConfigLog.log.write_attributes(attributes_list)
             df = pd.read_csv(data_file, header=None, names=attributes_list)
         else:
+            ConfigLog.log.write_datafile(data_file, has_header=True)
             df = pd.read_csv(data_file)
 
         return df

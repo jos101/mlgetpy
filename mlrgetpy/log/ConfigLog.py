@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 from mlrgetpy.log.NoLog import NoLog
 from mlrgetpy.log.NormalLog import NormalLog
-from mlrgetpy.log.LogAbstract import LogAbstract
+from mlrgetpy.log.ILog import ILog
 
 
 class ConfigLog:
 
-    log: LogAbstract = NoLog()
+    log: ILog = NoLog()

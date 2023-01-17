@@ -5,7 +5,7 @@ from requests import Response
 
 
 @dataclass
-class LogAbstract:
+class ILog:
 
     @abstractmethod
     def write_url(self, url: str):
@@ -37,4 +37,12 @@ class LogAbstract:
 
     @abstractmethod
     def write_caching(self, file: str):
+        NotImplemented
+
+    @abstractmethod
+    def write_datafile(self, datafile: str, has_header: bool):
+        NotImplemented
+
+    @abstractmethod
+    def write_attributes(self, attributes: str):
         NotImplemented

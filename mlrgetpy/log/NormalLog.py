@@ -2,11 +2,11 @@ from abc import abstractmethod
 from dataclasses import dataclass
 
 from requests import Response
-from mlrgetpy.log.LogAbstract import LogAbstract
+from mlrgetpy.log.ILog import ILog
 
 
 @dataclass
-class NormalLog(LogAbstract):
+class NormalLog(ILog):
 
     @abstractmethod
     def write_url(self, url: str):
@@ -43,3 +43,15 @@ class NormalLog(LogAbstract):
     @abstractmethod
     def write_caching(self, file: str):
         print(f'[using caching] {file}')
+
+    @abstractmethod
+    def write_datafile(self, datafile: str, has_header: bool):
+        print(f"reading datafile: {datafile}")
+        if has_header:
+            print(f"datafile contains headers")
+        else:
+            print(f"datafile without headers")
+
+    @abstractmethod
+    def write_attributes(self, attributes: str):
+        print(f"adding attributes headers: {attributes}")
