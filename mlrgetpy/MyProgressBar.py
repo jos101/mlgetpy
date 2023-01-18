@@ -40,18 +40,22 @@ class MyProgressBar():
             percentage = (downloaded / total_size)
 
             str_progress = self.__get_string_size(downloaded)
-            self.__print_bar(name_wrap, percentage, str_progress)
+            end = "\n"
+            if len(name_wrap) == 1:
+                end = "\r"
+            self.__print_bar(name_wrap, percentage, str_progress, end=end)
 
-            for name in name_wrap:
-                print("\033[A", end="\r")
+            if len(name_wrap) > 1:
+                for name in name_wrap:
+                    print("\033[A", end="\r")
 
         # download is complete
         else:
             str_progress = self.__get_string_size(total_size)
-            self.__print_bar(name_wrap, 1, str_progress)
+            self.__print_bar(name_wrap, 1, str_progress, end="\n")
             # self.pbar.finish()
 
-    def __print_bar(self, name_wrap: list, perc, str_progress: str):
+    def __print_bar(self, name_wrap: list, perc, str_progress: str, end="\n"):
         tree = "├──"
 
         if self.last == True:
@@ -68,7 +72,7 @@ class MyProgressBar():
                 content += "\n"
                 content += bdo.download_row2("│", name)
 
-        print(f"{content}")
+        print(f"{content}", end=end)
 
     def __get_string_size(self, downloaded):
         kbs = downloaded / 1024
