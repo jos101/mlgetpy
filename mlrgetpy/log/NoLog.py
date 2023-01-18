@@ -36,7 +36,7 @@ class NoLog(ILog):
         pass
 
     @abstractmethod
-    def write_datafile(self, file: str):
+    def write_datafile(self, datafile: str, has_header: bool):
         pass
 
     @abstractmethod

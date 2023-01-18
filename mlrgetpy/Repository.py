@@ -39,6 +39,7 @@ class Repository:
     __data_set_list: DataSetListAbstract = field(init=False, repr=False)
     __dfc: DataFrameConverter = field(init=False, repr=False)
     __structure: str = field(init=False, repr=False)
+    __repo_names: List = field(init=False, repr=False)
 
     _: dataclasses.KW_ONLY
     log: str = field(init=True, repr=False, default="No_log")
@@ -338,14 +339,14 @@ class Repository:
         self.__data = pd.concat([self.__data, data])
 
     # TODO
-    def download(self) -> None:
+    def download(self, load=True) -> None:
         # repodoenloader.py
         repDownloader = RepodDownloader()
-        repo_names: list = repDownloader.download(self.__data)
+        self.__repo_names: list = repDownloader.download(self.__data)
 
         # search zip files
         zip_files = []
-        for repo_name in repo_names:
+        for repo_name in self.__repo_names:
             directory = os.path.join(
                 Paths.ROOT_FOLDER.value, repo_name["name"])
             zip_files = zip_files + self.find_zip_files(directory)
@@ -355,6 +356,11 @@ class Repository:
             self.unzip(zip_file["zip"], zip_file["root"])
 
         # load in dataframe
+        data_frames = self.__load_dataframes(self.__repo_names, load)
+
+        return data_frames
+
+    def __load_dataframes(self, repo_names: list, load=True, filenames: List = []):
         data_frames = {}
         self.__structure = ""
         for repo_name in repo_names:
@@ -377,6 +383,14 @@ class Repository:
 
                 self.__structure += f"{sep}{p.name}\n"
 
+                # skip loading in dataframe
+                if load == False:
+                    continue
+
+                # only files in the list are loaded
+                if filenames and p.name not in filenames:
+                    continue
+
                 dataloader = DataLoaderCSV()
                 if datafile.endswith(".data") or datafile.endswith(".csv"):
                     dataloader = DataLoaderCSV()
@@ -388,6 +402,11 @@ class Repository:
                 data_frames[id][p.name] = dataloader.load(datafile, attributes)
 
         return data_frames
+
+    def get_dataframe(self, filenames: List[str]) -> dict:
+        repo_names = self.__repo_names
+        df = self.__load_dataframes(repo_names, load=True, filenames=filenames)
+        return df
 
     def __has_duplicated(self, list: List) -> bool:
         """Check if the list has duplicated items
