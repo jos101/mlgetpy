@@ -27,11 +27,13 @@ class MyProgressBar():
         size = 40
         downloaded = block_num * block_size
 
+        bdo = BoxDownload()
+        file_width = bdo.file_width() - 5
         name_wrap = []
         if self.short == True:
-            name_wrap = [Strutil.shorten(self.fname, 18)]
+            name_wrap = [Strutil.shorten(self.fname, file_width)]
         else:
-            name_wrap = textwrap.wrap(self.fname, 18)
+            name_wrap = textwrap.wrap(self.fname, file_width)
 
         # download is not complete
         if downloaded < total_size:

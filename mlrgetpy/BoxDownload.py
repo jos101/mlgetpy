@@ -348,3 +348,6 @@ class BoxDownload:
                 new_text += "\n" + temp
 
         return new_text
+
+    def file_width(self) -> int:
+        return self.__file_width
