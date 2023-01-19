@@ -41,14 +41,17 @@ class MyProgressBar():
             percentage = (downloaded / total_size)
 
             str_progress = self.__get_string_size(downloaded)
-            end = "\n"
+            end = "\r"
             if len(name_wrap) == 1:
                 end = "\r"
             self.__print_bar(name_wrap, percentage, str_progress, end=end)
 
-            if len(name_wrap) > 1:
-                for name in name_wrap:
-                    print("\033[A", end="\r")
+            # In jupyter notebook is not possible to move the cursor with
+            # the ascii code "\033[A"
+            # if len(name_wrap) > 1:
+            #    for name in name_wrap:
+            #         #move cursor one line up and in the begining of the line
+            #        print("\033[A", end="\r")
 
         # download is complete
         else:
@@ -67,7 +70,7 @@ class MyProgressBar():
         content = ""
         if len(name_wrap) == 1:
             content = bdo.download_row(tree, name_wrap[0], str_progress, perc)
-        elif len(name_wrap) > 1:
+        elif len(name_wrap) > 1 and self.__num_calls == 1:
             count = 0
             for name in name_wrap:
                 count += 1
@@ -84,6 +87,9 @@ class MyProgressBar():
                     else:
                         content += bdo.download_row("│  ",
                                                     name, str_progress, perc)
+        elif len(name_wrap) > 1 and self.__num_calls > 1:
+            content += bdo.download_row("│  ",
+                                        name_wrap[-1], str_progress, perc)
 
         print(f"{content}", end=end)
 
