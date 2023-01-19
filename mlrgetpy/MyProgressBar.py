@@ -17,6 +17,7 @@ class MyProgressBar():
 
     def __post_init__(self) -> None:
         self.pbar = None
+        self.short = ConfigRep.short_name
 
     def __call__(self, block_num, block_size, total_size):
         self.__num_calls += 1
@@ -64,13 +65,25 @@ class MyProgressBar():
         bdo = BoxDownload()
         first = True
         content = ""
-        for name in name_wrap:
-            if first:
-                content = bdo.download_row(tree, name, str_progress, perc)
-                first = False
-            else:
-                content += "\n"
-                content += bdo.download_row2("│", name)
+        if len(name_wrap) == 1:
+            content = bdo.download_row(tree, name_wrap[0], str_progress, perc)
+        elif len(name_wrap) > 1:
+            count = 0
+            for name in name_wrap:
+                count += 1
+                if first:
+                    # content = bdo.download_row(tree, name, str_progress, perc)
+                    content += bdo.download_row2(tree, name)
+                    first = False
+                else:
+                    content += "\n"
+                    # content += bdo.download_row2("│", name)
+                    if count < len(name_wrap):
+                        content += bdo.download_row("│  ",
+                                                    name, str_progress, perc)
+                    else:
+                        content += bdo.download_row("│  ",
+                                                    name, str_progress, perc)
 
         print(f"{content}", end=end)
 
