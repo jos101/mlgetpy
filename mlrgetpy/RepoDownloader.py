@@ -132,9 +132,13 @@ class RepodDownloader:
     def __extract_attributes(self, content: str) -> List[str]:
         attrs = []
         soup = BeautifulSoup(content, 'html.parser')
-        datasets = soup.find('script', type="application/json")
+        datasets = soup.find_all('script', type="application/json")
+
+        if datasets == None or len(datasets) < 2:
+            return []
+
         # attrs=['data-sveltekit-fetched'])
-        data = json.loads(datasets.text)
+        data = json.loads(datasets[1].text)
         json1 = json.loads(data["body"])
 
         for item in json1[0]["result"]["data"]["json"]["attributes"]:
@@ -146,7 +150,10 @@ class RepodDownloader:
         attrs = []
         soup = BeautifulSoup(content, 'html.parser')
 
-        table = soup.find('table', class_='table w-full my-4')
+        table = soup.find('table', class_='my-4 table w-full')
+
+        if table == None:
+            return []
 
         trs = table.tbody.find_all('tr')
         for tr in trs:

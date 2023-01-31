@@ -52,14 +52,14 @@ class test_RepoDownloader(unittest.TestCase):
                     '0D280_0D315_of_diluted_wines', 'Proline']
         self.assertListEqual(expected, result)
 
-    def test_extract_attributes(self):
+    def test_extract_attributes_tr(self):
         downloader = RepodDownloader()
         content = """
 <html>
 <head> </head>
 <body>
 <div class="overflow-x-auto">
-    <table class="table w-full my-4">
+    <table class="my-4 table w-full">
         <thead><tr><th>Attribute Name</th><th>Role</th><th>Type</th><th>Description</th><th>Units</th><th>Missing Values</th></tr></thead>
         <tbody>
             <tr><td>sepal length</td><td>Feature</td><td>Continuous</td><td></td><td>cm</td><td>false</td></tr>
