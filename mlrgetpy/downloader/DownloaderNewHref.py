@@ -39,7 +39,7 @@ class DownloaderNewHref(DownloaderAbstract):
     root_url = "https://archive-beta.ics.uci.edu"
 
     def __post_init__(self) -> None:
-        pattern = "^https://archive-beta\.ics\.uci\.edu/static/ml/datasets/[0-9]+/.+"
+        pattern = "^https://archive-beta\.ics\.uci\.edu/static/public/[0-9]+/.+"
         x = re.search(pattern, self.href_url)
         if x == None:
             msg = f"[DownloaderNewHref error]: Not valid href_url\n"
