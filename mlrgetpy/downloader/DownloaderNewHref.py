@@ -4,6 +4,7 @@ from typing import List
 from urllib.parse import urljoin
 
 from requests import Response
+from mlrgetpy.BoxDownload import BoxDownload
 from mlrgetpy.RequestHelper import RequestHelper
 from mlrgetpy.downloader.DownloaderAbstract import DownloaderAbstract
 from lxml import html
@@ -56,6 +57,7 @@ class DownloaderNewHref(DownloaderAbstract):
             raise ValueError(msg)
 
     def initiateDownload(self):
+        bdo = BoxDownload()
         # print("New: Initiate download")
         url = urljoin(self.root_url, self.href_url)
 
@@ -66,14 +68,15 @@ class DownloaderNewHref(DownloaderAbstract):
 
         response_headers = self.req.head(url)
 
-        print("┌" + "─" * 90 + "┐")
-        print(f"│{self.repo_name:90s}│")
-        print("├" + "─" * 90 + "┤")
+        print(bdo.top())
+        print(bdo.header(self.repo_name))
+        print(bdo.row_sep())
         self.download(response_headers, url, name_folder)
-        print("└" + "─" * 90 + "┘")
+        print(bdo.bottom())
 
     def download(self, response_headers, url, name_folder):
-        print(f"│{self.href_url:90s}│")
+        bdo = BoxDownload()
+        print(bdo.text_row(self.href_url))
 
         self.req.saveFile(response_headers, url, name_folder, True)
 
