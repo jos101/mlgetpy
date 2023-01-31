@@ -124,8 +124,19 @@ class RepodDownloader:
         url = 'https://archive-beta.ics.uci.edu/dataset/'
         new_url = urljoin(url, str(id))
 
-        response = req.get(new_url, expecting_json=False)
-        attrs = self.__extract_attributes(response.content)
+        # extracts attributes from json
+        dt = DataSetListAbstract()
+        attrs = dt.get_attributes(id)
+
+        # extracts attributes from the script tag
+        if attrs == []:
+            response = req.get(new_url, expecting_json=False)
+            attrs = self.__extract_attributes(response.content)
+
+        # extracts attributes from the table tag
+        if attrs == []:
+            response = req.get(new_url, expecting_json=False)
+            attrs = self.__extract_attributes_tr(response.content)
 
         return attrs
 
