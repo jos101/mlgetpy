@@ -1,6 +1,6 @@
 import click
 
-from mlrgetpy import Repository
+from mlrgetpy import Filter, Repository
 
 
 @click.group
@@ -22,8 +22,16 @@ def download(ids: int):
     repo.download(load=False)
 
 
-def search(name: str):
-    pass
+@click.command()
+@click.option("--name", "-n", type=str, help="Name of the repository.")
+@click.option("--type", "-t", type=str, help="Show data in table or box format.", default="box")
+def search(name: str, type: str):
+    filter = Filter(contains_name=name)
+
+    repo = Repository()
+    repo.load(filter=filter)
+
+    repo.showData(type=type)
 
 
 def main():
@@ -31,6 +39,7 @@ def main():
 
 
 mycommands.add_command(download)
+mycommands.add_command(search)
 
 if __name__ == "__main__":
     mycommands()
