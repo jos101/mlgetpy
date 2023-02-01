@@ -132,7 +132,7 @@ class Filter:
             data = data.query(f"Name == '{self.name}'")
         if self.contains_name != None:
             data = data.query(
-                f'Name.str.contains("{self.contains_name}", na=False)', engine='python'
+                f'Name.str.lower().str.contains("{self.contains_name.lower()}", na=False)', engine='python'
             )
         if self.num_instances_less_than != None:
             data = data.query(
