@@ -69,7 +69,7 @@ class TestRepository(unittest.TestCase):
         # print(f"\n{data.shape[0]}")
         pd.set_option('display.max_rows', None)
         # print(data[["Area", "Name"]])
-        self.assertEqual(data.shape[0], 272)
+        self.assertEqual(data.shape[0], 275)
 
     # @unittest.skip("")
     def test_share(self):
