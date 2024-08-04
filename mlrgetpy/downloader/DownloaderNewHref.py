@@ -21,7 +21,7 @@ class DownloaderNewHref(DownloaderAbstract):
     href_url : str
         The href taken from the object
         Should have the pattern ^https://archive-beta\.ics\.uci\.edu/static/ml/datasets/[0-9]+/.+
-        i.e. https://archive-beta.ics.uci.edu/static/ml/datasets/100/arhive.zip
+        i.e. https://archive.ics.uci.edu/static/ml/datasets/100/arhive.zip
     repo_name : str
         The name of the repository
         should have the pattern [0-9]+_\[.+\]
@@ -37,10 +37,10 @@ class DownloaderNewHref(DownloaderAbstract):
     repo_name: str = field(default="")
     req: RequestHelper = field(default_factory=lambda: RequestHelper())
 
-    root_url = "https://archive-beta.ics.uci.edu"
+    root_url = "https://archive.ics.uci.edu"
 
     def __post_init__(self) -> None:
-        pattern = "^https://archive-beta\.ics\.uci\.edu/static/public/[0-9]+/.+"
+        pattern = "^https://archive\.ics\.uci\.edu/static/public/[0-9]+/.+"
         x = re.search(pattern, self.href_url)
         if x == None:
             msg = f"[DownloaderNewHref error]: Not valid href_url\n"

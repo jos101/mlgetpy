@@ -34,7 +34,7 @@ class RepodDownloader:
     __old_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/"
     __old_sub_url = "../machine-learning-databases/"
 
-    __new_url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
+    __new_url = "https://archive.ics.uci.edu/static/ml/datasets/"
     __new_sub_url = "/ml/datasets/"
 
     def download(self, data: pd.DataFrame):
@@ -48,54 +48,63 @@ class RepodDownloader:
 
             # print(row)
             href = urljoin(self.__new_url, dataset.get_href_by_id(index))
+            # print(href)
             response = req.head(href)
-            is_zip = response.headers['Content-Type'] == "application/zip"
+            # print (response.headers)
+            # is_zip = response.headers['Content-Type'] == "application/zip"
+            is_zip = href[ len(href) -4 ] == ".zip"
+
+
+            downloader = DownloaderNewHref(
+                href_url=href, repo_name=repo_name)
+            downloader.initiateDownload()
+            repo_names.append({"id": index, "name": repo_name})
 
             # req.get(row["URLFolder"])
             # join with ml/machine-learning-databases/<index_repo>/
 
             # old url (../machine-learning-databases/Iris/)
-            if row["URLFolder"][0:30] == self.__old_sub_url:
-                temp = row["URLFolder"].replace(self.__old_sub_url, "")
-                current_url = urljoin(self.__old_url, temp)
-
-                downloader = DownloaderOld(current_url, repo_name)
-                downloader.initiateDownload()
-                repo_names.append({"id": index, "name": repo_name})
-
-            # new url no zip
-            elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
-                temp = row["URLFolder"].replace(self.__new_sub_url, "")
-                current_url = urljoin(self.__new_url, temp)
-
-                downloader = DownloaderNew(current_url, repo_name)
-                downloader.initiateDownload()
-                repo_names.append({"id": index, "name": repo_name})
-
-            # zip in new url
-            elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
-                downloader = DownloaderNewHref(
-                    href_url=href, repo_name=repo_name)
-                downloader.initiateDownload()
-                repo_names.append({"id": index, "name": repo_name})
-
-            else:
-                url_folder = self.data_folder(row["Name"])
-
-                if url_folder == None:
-                    current_url = ""
-                    downloader = DownloaderError(
-                        current_url, href, row["URLFolder"], repo_name)
-                    downloader.initiateDownload()
-                    continue
-
-                # data folder from old url
-                temp = url_folder.replace(self.__old_sub_url, "")
-                current_url = urljoin(self.__old_url, temp)
-
-                downloader = DownloaderOld(current_url, repo_name)
-                downloader.initiateDownload()
-                repo_names.append({"id": index, "name": repo_name})
+            # if row["URLFolder"][0:30] == self.__old_sub_url:
+            #     temp = row["URLFolder"].replace(self.__old_sub_url, "")
+            #     current_url = urljoin(self.__old_url, temp)
+            #
+            #     downloader = DownloaderOld(current_url, repo_name)
+            #     downloader.initiateDownload()
+            #     repo_names.append({"id": index, "name": repo_name})
+            #
+            # # new url no zip
+            # elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == False:
+            #     temp = row["URLFolder"].replace(self.__new_sub_url, "")
+            #     current_url = urljoin(self.__new_url, temp)
+            #
+            #     downloader = DownloaderNew(current_url, repo_name)
+            #     downloader.initiateDownload()
+            #     repo_names.append({"id": index, "name": repo_name})
+            #
+            # # zip in new url
+            # elif row["URLFolder"][0:13] == self.__new_sub_url and is_zip == True:
+            #     downloader = DownloaderNewHref(
+            #         href_url=href, repo_name=repo_name)
+            #     downloader.initiateDownload()
+            #     repo_names.append({"id": index, "name": repo_name})
+            #
+            # else:
+            #     url_folder = self.data_folder(row["Name"])
+            #
+            #     if url_folder == None:
+            #         current_url = ""
+            #         downloader = DownloaderError(
+            #             current_url, href, row["URLFolder"], repo_name)
+            #         downloader.initiateDownload()
+            #         continue
+            #
+            #     # data folder from old url
+            #     temp = url_folder.replace(self.__old_sub_url, "")
+            #     current_url = urljoin(self.__old_url, temp)
+            #
+            #     downloader = DownloaderOld(current_url, repo_name)
+            #     downloader.initiateDownload()
+            #     repo_names.append({"id": index, "name": repo_name})
 
         return repo_names
 
@@ -121,7 +130,7 @@ class RepodDownloader:
     def attributes(self, id: int) -> List[str]:
         attrs = []
         req = RequestHelper()
-        url = 'https://archive-beta.ics.uci.edu/dataset/'
+        url = 'https://archive.ics.uci.edu/dataset/'
         new_url = urljoin(url, str(id))
 
         # extracts attributes from json

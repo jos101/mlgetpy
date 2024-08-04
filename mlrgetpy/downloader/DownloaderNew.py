@@ -17,8 +17,8 @@ class DownloaderNew(DownloaderAbstract):
     repo_name: str = field(default="")
     req: RequestHelper = field(default_factory=lambda: RequestHelper())
 
-    root_url = "https://archive-beta.ics.uci.edu"
-    url = "https://archive-beta.ics.uci.edu/static/ml/datasets/"
+    root_url = "https://archive.ics.uci.edu"
+    url = "https://archive.ics.uci.edu/static/ml/datasets/"
     sub_url = "/ml/datasets/"
     parent_url = "/static/ml/datasets"
     __bdo = BoxDownload()

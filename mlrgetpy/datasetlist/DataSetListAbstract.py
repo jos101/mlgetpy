@@ -15,11 +15,11 @@ class DataSetListAbstract:
     request = RequestHelper()
 
     # ...&input={"0":{"json":{"Area":[],"Keywords":[],"orderBy":"NumHits","sort":"desc","skip":0,"take":700}}}
-    __url = 'https://archive-beta.ics.uci.edu/api/trpc/donated_datasets.filter?batch=1&input='
+    __url = 'https://archive.ics.uci.edu/api/trpc/donated_datasets.filter?batch=1&input='
     # {"0":{"json":53}}
-    __url2 = "https://archive-beta.ics.uci.edu/api/trpc/donated_datasets.findById?batch=1&input="
+    __url2 = "https://archive.ics.uci.edu/api/trpc/donated_datasets.findById?batch=1&input="
 
-    __creator_url = "https://archive-beta.ics.uci.edu/api/trpc/creators.findByDatasetId?batch=1&input="
+    __creator_url = "https://archive.ics.uci.edu/api/trpc/creators.findByDatasetId?batch=1&input="
 
     '''
     URL to get repositories with the input in a json object
@@ -63,7 +63,7 @@ class DataSetListAbstract:
         id_input_object = IDInput(id)
         id_input_str: str = id_input_object.str_json()
 
-        url = "https://archive-beta.ics.uci.edu/api/trpc/attributes.findTableByDatasetId?batch=1&input="
+        url = "https://archive.ics.uci.edu/api/trpc/variables.findTableByDatasetId?batch=1&input="
         response = self.request.get(url + id_input_str)
 
         json_response = JsonParser().encode(response.text)

@@ -6,7 +6,7 @@ class Test_DownloadNewHref(unittest.TestCase):
 
     def test_init(self):
         # valid values for the contructor
-        href_url = "https://archive-beta.ics.uci.edu/static/public/713/auction+verification.zip"
+        href_url = "https://archive.ics.uci.edu/static/public/713/auction+verification.zip"
         DownloaderNewHref(href_url=href_url,
                           repo_name="713_[Auction Verification]")
 

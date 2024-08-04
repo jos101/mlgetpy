@@ -9,7 +9,7 @@ class test_DataSetListHTML(unittest.TestCase):
         dataset = dt.findAll()
 
         self.assertEqual('Iris', dataset['datasets'][0]['Name'])
-        self.assertEqual('Dry Bean Dataset', dataset['datasets'][1]['Name'])
+        self.assertEqual('Dry Bean', dataset['datasets'][1]['Name'])
 
         self.assertIn('ID', dataset['datasets'][0])
         self.assertIn('Name', dataset['datasets'][0])
@@ -19,7 +19,7 @@ class test_DataSetListHTML(unittest.TestCase):
         self.assertIn('Types', dataset['datasets'][0])
         self.assertIn('DateDonated', dataset['datasets'][0])
         self.assertIn('URLFolder', dataset['datasets'][0])
-        self.assertIn('URLReadMe', dataset['datasets'][0])
+        # self.assertIn('URLReadMe', dataset['datasets'][0])
         self.assertIn('URLLink', dataset['datasets'][0])
         self.assertIn('users', dataset['datasets'][0])
 

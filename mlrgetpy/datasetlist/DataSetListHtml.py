@@ -11,7 +11,7 @@ from mlrgetpy.RequestHelper import RequestHelper
 @dataclass
 class DataSetListHTML (DataSetListAbstract):
 
-    __request_url = 'https://archive-beta.ics.uci.edu/datasets?skip=0&take=700'
+    __request_url = 'https://archive.ics.uci.edu/datasets?skip=0&take=700'
 
     def findAll(self) -> dict:
         req = RequestHelper()

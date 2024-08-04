@@ -94,6 +94,7 @@ class DownloaderOld(DownloaderAbstract):
 
         list_urls = []
         response = self.req.head(url)
+        # print("url: "+ url)
         if response.headers['Content-Type'].rsplit(';')[0] != 'text/html':
             return list_urls
 
