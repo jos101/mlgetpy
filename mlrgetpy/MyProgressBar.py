@@ -37,27 +37,31 @@ class MyProgressBar():
             name_wrap = textwrap.wrap(self.fname, file_width)
 
         # download is not complete
-        if downloaded < total_size:
-            percentage = (downloaded / total_size)
+        # if downloaded < total_size:
+        #     percentage = (downloaded / total_size)
+        #
+        #     str_progress = self.__get_string_size(downloaded)
+        #     end = "\r"
+        #     if len(name_wrap) == 1:
+        #         end = "\r"
+        #     self.__print_bar(name_wrap, percentage, str_progress, end=end)
+        #
+        #     # In jupyter notebook is not possible to move the cursor with
+        #     # the ascii code "\033[A"
+        #     # if len(name_wrap) > 1:
+        #     #    for name in name_wrap:
+        #     #         #move cursor one line up and in the begining of the line
+        #     #        print("\033[A", end="\r")
+        #
+        # # download is complete
+        # else:
+        #     str_progress = self.__get_string_size(total_size)
+        #     self.__print_bar(name_wrap, 1, str_progress, end="\n")
+        #     # self.pbar.finish()
 
-            str_progress = self.__get_string_size(downloaded)
-            end = "\r"
-            if len(name_wrap) == 1:
-                end = "\r"
-            self.__print_bar(name_wrap, percentage, str_progress, end=end)
-
-            # In jupyter notebook is not possible to move the cursor with
-            # the ascii code "\033[A"
-            # if len(name_wrap) > 1:
-            #    for name in name_wrap:
-            #         #move cursor one line up and in the begining of the line
-            #        print("\033[A", end="\r")
-
-        # download is complete
-        else:
-            str_progress = self.__get_string_size(total_size)
-            self.__print_bar(name_wrap, 1, str_progress, end="\n")
-            # self.pbar.finish()
+        str_progress = self.__get_string_size(total_size)
+        self.__print_bar(name_wrap, 1, str_progress, end="\r")
+        # self.pbar.finish()
 
     def __print_bar(self, name_wrap: list, perc, str_progress: str, end="\n"):
         tree = "├──"
