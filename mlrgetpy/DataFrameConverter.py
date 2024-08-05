@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from mlrgetpy.JsonParser import JsonParser
 import pandas as pd
 from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
-from icecream import ic
+# from icecream import ic
 
 
 @dataclass

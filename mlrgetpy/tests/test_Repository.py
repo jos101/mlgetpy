@@ -3,7 +3,7 @@ from mlrgetpy.Repository import Repository
 import unittest
 import pandas as pd
 from mlrgetpy.enums.Area import Area
-from icecream import ic
+# from icecream import ic
 
 from mlrgetpy.enums.AttributeType import FilterAttributeType
 import os
