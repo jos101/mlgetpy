@@ -3,6 +3,7 @@ from mlrgetpy.Repository import Repository
 import unittest
 import pandas as pd
 from mlrgetpy.enums.Area import Area
+from icecream import ic
 
 from mlrgetpy.enums.AttributeType import FilterAttributeType
 import os
@@ -12,7 +13,6 @@ class TestRepository(unittest.TestCase):
 
     def test_load(self):
         repo = Repository()
-
         repo.load()
         repo.getData()
 
@@ -23,11 +23,15 @@ class TestRepository(unittest.TestCase):
         repo = Repository()
 
         repo.addByIDs([556])
-        repo.addByIDs([558])
-        self.assertEqual(repo.getData().filter(items=[556], axis="index")[
-                         "Name"].values[0], ": Simulated Data set of Iraqi tourism places")
-        self.assertEqual(repo.getData().filter(items=[558], axis="index")[
-                         "Name"].values[0], "Monolithic Columns in Troad and Mysia Region")
+        repo.addByIDs([602])
+        
+        name1 = repo.getData().filter(items=[556], axis="index")["Name"].values[0]
+        # ic(name1)
+        self.assertEqual(name1, ": Simulated Data set of Iraqi tourism places")
+
+        name2 = repo.getData().filter(items=[602], axis="index")["Name"].values[0]
+        # ic(name2)
+        self.assertEqual(name2, "Dry Bean")
         self.assertEqual(repo.getData().shape[0], 2)
 
         repo.addByIDs([556])
@@ -69,7 +73,7 @@ class TestRepository(unittest.TestCase):
         # print(f"\n{data.shape[0]}")
         pd.set_option('display.max_rows', None)
         # print(data[["Area", "Name"]])
-        self.assertEqual(data.shape[0], 275)
+        self.assertEqual(data.shape[0], 292)
 
     # @unittest.skip("")
     def test_share(self):

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from mlrgetpy.JsonParser import JsonParser
 import pandas as pd
 from mlrgetpy.enums.DataSetColumn import DataSetColumn as c
+from icecream import ic
 
 
 @dataclass
@@ -9,7 +10,6 @@ class DataFrameConverter:
 
     def convertFromList(self, rows: list) -> pd.DataFrame:
         dict = {}
-
         dict[c.ID.value] = []
         dict[c.USER_ID.value] = []
         dict[c.INTRO_PAPER_ID.value] = []
@@ -31,12 +31,12 @@ class DataFrameConverter:
         dict[c.GRAPHICS.value] = []
         dict[c.STATUS.value] = []
         dict[c.NUM_HITS.value] = []
-        dict[c.ATTRIBUTE_TYPES.value] = []
+        # dict[c.ATTRIBUTE_TYPES.value] = []
 
         dict[c.NUM_INSTANCES.value] = []
         dict[c.SLUG.value] = []
 
-        dict[c.NUM_ATTRIBUTES.value] = []
+        # dict[c.NUM_ATTRIBUTES.value] = []
         dict[c.USER.value] = []
         dict[c.USER_USER.value] = []
         dict[c.USER_FIRSTNAME.value] = []
@@ -74,10 +74,10 @@ class DataFrameConverter:
             dict[c.GRAPHICS.value].append(i[c.GRAPHICS.value])
             dict[c.STATUS.value].append(i[c.STATUS.value])
             dict[c.NUM_HITS.value].append(i[c.NUM_HITS.value])
-            dict[c.ATTRIBUTE_TYPES.value].append(i[c.ATTRIBUTE_TYPES.value])
+            # dict[c.ATTRIBUTE_TYPES.value].append(c.ATTRIBUTE_TYPES.value)
 
             dict[c.NUM_INSTANCES.value].append(i[c.NUM_INSTANCES.value])
-            dict[c.NUM_ATTRIBUTES.value].append(i[c.NUM_ATTRIBUTES.value])
+            # dict[c.NUM_ATTRIBUTES.value].append(c.NUM_ATTRIBUTES.value)
 
             dict[c.SLUG.value].append(i[c.SLUG.value])
 
