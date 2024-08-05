@@ -59,8 +59,17 @@ class MyProgressBar():
         #     self.__print_bar(name_wrap, 1, str_progress, end="\n")
         #     # self.pbar.finish()
 
-        str_progress = self.__get_string_size(total_size)
-        self.__print_bar(name_wrap, 1, str_progress, end="\r")
+        str_progress = self.__get_string_size(downloaded)
+        if total_size != -1:    
+            if downloaded < total_size:
+                percentage = (downloaded / total_size)
+            else:
+                percentage = 1
+                str_progress = self.__get_string_size(total_size)
+        else:
+            percentage = 1.0
+        
+        self.__print_bar(name_wrap, percentage, str_progress, end="\r")
         # self.pbar.finish()
 
     def __print_bar(self, name_wrap: list, perc, str_progress: str, end="\n"):
