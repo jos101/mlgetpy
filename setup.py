@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open("README.md", "r") as file:
@@ -10,9 +10,11 @@ with open("requirements.txt", "r") as file:
 
 setup(
     name="mlrgetpy",
+    version="1.0.0",
     description="Python Package to extract data sets from the Center for Machine Learning and Intelligent Systems",
     long_description=long_description,
-    packages=["mlrgetpy"],
+    #packages=["mlrgetpy"],
+    packages=find_packages(),
     entry_points={"console_scripts": ["mlrgetpy=mlrgetpy.cli.repo:main"]},
     install_requires=requirements,
 )
