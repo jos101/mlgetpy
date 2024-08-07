@@ -1,6 +1,7 @@
 import click
 
-from mlrgetpy import Filter, Repository
+from mlrgetpy.Repository import Repository
+from mlrgetpy.Filter import Filter
 
 
 @click.group
@@ -35,11 +36,9 @@ def search(name: str, type: str):
 
 
 def main():
-    pass
-
-
-mycommands.add_command(download)
-mycommands.add_command(search)
+    mycommands.add_command(download)
+    mycommands.add_command(search)
+    mycommands()
 
 if __name__ == "__main__":
-    mycommands()
+    main()

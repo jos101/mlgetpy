@@ -161,7 +161,7 @@ class Repository:
                 content += f"[cyan]Associated Task : [magenta]{row[c.TASK.value]}\n"
                 content += f"[cyan]Date Donated : [magenta]{row[c.DATE_DONATED.value]}\n"
                 content += f"[cyan]Instances : [magenta]{row[c.NUM_INSTANCES.value]}\n"
-                content += f"[cyan]Attributes : [magenta]{row[c.NUM_ATTRIBUTES.value]}\n"
+                # content += f"[cyan]Attributes : [magenta]{row[c.NUM_ATTRIBUTES.value]}\n"
                 content += f"[cyan]Views : [magenta]{row[c.NUM_HITS.value]}\n"
                 content += f"[cyan]Abstract: [magenta]{row[c.ABSTRACT.value]}\n"
                 rich.print(
